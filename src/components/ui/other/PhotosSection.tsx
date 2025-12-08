@@ -1,4 +1,4 @@
-`"use client";
+"use client";
 
 import { Image as ImageProps } from "tmdb-ts";
 import { Image } from "@heroui/react";
@@ -18,7 +18,7 @@ const PhotosSection: React.FC<PhotosSectionProps> = ({ images, type = "movie" })
   const [index, setIndex] = useState<number>(-1);
   const slides: Slide[] = images.map(({ file_path, width, height }) => ({
     src: getImageUrl(file_path, "backdrop", true),
-    description: `${ width }x${ height } `,
+    description: `${width}x${height}`,
   }));
 
   return (
@@ -32,7 +32,7 @@ const PhotosSection: React.FC<PhotosSectionProps> = ({ images, type = "movie" })
               isBlurred
               isZoomed
               width={300}
-              alt={`Image ${ index + 1 } `}
+              alt={`Image ${index + 1}`}
               src={getImageUrl(file_path, "backdrop")}
               className="aspect-video cursor-pointer"
             />
