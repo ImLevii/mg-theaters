@@ -10,7 +10,6 @@ import { usePathname } from "next/navigation";
 import FullscreenToggleButton from "../button/FullscreenToggleButton";
 import UserProfileButton from "../button/UserProfileButton";
 import SearchInput from "../input/SearchInput";
-import ThemeSwitchDropdown from "../input/ThemeSwitchDropdown";
 import BrandLogo from "../other/BrandLogo";
 
 const TopNavbar = () => {
@@ -31,26 +30,26 @@ const TopNavbar = () => {
       isBlurred={false}
       position="sticky"
       maxWidth="full"
-      classNames={{ wrapper: "px-2 md:px-4" }}
-      className={cn("inset-0 h-min bg-transparent", {
-        "bg-background": show,
+      classNames={{ wrapper: "px-3 md:px-6 h-16" }}
+      className={cn("inset-0 bg-transparent transition-all duration-300", {
+        "glass border-b border-white/5": show || y > 10,
       })}
     >
       {!show && (
         <div
-          className="border-background bg-background absolute inset-0 h-full w-full border-b"
+          className="absolute inset-0 h-full w-full border-b border-white/5 bg-black/50 backdrop-blur-md"
           style={{ opacity: opacity }}
         />
       )}
-      <NavbarBrand>
-        {show ? <BrandLogo /> : <BackButton href={tv ? "/?content=tv" : "/"} />}
+      <NavbarBrand className="gap-2">
+        {!show && <BackButton href={tv ? "/?content=tv" : "/"} />}
       </NavbarBrand>
       {show && !pathName.startsWith("/search") && (
-        <NavbarContent className="hidden w-full max-w-lg gap-2 md:flex" justify="center">
+        <NavbarContent className="hidden w-full max-w-xl gap-2 md:flex" justify="center">
           <NavbarItem className="w-full">
             <Link href="/search" className="w-full">
               <SearchInput
-                className="pointer-events-none"
+                className="pointer-events-none bg-black/20 backdrop-blur-md"
                 placeholder="Search your favorite movies..."
               />
             </Link>
@@ -59,7 +58,6 @@ const TopNavbar = () => {
       )}
       <NavbarContent justify="end">
         <NavbarItem className="flex gap-1">
-          <ThemeSwitchDropdown />
           <FullscreenToggleButton />
           <UserProfileButton />
         </NavbarItem>

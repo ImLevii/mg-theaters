@@ -95,7 +95,6 @@ const AuthForms: React.FC = () => {
                 icon={<ArrowLeft className="text-4xl transition-transform group-hover:scale-125" />}
               />
             )}
-            <Brand className="text-3xl md:text-4xl" animate />
           </CardHeader>
           <ScrollShadow hideScrollBar visibility="none">
             <AnimatePresence mode="sync">

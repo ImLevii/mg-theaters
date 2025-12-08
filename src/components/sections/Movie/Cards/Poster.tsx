@@ -14,13 +14,14 @@ import HoverPosterCard from "./Hover";
 
 interface MoviePosterCardProps {
   movie: Movie;
-  variant?: "full" | "bordered";
+  variant?: "full" | "bordered" | "hero";
 }
 
 const MoviePosterCard: React.FC<MoviePosterCardProps> = ({ movie, variant = "full" }) => {
   const { hovered, ref } = useHover();
   const [opened, handlers] = useDisclosure(false);
-  const releaseYear = new Date(movie.release_date).getFullYear();
+  const releaseDate = movie.release_date ? new Date(movie.release_date) : null;
+  const releaseYear = releaseDate && !isNaN(releaseDate.getTime()) ? releaseDate.getFullYear() : "N/A";
   const posterImage = getImageUrl(movie.poster_path);
   const title = mutateMovieTitle(movie);
   const { mobile } = useBreakpoints();
@@ -49,7 +50,7 @@ const MoviePosterCard: React.FC<MoviePosterCardProps> = ({ movie, variant = "ful
       >
         <Link href={`/movie/${movie.id}`} ref={ref} {...longPress()}>
           {variant === "full" && (
-            <div className="group motion-preset-focus relative aspect-2/3 overflow-hidden rounded-lg border-[3px] border-transparent text-white transition-colors hover:border-primary">
+            <div className="group motion-preset-focus relative aspect-2/3 overflow-hidden rounded-lg border border-white/10 text-white transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/20">
               {hovered && (
                 <Icon
                   icon="line-md:play-filled"
@@ -133,6 +134,18 @@ const MoviePosterCard: React.FC<MoviePosterCardProps> = ({ movie, variant = "ful
                 <Rating rate={movie.vote_average} />
               </CardFooter>
             </Card>
+          )}
+
+          {variant === "hero" && (
+            <div className="group relative aspect-2/3 overflow-hidden rounded-lg border-2 border-white/10 shadow-2xl transition-all duration-500 hover:border-neon-green hover:shadow-[0_0_30px_rgba(0,255,157,0.3)]">
+              <div className="absolute inset-0 z-10 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
+              <Image
+                alt={title}
+                src={posterImage}
+                radius="none"
+                className="z-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </div>
           )}
         </Link>
       </Tooltip>

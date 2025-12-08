@@ -74,7 +74,7 @@ const UserProfileButton: React.FC = () => {
           />
         ) : undefined
       }
-      className="min-w-fit"
+      className="min-w-fit data-[hover=true]:bg-white/10"
     >
       {guest ? (
         <User className="text-xl" />

@@ -182,13 +182,13 @@ otp_expiry = 3600
 
 # Use a production-ready SMTP server
 [auth.email.smtp]
-enabled = true
-host = "env(SUPABASE_AUTH_SMTP_HOST)"
-port = "env(SUPABASE_AUTH_SMTP_PORT)"
-user = "env(SUPABASE_AUTH_SMTP_EMAIL)"
-pass = "env(SUPABASE_AUTH_SMTP_PASSWORD)"
-admin_email = "env(SUPABASE_AUTH_SMTP_EMAIL)"
-sender_name = "Cinextma"
+enabled = false
+# host = "env(SUPABASE_AUTH_SMTP_HOST)"
+# port = "env(SUPABASE_AUTH_SMTP_PORT)"
+# user = "env(SUPABASE_AUTH_SMTP_EMAIL)"
+# pass = "env(SUPABASE_AUTH_SMTP_PASSWORD)"
+# admin_email = "env(SUPABASE_AUTH_SMTP_EMAIL)"
+# sender_name = "Cinextma"
 
 # Uncomment to customize email template
 # [auth.email.template.invite]

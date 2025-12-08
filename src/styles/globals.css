@@ -9,6 +9,51 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* Carbon/Batman Theme Colors */
+  --color-primary: #E50914;
+  /* Keep Red as accent */
+  --color-primary-50: #fee2e2;
+  --color-primary-100: #fecaca;
+  --color-primary-200: #fca5a5;
+  --color-primary-300: #f87171;
+  --color-primary-400: #f87171;
+  --color-primary-500: #ef4444;
+  --color-primary-600: #dc2626;
+  --color-primary-700: #b91c1c;
+  --color-primary-800: #991b1b;
+  --color-primary-900: #7f1d1d;
+  --color-primary-foreground: #ffffff;
+
+  /* Carbon Grays */
+  --color-carbon-50: #f6f6f6;
+  --color-carbon-100: #e7e7e7;
+  --color-carbon-200: #d1d1d1;
+  --color-carbon-300: #b0b0b0;
+  --color-carbon-400: #888888;
+  --color-carbon-500: #6d6d6d;
+  --color-carbon-600: #5d5d5d;
+  --color-carbon-700: #4f4f4f;
+  --color-carbon-800: #454545;
+  --color-carbon-900: #3d3d3d;
+  --color-carbon-950: #121212;
+  /* Deep Carbon */
+
+  /* Neon Cyberpunk Theme Colors */
+  --color-neon-green: #00ff9d;
+  --color-neon-red: #ff003c;
+  --color-neon-blue: #00f3ff;
+  --color-neon-purple: #bc13fe;
+  
+  --neon-green-glow: 0 0 10px rgba(0, 255, 157, 0.5), 0 0 20px rgba(0, 255, 157, 0.3);
+  --neon-red-glow: 0 0 10px rgba(255, 0, 60, 0.5), 0 0 20px rgba(255, 0, 60, 0.3);
+  
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Sharp, thin border */
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  --glass-blur: 12px;
+
   --animate-shine: shine 3s linear infinite;
 
   --font-poppins: var(--font-poppins);
@@ -17,11 +62,45 @@
     0% {
       background-position: 100%;
     }
+
     100% {
       background-position: -100%;
     }
   }
 }
+
+@utility neon-text-green {
+  color: var(--color-neon-green);
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+}
+
+@utility neon-text-red {
+  color: var(--color-neon-red);
+  text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+}
+
+@utility neon-border-green {
+  border-color: var(--color-neon-green);
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.2), inset 0 0 5px rgba(0, 255, 157, 0.1);
+}
+
+@utility neon-border-red {
+  border-color: var(--color-neon-red);
+  box-shadow: 0 0 5px rgba(255, 0, 60, 0.2), inset 0 0 5px rgba(255, 0, 60, 0.1);
+}
+
+@utility glass {
+  @apply backdrop-blur-xl shadow-lg;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+@utility glass-panel {
+  @apply glass rounded-2xl shadow-xl hover:border-white/20 transition-colors duration-300;
+}
+
+/* Removed old utility definitions to avoid duplicates with the one inserted above */
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -32,6 +111,15 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
+  html {
+    /* Global deeply dark background for Carbon/Batman feel */
+    background: radial-gradient(circle at top center, #121212 0%, #050505 60%, #000000 100%);
+    min-height: 100vh;
+    color: #e5e5e5;
+    /* Default text color to off-white */
+  }
+
   *,
   ::after,
   ::before,
@@ -67,6 +155,11 @@
   iframe {
     @apply border-none;
   }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: white;
+  }
 }
 
 @utility embla {
@@ -82,9 +175,14 @@
 }
 
 @utility absolute-center {
-  @apply absolute! top-1/2! left-1/2! float-none! -translate-x-1/2! -translate-y-1/2!;
+  @apply absolute top-1/2 left-1/2 float-none -translate-x-1/2 -translate-y-1/2;
 }
 
 @utility movie-grid {
-  @apply grid size-full max-w-6xl grid-cols-2 justify-center gap-2 sm:grid-cols-3 md:gap-4 lg:grid-cols-[repeat(auto-fit,minmax(200px,50px))];
+  @apply grid size-full max-w-6xl grid-cols-2 justify-center gap-2 sm:grid-cols-3 md:gap-4;
+
+  /* Use standard CSS to avoid Prettier adding spaces to Tailwind arbitrary values */
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 }

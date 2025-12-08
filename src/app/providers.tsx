@@ -9,6 +9,9 @@ import { AppProgressProvider as ProgressProvider } from "@bprogress/next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { usePathname, useRouter } from "next/navigation";
 import useDiscoverFilters from "@/hooks/useDiscoverFilters";
+import dynamic from "next/dynamic";
+
+const PiPPlayer = dynamic(() => import("@/components/global/PiPPlayer"), { ssr: false });
 
 export const queryClient = new QueryClient();
 
@@ -43,6 +46,7 @@ export default function Providers({ children }: PropsWithChildren) {
               color={`hsl(var(--heroui-${tv ? "warning" : "primary"}))`}
             >
               {children}
+              <PiPPlayer />
             </ProgressProvider>
           </Suspense>
         </NextThemesProvider>

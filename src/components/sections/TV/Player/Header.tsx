@@ -10,6 +10,11 @@ interface TvShowPlayerHeaderProps extends Omit<TvShowPlayerProps, "episodes" | "
   onOpenEpisode: () => void;
 }
 
+import { usePiPStore } from "@/hooks/usePiPStore";
+import { getTvShowPlayers } from "@/utils/players";
+import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
+
 const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   id,
   seriesName,
@@ -22,6 +27,25 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   onOpenSource,
   onOpenEpisode,
 }) => {
+  const router = useRouter();
+  const { openPiP } = usePiPStore();
+
+  const handlePiP = () => {
+    const players = getTvShowPlayers(id, episode.season_number, episode.episode_number);
+    const player = players[selectedSource] || players[0];
+    openPiP(
+      player.source,
+      `${seriesName} - ${seasonName} - ${episode.name}`,
+      {
+        id,
+        type: "tv",
+        season: episode.season_number,
+        episode: episode.episode_number,
+      }
+    );
+    router.push("/");
+  };
+
   return (
     <div
       aria-hidden={hidden ? true : undefined}
@@ -41,6 +65,9 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
         </p>
       </div>
       <div className="flex items-center gap-4">
+        <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP}>
+          <Icon icon="fluent:minimize-24-regular" width="34" />
+        </ActionButton>
         <ActionButton
           disabled={!prevEpisodeNumber}
           label="Previous Episode"

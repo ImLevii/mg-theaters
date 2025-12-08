@@ -14,38 +14,30 @@ const supabase = createClient();
 
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ variant = "faded", ...props }) => {
   const handleGoogleLogin = useCallback(async () => {
-    addToast({
-      title: "Sorry, Google login is temporarily unavailable.",
-      color: "warning",
-    });
-
-    return;
-
-    // TODO: Uncomment this when Google login is available again
-    // try {
-    //   const { error } = await supabase.auth.signInWithOAuth({
-    //     provider: "google",
-    //     options: {
-    //       redirectTo: `${location.origin}/api/auth/callback`,
-    //       queryParams: {
-    //         access_type: "offline",
-    //         prompt: "consent",
-    //       },
-    //     },
-    //   });
-    //   if (error) {
-    //     addToast({
-    //       title: error.message,
-    //       color: "danger",
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Google login error:", error);
-    //   addToast({
-    //     title: error instanceof Error ? error.message : "An error occurred. Please try again.",
-    //     color: "danger",
-    //   });
-    // }
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${location.origin}/api/auth/callback`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+      if (error) {
+        addToast({
+          title: error.message,
+          color: "danger",
+        });
+      }
+    } catch (error) {
+      console.error("Google login error:", error);
+      addToast({
+        title: error instanceof Error ? error.message : "An error occurred. Please try again.",
+        color: "danger",
+      });
+    }
   }, []);
 
   return (
@@ -53,6 +45,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ variant = "faded"
       startContent={<Google width={24} />}
       onPress={handleGoogleLogin}
       variant={variant}
+      className="bg-zinc-900 border border-zinc-800 text-white hover:bg-zinc-800 hover:border-zinc-700 transition-all duration-300 shadow-lg hover:shadow-zinc-500/20"
       {...props}
     >
       Continue with Google
