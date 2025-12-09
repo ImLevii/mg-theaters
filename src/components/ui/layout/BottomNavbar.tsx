@@ -26,12 +26,14 @@ const BottomNavbar = () => {
                   className="group flex flex-col items-center justify-center gap-1 text-foreground"
                 >
                   <div
-                    className={clsx("flex items-center justify-center rounded-2xl p-2 transition-all duration-500 ease-out", {
-                      "bg-neon-red/10 text-neon-red shadow-[0_0_20px_rgba(255,0,60,0.3)] scale-110": isActive,
+                    className={clsx("flex items-center justify-center rounded-2xl p-1.5 transition-all duration-500 ease-out h-10 w-10", {
+                      "bg-neon-red/10 text-neon-red shadow-[0_0_15px_rgba(255,0,60,0.3)] scale-105": isActive,
                       "text-gray-500 group-hover:text-gray-300 scale-100": !isActive,
                     })}
                   >
-                    {isActive ? item.activeIcon : item.icon}
+                    <div className="h-6 w-6">
+                      {isActive ? item.activeIcon : item.icon}
+                    </div>
                   </div>
                   <p
                     className={clsx("text-[10px] font-bold tracking-wide transition-colors duration-300", {

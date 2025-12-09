@@ -18,7 +18,7 @@ const ContinueWatching: React.FC = () => {
 
   return (
     <section id="continue-watching" className="min-h-[250px] md:min-h-[300px]">
-      <div className="z-3 flex flex-col gap-2">
+      <div className="z-3 flex flex-col gap-2 mx-auto w-full md:w-[1250px] max-w-full px-4 md:px-0">
         <SectionTitle color={content === "movie" ? "primary" : "warning"}>
           Continue Your Journey
         </SectionTitle>

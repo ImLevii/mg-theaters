@@ -24,6 +24,26 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@heroui/react"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+      },
+      {
+        protocol: "http",
+        hostname: "image.tmdb.org",
+      },
+      {
+        protocol: "https",
+        hostname: "wallpapercave.com",
+      },
+      {
+        protocol: "https",
+        hostname: "dancyflix.com",
+      },
+    ],
+  },
 };
 
 const pwa = withPWA(nextConfig);

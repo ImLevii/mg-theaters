@@ -43,10 +43,10 @@
   --color-neon-red: #ff003c;
   --color-neon-blue: #00f3ff;
   --color-neon-purple: #bc13fe;
-  
+
   --neon-green-glow: 0 0 10px rgba(0, 255, 157, 0.5), 0 0 20px rgba(0, 255, 157, 0.3);
   --neon-red-glow: 0 0 10px rgba(255, 0, 60, 0.5), 0 0 20px rgba(255, 0, 60, 0.3);
-  
+
   /* Glassmorphism Variables */
   --glass-bg: rgba(10, 10, 10, 0.7);
   --glass-border: rgba(255, 255, 255, 0.08);
@@ -54,9 +54,94 @@
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   --glass-blur: 12px;
 
-  --animate-shine: shine 3s linear infinite;
+  --font-orbitron: var(--font-orbitron);
 
-  --font-poppins: var(--font-poppins);
+  /* Animations from Template */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-spin-slow: spin-slow 8s linear infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes gradient-x {
+
+    0%,
+    100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+
+  @keyframes spin-slow {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse-slow {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+  }
 
   @keyframes shine {
     0% {
@@ -77,6 +162,38 @@
 @utility neon-text-red {
   color: var(--color-neon-red);
   text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+}
+
+@utility text-shadow-neon-green {
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+}
+
+@utility text-shadow-neon-green-intense {
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.8), 0 0 20px rgba(0, 255, 157, 0.4);
+}
+
+@utility text-shadow-neon-red {
+  text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+}
+
+@utility text-shadow-neon-red-intense {
+  text-shadow: 0 0 10px rgba(255, 0, 60, 0.8), 0 0 20px rgba(255, 0, 60, 0.4);
+}
+
+@utility text-shadow-neon-blue {
+  text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+}
+
+@utility text-shadow-neon-blue-intense {
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4);
+}
+
+@utility text-shadow-neon-purple {
+  text-shadow: 0 0 5px rgba(188, 19, 254, 0.5);
+}
+
+@utility text-shadow-neon-purple-intense {
+  text-shadow: 0 0 10px rgba(188, 19, 254, 0.8), 0 0 20px rgba(188, 19, 254, 0.4);
 }
 
 @utility neon-border-green {
@@ -112,9 +229,16 @@
 */
 @layer base {
 
-  html {
-    /* Global deeply dark background for Carbon/Batman feel */
-    background: radial-gradient(circle at top center, #121212 0%, #050505 60%, #000000 100%);
+  body {
+    background-color: #000000;
+    /* Composite Background: Vignette + Dot Pattern */
+    background-image:
+      /* Vignette: Radial gradient from transparent center to deep black edges */
+      radial-gradient(circle at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.8) 85%, #000 100%),
+      /* Dot pattern: Subtle white dots */
+      radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 100% 100%, 24px 24px;
+    background-attachment: fixed;
     min-height: 100vh;
     color: #e5e5e5;
     /* Default text color to off-white */
@@ -129,27 +253,27 @@
   }
 
   h1 {
-    @apply text-3xl font-black md:text-4xl;
+    @apply font-orbitron text-3xl font-black md:text-4xl tracking-widest uppercase;
   }
 
   h2 {
-    @apply text-2xl font-bold md:text-3xl;
+    @apply font-orbitron text-2xl font-bold md:text-3xl tracking-wider uppercase;
   }
 
   h3 {
-    @apply text-xl font-bold md:text-2xl;
+    @apply font-orbitron text-xl font-bold md:text-2xl tracking-wide;
   }
 
   h4 {
-    @apply text-lg font-semibold md:text-xl;
+    @apply font-orbitron text-lg font-semibold md:text-xl tracking-wide;
   }
 
   h5 {
-    @apply text-base font-medium md:text-lg;
+    @apply font-orbitron text-base font-medium md:text-lg tracking-wide;
   }
 
   h6 {
-    @apply text-sm font-normal md:text-base;
+    @apply font-orbitron text-sm font-normal md:text-base tracking-wide;
   }
 
   iframe {

@@ -1,11 +1,6 @@
-import { FaGithub } from "react-icons/fa6";
-import { siteConfig } from "@/config/site";
-import Link from "next/link";
-import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import { NextPage } from "next";
-const FAQ = dynamic(() => import("@/components/sections/About/FAQ"));
+import { siteConfig } from "@/config/site";
+import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 
 export const metadata: Metadata = {
   title: `About | ${siteConfig.name}`,
@@ -13,8 +8,8 @@ export const metadata: Metadata = {
 
 const AboutPage: NextPage = () => {
   return (
-    <div className="flex w-full justify-center px-4 py-8">
-      <div className="flex w-full max-w-4xl flex-col gap-12">
+    <div className="flex min-h-[80vh] w-full justify-center px-4 py-24">
+      <div className="flex w-full max-w-6xl flex-col gap-12">
         {/* Header Section */}
         <div className="flex flex-col items-center gap-4 text-center">
           <h1 className="bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-4xl font-black text-transparent md:text-6xl">
@@ -57,20 +52,7 @@ const AboutPage: NextPage = () => {
           </p>
         </div>
 
-        <Suspense>
-          <FAQ />
-        </Suspense>
 
-        <div className="flex justify-center pt-8">
-          <Link
-            target="_blank"
-            href={siteConfig.socials.github}
-            className="flex items-center gap-2 text-gray-400 transition-colors hover:text-white"
-          >
-            <FaGithub size={30} />
-            <span className="text-sm font-medium">Open Source Project</span>
-          </Link>
-        </div>
       </div>
     </div>
   );

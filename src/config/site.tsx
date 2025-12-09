@@ -1,17 +1,17 @@
 import { tmdb } from "@/api/tmdb";
 import { SiteConfigType } from "@/types";
-import { BiSearchAlt2, BiSolidSearchAlt2 } from "react-icons/bi";
-import { GoHomeFill, GoHome } from "react-icons/go";
 import { HiComputerDesktop } from "react-icons/hi2";
 import { IoIosSunny } from "react-icons/io";
 import {
-  IoCompass,
-  IoCompassOutline,
-  IoInformationCircle,
-  IoInformationCircleOutline,
   IoMoon,
 } from "react-icons/io5";
-import { TbFolder, TbFolderFilled } from "react-icons/tb";
+import {
+  AboutIcon,
+  DiscoverIcon,
+  HomeIcon,
+  LibraryIcon,
+  SearchIcon,
+} from "@/components/icons/NavIcons";
 
 export const siteConfig: SiteConfigType = {
   name: "Cinextma",
@@ -21,32 +21,32 @@ export const siteConfig: SiteConfigType = {
     {
       label: "Home",
       href: "/",
-      icon: <GoHome className="size-full" />,
-      activeIcon: <GoHomeFill className="size-full" />,
+      icon: <HomeIcon className="size-full" />,
+      activeIcon: <HomeIcon className="size-full" solid />,
     },
     {
       label: "Discover",
       href: "/discover",
-      icon: <IoCompassOutline className="size-full" />,
-      activeIcon: <IoCompass className="size-full" />,
+      icon: <DiscoverIcon className="size-full" />,
+      activeIcon: <DiscoverIcon className="size-full" solid />,
     },
     {
       label: "Search",
       href: "/search",
-      icon: <BiSearchAlt2 className="size-full" />,
-      activeIcon: <BiSolidSearchAlt2 className="size-full" />,
+      icon: <SearchIcon className="size-full" />,
+      activeIcon: <SearchIcon className="size-full" solid />,
     },
     {
       label: "Library",
       href: "/library",
-      icon: <TbFolder className="size-full" />,
-      activeIcon: <TbFolderFilled className="size-full" />,
+      icon: <LibraryIcon className="size-full" />,
+      activeIcon: <LibraryIcon className="size-full" solid />,
     },
     {
       label: "About",
       href: "/about",
-      icon: <IoInformationCircleOutline className="size-full" />,
-      activeIcon: <IoInformationCircle className="size-full" />,
+      icon: <AboutIcon className="size-full" />,
+      activeIcon: <AboutIcon className="size-full" solid />,
     },
   ],
   themes: [

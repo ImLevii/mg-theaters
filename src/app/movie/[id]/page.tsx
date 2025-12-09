@@ -45,14 +45,14 @@ const MovieDetailPage: NextPage<Params<{ id: number }>> = ({ params }) => {
   if (error) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="relative w-full -mt-24">
+      <BackdropSection movie={movie} />
       <Suspense fallback={<Spinner size="lg" className="absolute-center" variant="simple" />}>
-        <div className="flex flex-col gap-10">
-          <BackdropSection movie={movie} />
-          <OverviewSection movie={movie} />
-          <CastsSection casts={movie.credits.cast as Cast[]} />
-          <PhotosSection images={movie.images.backdrops as Image[]} />
-          <RelatedSection movie={movie} />
+        <div className="mx-auto w-full max-w-[1400px] flex flex-col gap-10">
+          <OverviewSection movie={movie!} />
+          <CastsSection casts={movie!.credits.cast as Cast[]} />
+          <PhotosSection images={movie!.images.backdrops as Image[]} />
+          <RelatedSection movie={movie!} />
         </div>
       </Suspense>
     </div>

@@ -112,9 +112,9 @@ export const getImageUrl = (
     type === "poster"
       ? "https://dancyflix.com/placeholder.png"
       : type === "backdrop"
-        ? "https://wallpapercave.com/wp/wp1945939.jpg"
+        ? "https://placehold.co/1920x1080/1a1a1a/ffffff?text=No+Image"
         : "";
-  return path ? `http://image.tmdb.org/t/p/${size}/${path}` : fallback;
+  return path ? `https://image.tmdb.org/t/p/${size}/${path}` : fallback;
 };
 
 /**

@@ -1,6 +1,6 @@
 "use client";
 
-import ContentTypeSelection from "@/components/ui/other/ContentTypeSelection";
+import StreamingProviders from "./StreamingProviders";
 import { siteConfig } from "@/config/site";
 import { Spinner } from "@heroui/react";
 import dynamic from "next/dynamic";
@@ -17,8 +17,8 @@ const HomePageList: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col gap-12">
-      <ContentTypeSelection className="justify-center" />
+    <div className="flex flex-col gap-12 mx-auto w-full md:w-[1250px] max-w-full px-4 md:px-0">
+      <StreamingProviders />
       <div className="relative flex min-h-32 flex-col gap-12">
         <Suspense
           fallback={

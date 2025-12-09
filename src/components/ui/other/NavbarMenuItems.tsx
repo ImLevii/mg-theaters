@@ -38,9 +38,12 @@ const NavbarMenuItems: React.FC<NavbarMenuItemsProps> = ({
 
         if (withIcon) {
           title = (
-            <div className="flex max-h-[45px] flex-col items-center gap-1">
-              {isActive ? item.activeIcon : item.icon}
-              <p>{item.label}</p>
+            // Use flex-row for top nav (horizontal items)
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 flex items-center justify-center">
+                {isActive ? item.activeIcon : item.icon}
+              </div>
+              <p className="font-orbitron font-bold text-xs uppercase tracking-widest">{item.label}</p>
             </div>
           );
         }

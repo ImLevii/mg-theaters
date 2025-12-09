@@ -11,9 +11,10 @@ import { colors, ColorType } from "@/types/component";
 interface TrailerProps {
   videos: Video[];
   color?: ColorType;
+  children?: (onOpen: () => void) => React.ReactNode;
 }
 
-const Trailer: React.FC<TrailerProps> = ({ videos, color = "primary" }) => {
+const Trailer: React.FC<TrailerProps> = ({ videos, color = "primary", children }) => {
   const [opened, handlers] = useDisclosure(false);
   const c = useCustomCarousel();
   const trailers = videos.filter(
@@ -29,14 +30,18 @@ const Trailer: React.FC<TrailerProps> = ({ videos, color = "primary" }) => {
   if (!isEmpty(trailers)) {
     return (
       <>
-        <Button
-          color="danger"
-          variant="shadow"
-          startContent={<Youtube size={22} />}
-          onPress={() => handlers.open()}
-        >
-          Trailer
-        </Button>
+        {children ? (
+          children(handlers.open)
+        ) : (
+          <Button
+            color="danger"
+            variant="shadow"
+            startContent={<Youtube size={22} />}
+            onPress={() => handlers.open()}
+          >
+            Trailer
+          </Button>
+        )}
 
         <Modal backdrop="blur" size="5xl" isOpen={opened} onClose={handleClose} placement="center">
           <ModalContent>

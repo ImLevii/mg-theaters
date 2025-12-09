@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
-import { Poppins } from "@/utils/fonts";
+import { Poppins, Orbitron } from "@/utils/fonts";
 import "../styles/globals.css";
 import "../styles/lightbox.css";
 import Providers from "./providers";
 import TopNavbar from "@/components/ui/layout/TopNavbar";
 import BottomNavbar from "@/components/ui/layout/BottomNavbar";
-import Sidebar from "@/components/ui/layout/Sidebar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/utils/helpers";
@@ -56,17 +55,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={cn("bg-background min-h-dvh antialiased select-none", Poppins.className)}>
+      <body className={cn("min-h-dvh antialiased select-none", Poppins.className, Orbitron.variable)}>
         <Suspense>
           <NuqsAdapter>
             <Providers>
               {IS_PRODUCTION && <Disclaimer />}
               <TopNavbar />
-              <Sidebar>
-                <main className={cn("container mx-auto max-w-full", SpacingClasses.main)}>
-                  {children}
-                </main>
-              </Sidebar>
+              <main className={cn("container mx-auto max-w-full", SpacingClasses.main)}>
+                {children}
+              </main>
               <BottomNavbar />
             </Providers>
           </NuqsAdapter>
