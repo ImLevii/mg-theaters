@@ -57,44 +57,42 @@ const SearchList = () => {
     queryClient.removeQueries({ queryKey: ["search-list"] });
   }, [content]);
 
-  const renderSearchResults = useMemo(() => {
-    return () => {
-      if (isEmpty(data?.pages[0].results)) {
-        return (
-          <h5 className="mt-56 text-center text-xl">
-            No {content === "movie" ? "movies" : "TV series"} found with query{" "}
-            <span className="text-warning font-semibold">"{submittedSearchQuery}"</span>
-          </h5>
-        );
-      }
-
+  const renderSearchResults = () => {
+    if (isEmpty(data?.pages[0].results)) {
       return (
-        <>
-          <h5 className="text-center text-xl">
-            <span className="motion-preset-focus">
-              Found{" "}
-              <span className="text-success font-semibold">{data?.pages[0].total_results}</span>{" "}
-              {content === "movie" ? "movies" : "TV series"} with query{" "}
-              <span className="text-warning font-semibold">"{submittedSearchQuery}"</span>
-            </span>
-          </h5>
-          <div className="movie-grid">
-            {content === "movie"
-              ? data?.pages.map((page) =>
-                  page.results.map((movie) => (
-                    <MoviePosterCard key={movie.id} movie={movie as Movie} variant="bordered" />
-                  )),
-                )
-              : data?.pages.map((page) =>
-                  page.results.map((tv) => (
-                    <TvShowHomeCard key={tv.id} tv={tv as TV} variant="bordered" />
-                  )),
-                )}
-          </div>
-        </>
+        <h5 className="mt-56 text-center text-xl">
+          No {content === "movie" ? "movies" : "TV series"} found with query{" "}
+          <span className="text-warning font-semibold">"{submittedSearchQuery}"</span>
+        </h5>
       );
-    };
-  }, [content, data?.pages, submittedSearchQuery]);
+    }
+
+    return (
+      <>
+        <h5 className="text-center text-xl">
+          <span className="motion-preset-focus">
+            Found{" "}
+            <span className="text-success font-semibold">{data?.pages[0].total_results}</span>{" "}
+            {content === "movie" ? "movies" : "TV series"} with query{" "}
+            <span className="text-warning font-semibold">"{submittedSearchQuery}"</span>
+          </span>
+        </h5>
+        <div className="movie-grid">
+          {content === "movie"
+            ? data?.pages.map((page) =>
+              page.results.map((movie) => (
+                <MoviePosterCard key={movie.id} movie={movie as Movie} variant="bordered" />
+              )),
+            )
+            : data?.pages.map((page) =>
+              page.results.map((tv) => (
+                <TvShowHomeCard key={tv.id} tv={tv as TV} variant="bordered" />
+              )),
+            )}
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className="flex flex-col items-center gap-8">

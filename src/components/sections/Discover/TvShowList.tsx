@@ -4,7 +4,7 @@ import BackToTopButton from "@/components/ui/button/BackToTopButton";
 import Loop from "@/components/ui/other/Loop";
 import PosterCardSkeleton from "@/components/ui/other/PosterCardSkeleton";
 import useDiscoverFilters from "@/hooks/useDiscoverFilters";
-import useFetchDiscoverTvShows from "@/hooks/useFetchDiscoverTvShow";
+
 import { DiscoverTvShowsFetchQueryType } from "@/types/movie";
 import { getLoadingLabel } from "@/utils/movies";
 import { Spinner } from "@heroui/react";
@@ -13,6 +13,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 import { useEffect } from "react";
 import TvShowPosterCard from "../TV/Cards/Poster";
+import fetchDiscoverTvShows from "@/hooks/useFetchDiscoverTvShow";
 
 const TvShowDiscoverList = () => {
   const { ref, inViewport } = useInViewport();
@@ -21,7 +22,7 @@ const TvShowDiscoverList = () => {
     useInfiniteQuery({
       queryKey: ["discover-tv-shows", queryType, genresString],
       queryFn: ({ pageParam }) =>
-        useFetchDiscoverTvShows({
+        fetchDiscoverTvShows({
           page: pageParam,
           type: queryType as DiscoverTvShowsFetchQueryType,
           genres: genresString,
