@@ -53,7 +53,6 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt }) => {
             allowFullScreen
             key={PLAYER.title}
             src={PLAYER.source}
-            sandbox="allow-scripts allow-same-origin allow-presentation allow-encrypted-media"
             className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle && !mobile })}
           />
         </Card>

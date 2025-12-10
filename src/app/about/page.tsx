@@ -13,7 +13,7 @@ const AboutPage: NextPage = () => {
         {/* Header Section */}
         <div className="flex flex-col items-center gap-4 text-center">
           <h1 className="bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-4xl font-black text-transparent md:text-6xl">
-            ⇋MG⇌ TV
+            VADED TV
           </h1>
           <p className="max-w-xl text-lg text-gray-400 md:text-xl">
             Redefining your entertainment experience with a sleek, ad-free, and premium streaming platform.
