@@ -81,49 +81,58 @@ const PiPPlayer = () => {
             {/* Controls Overlay */}
             <div
                 className={cn(
-                    "absolute top-0 left-0 right-0 z-20 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent p-2 transition-opacity duration-300 pointer-events-none",
-                    (isHovered || !isMinimized || isResizing || mobile) ? "opacity-100" : "opacity-0"
+                    "absolute top-0 left-0 right-0 z-20 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent p-3 transition-opacity duration-300 pointer-events-none",
+                    // Force visibility on mobile (touch devices) or when hovered/resizing
+                    (isHovered || !isMinimized || isResizing || mobile) ? "opacity-100" : "opacity-0 md:opacity-0"
                 )}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                <h6 className="text-xs font-semibold text-white/90 truncate max-w-[200px] pointer-events-auto">
+                <h6 className="text-xs font-semibold text-white/90 truncate max-w-[200px] pointer-events-auto select-none drop-shadow-md">
                     {title}
                 </h6>
-                <div className="flex gap-1 pointer-events-auto">
-                    <Button
-                        isIconOnly
-                        size="sm"
-                        variant="light"
-                        onPress={handleExpand}
-                        className="text-white hover:text-neon-green"
+                <div className="flex gap-3 pointer-events-auto">
+                    {/* Native Buttons for robust touch handling */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleExpand();
+                        }}
+                        className="p-2 text-white hover:text-neon-green active:scale-95 transition-transform"
+                        aria-label="Expand"
                     >
-                        <Icon icon="akar-icons:enlarge" width="16" />
-                    </Button>
-                    <Button
-                        isIconOnly
-                        size="sm"
-                        variant="light"
-                        onPress={closePiP}
-                        className="text-white hover:text-red-500"
+                        <Icon icon="akar-icons:enlarge" width="20" height="20" />
+                    </button>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            closePiP();
+                        }}
+                        className="p-2 text-white hover:text-red-500 active:scale-95 transition-transform"
+                        aria-label="Close"
                     >
-                        <Icon icon="mingcute:close-line" width="18" />
-                    </Button>
+                        <Icon icon="mingcute:close-line" width="22" height="22" />
+                    </button>
                 </div>
             </div>
 
-            <iframe
-                src={source}
-                className={cn("w-full h-full", { "pointer-events-none": isResizing })}
-                allowFullScreen
-                allow="autoplay; encrypted-media"
-            />
+            {/* Iframe Wrapper to ensure clicks pass through if needed, but usually iframe handles its own events */}
+            <div className="w-full h-full relative">
+                <iframe
+                    src={source}
+                    className={cn("w-full h-full", { "pointer-events-none": isResizing })}
+                    allowFullScreen
+                    allow="autoplay; encrypted-media; fullscreen"
+                />
+                {/* Transparent Overlay for Dragging/Resizing (if we add drag later) - for now just sizing */}
+            </div>
+
 
             {/* Overlay to capture mouse events when resizing */}
-            {isResizing && <div className="absolute inset-0 z-50 bg-transparent" />}
+            {isResizing && <div className="absolute inset-0 z-50 bg-transparent cursor-ew-resize" />}
 
             {/* Resize Handle (Desktop Only) */}
-            {isMinimized && (
+            {isMinimized && !mobile && (
                 <div
                     className="absolute top-0 left-0 bottom-0 w-4 cursor-ew-resize z-30 hidden md:block hover:bg-white/10 transition-colors"
                     onMouseDown={startResizing}
