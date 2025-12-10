@@ -122,7 +122,7 @@ const PiPPlayer = () => {
                     src={source}
                     className={cn("w-full h-full", { "pointer-events-none": isResizing })}
                     allowFullScreen
-                    sandbox="allow-scripts"
+                    sandbox="allow-scripts allow-same-origin allow-presentation allow-encrypted-media"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="no-referrer"
                 />

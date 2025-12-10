@@ -8,8 +8,8 @@ import { Chip } from "@heroui/chip";
 
 const BottomNavbar = () => {
   const pathName = usePathname();
-  const hrefs = siteConfig.navItems.map((item) => item.href);
-  const show = hrefs.includes(pathName);
+  // Show on all pages except player pages
+  const show = !pathName.includes("/player");
 
   return (
     show && (
