@@ -117,19 +117,18 @@ const PiPPlayer = () => {
             </div>
 
             {/* Iframe Wrapper to ensure clicks pass through if needed, but usually iframe handles its own events */}
-            <div className="w-full h-full relative">
+            <div className="w-full h-full relative z-0">
                 <iframe
                     src={source}
                     className={cn("w-full h-full", { "pointer-events-none": isResizing })}
                     allowFullScreen
-                    allow="autoplay; encrypted-media; fullscreen"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
                 />
-                {/* Transparent Overlay for Dragging/Resizing (if we add drag later) - for now just sizing */}
             </div>
 
-
-            {/* Overlay to capture mouse events when resizing */}
-            {isResizing && <div className="absolute inset-0 z-50 bg-transparent cursor-ew-resize" />}
+            {/* Overlay to capture mouse events when resizing - DISABLED ON MOBILE */}
+            {isResizing && !mobile && <div className="absolute inset-0 z-50 bg-transparent cursor-ew-resize" />}
 
             {/* Resize Handle (Desktop Only) */}
             {isMinimized && !mobile && (
