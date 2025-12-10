@@ -6,20 +6,18 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "@heroui/react";
+import useBreakpoints from "@/hooks/useBreakpoints";
 
 const PiPPlayer = () => {
     const { isActive, isMinimized, source, title, metadata, closePiP, toggleMinimize } =
         usePiPStore();
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
+    const { mobile } = useBreakpoints();
 
     // Resizing state
     const [width, setWidth] = useState(320);
     const [isResizing, setIsResizing] = useState(false);
-
-    // Mobile detection (simple width check or use hook if available)
-    // Assuming useBreakpoints is available or we use CSS media queries
-    // For JS logic we'll stick to simple defaults but allow CSS to override
 
     const startResizing = (e: React.MouseEvent) => {
         setIsResizing(true);
@@ -70,28 +68,16 @@ const PiPPlayer = () => {
     return (
         <div
             className={cn(
-                "fixed z-[9999] transition-all duration-300 shadow-2xl overflow-hidden bg-black border border-white/10 rounded-lg",
-                isMinimized
-                    ? "bottom-4 right-4 aspect-video"
-                    : "bottom-0 right-0 w-full h-full rounded-none"
+                "fixed z-[9999] transition-all duration-300 shadow-2xl overflow-hidden bg-black border border-white/10",
+                !isMinimized && "bottom-0 right-0 w-full h-full rounded-none",
+                // Mobile Minimized: Above bottom nav (90px), centered with margin
+                isMinimized && mobile && "bottom-[90px] left-4 right-4 h-auto aspect-video rounded-lg",
+                // Desktop Minimized: Bottom right corner, dynamic width
+                isMinimized && !mobile && "bottom-4 right-4 aspect-video rounded-lg"
             )}
-            style={isMinimized ? { width: `${width}px` } : {}}
-            // Reset width style on mobile via class utility or media query if needed, 
-            // but inline style overrides classes usually. We'll use a wrapper or max-width.
-            // Better: use a class that forces width on mobile.
+            style={isMinimized && !mobile ? { width: `${width}px` } : {}}
             id="pip-player-container"
         >
-            {/* Mobile override style tag/hack or just use Tailwind correctly */}
-            <style jsx>{`
-                @media (max-width: 768px) {
-                    #pip-player-container {
-                        width: calc(100vw - 32px) !important;
-                        bottom: 80px !important; /* Above bottom nav */
-                        right: 16px !important;
-                    }
-                }
-            `}</style>
-
             {/* Controls Overlay */}
             <div
                 className={cn(
