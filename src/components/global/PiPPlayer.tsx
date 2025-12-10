@@ -77,6 +77,8 @@ const PiPPlayer = () => {
             )}
             style={isMinimized && !mobile ? { width: `${width}px` } : {}}
             id="pip-player-container"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
             {/* Controls Overlay */}
             <div
@@ -85,8 +87,6 @@ const PiPPlayer = () => {
                     // Force visibility on mobile (touch devices) or when hovered/resizing
                     (isHovered || !isMinimized || isResizing || mobile) ? "opacity-100" : "opacity-0 md:opacity-0"
                 )}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
             >
                 <h6 className="text-xs font-semibold text-white/90 truncate max-w-[200px] pointer-events-auto select-none drop-shadow-md">
                     {title}
@@ -122,6 +122,7 @@ const PiPPlayer = () => {
                     src={source}
                     className={cn("w-full h-full", { "pointer-events-none": isResizing })}
                     allowFullScreen
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                 />
