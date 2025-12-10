@@ -2,13 +2,13 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/utils/helpers";
 import { getTvShowPlayers } from "@/utils/players";
 import { Card, Skeleton } from "@heroui/react";
-import { useDisclosure, useDocumentTitle, useIdle, useLocalStorage } from "@mantine/hooks";
+import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
 import dynamic from "next/dynamic";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { memo, useMemo } from "react";
 import { Episode, TvShowDetails } from "tmdb-ts";
 import useBreakpoints from "@/hooks/useBreakpoints";
-import { ADS_WARNING_STORAGE_KEY, SpacingClasses } from "@/utils/constants";
+import { SpacingClasses } from "@/utils/constants";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
 
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
@@ -35,11 +35,6 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   startAt,
   ...props
 }) => {
-  const [seen] = useLocalStorage<boolean>({
-    key: ADS_WARNING_STORAGE_KEY,
-    getInitialValueInEffect: false,
-  });
-
   const { mobile } = useBreakpoints();
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
@@ -77,14 +72,12 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
 
         <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none">
           <Skeleton className="absolute h-full w-full" />
-          {seen && (
-            <iframe
-              allowFullScreen
-              key={PLAYER.title}
-              src={PLAYER.source}
-              className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle && !mobile })}
-            />
-          )}
+          <iframe
+            allowFullScreen
+            key={PLAYER.title}
+            src={PLAYER.source}
+            className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle && !mobile })}
+          />
         </Card>
       </div>
 
