@@ -39,7 +39,7 @@ const HeroSwiper = () => {
     }
 
     return (
-        <div className={cn("relative h-[500px] md:h-[707px] w-auto md:w-[1250px] max-w-full overflow-hidden group rounded-3xl shadow-2xl shadow-black/50 mx-4 md:mx-auto bg-black")}>
+        <div className={cn("relative h-[65vh] md:h-[707px] max-h-[85vh] w-auto md:w-[1250px] max-w-full overflow-hidden group rounded-3xl shadow-2xl shadow-black/50 mx-4 md:mx-auto bg-black")}>
             <Swiper
                 spaceBetween={0}
                 effect={"fade"}

@@ -47,13 +47,13 @@ export const TvShowOverviewSection: React.FC<TvShowOverviewSectionProps> = ({
 
   return (
     <section id="overview" className="relative z-3 flex flex-col gap-8 pt-[20vh] md:pt-[40vh]">
-      <div className="md:grid md:grid-cols-[auto_1fr] md:gap-6">
+      <div className="flex flex-col md:grid md:grid-cols-[auto_1fr] md:gap-6 gap-8">
         <Image
           isBlurred
           shadow="md"
           alt={fullTitle}
           classNames={{
-            wrapper: "w-52 max-h-min aspect-2/3 hidden md:block",
+            wrapper: "w-[180px] md:w-[260px] aspect-[2/3] rounded-xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-105 hover:rotate-y-6 mx-auto md:mx-0",
           }}
           className="object-cover object-center"
           src={posterImage}
