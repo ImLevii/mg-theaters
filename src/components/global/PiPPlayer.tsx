@@ -19,6 +19,54 @@ const PiPPlayer = () => {
     const [width, setWidth] = useState(320);
     const [isResizing, setIsResizing] = useState(false);
 
+    // Direct stream state
+    const [streamUrl, setStreamUrl] = useState<string | null>(null);
+    const [useIframe, setUseIframe] = useState(false);
+
+    useEffect(() => {
+        const fetchStream = async () => {
+            if (!metadata) return;
+
+            setStreamUrl(null);
+            setUseIframe(false);
+
+            try {
+                const params = new URLSearchParams();
+                params.append("id", metadata.id.toString());
+                params.append("type", metadata.type);
+                if (metadata.season) params.append("season", metadata.season.toString());
+                if (metadata.episode) params.append("episode", metadata.episode.toString());
+
+                const res = await fetch(`/api/stream?${params.toString()}`);
+                if (!res.ok) throw new Error("Stream fetch failed");
+
+                const data = await res.json();
+                // Check for stream URL in expected response format
+                if (data?.streamUrl) {
+                    setStreamUrl(data.streamUrl);
+                } else if (data?.sources?.[0]?.url) {
+                    setStreamUrl(data.sources[0].url);
+                } else {
+                    throw new Error("No stream URL in response");
+                }
+            } catch (error) {
+                console.error("Bypass failed, falling back to iframe", error);
+                setUseIframe(true);
+            }
+        };
+
+        if (isActive && !isMinimized) {
+            fetchStream();
+        } else {
+            // If minimized or inactive, maybe default to iframe to be safe or keep playing? 
+            // For now, let's allow it to try fetching even if minimized if it was already active
+            // But usually we want to start fetching when it becomes active.
+            // Actually, the original code uses `source` from store which is an embed URL.
+            // We want to override that.
+            if (isActive) fetchStream();
+        }
+    }, [metadata, isActive]);
+
     const startResizing = (e: React.MouseEvent) => {
         setIsResizing(true);
         e.preventDefault();
@@ -116,16 +164,27 @@ const PiPPlayer = () => {
                 </div>
             </div>
 
-            {/* Iframe Wrapper to ensure clicks pass through if needed, but usually iframe handles its own events */}
-            <div className="w-full h-full relative z-0">
-                <iframe
-                    src={source}
-                    className={cn("w-full h-full", { "pointer-events-none": isResizing })}
-                    allowFullScreen
-                    sandbox="allow-scripts"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="no-referrer"
-                />
+            {/* Player Content */}
+            <div className="w-full h-full relative z-0 bg-black">
+                {!useIframe && streamUrl ? (
+                    <video
+                        src={streamUrl}
+                        className={cn("w-full h-full object-contain", { "pointer-events-none": isResizing })}
+                        controls
+                        autoPlay
+                        playsInline
+                        onError={() => setUseIframe(true)}
+                    />
+                ) : (
+                    <iframe
+                        src={source}
+                        className={cn("w-full h-full", { "pointer-events-none": isResizing })}
+                        allowFullScreen
+                        sandbox="allow-scripts"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="no-referrer"
+                    />
+                )}
             </div>
 
             {/* Overlay to capture mouse events when resizing - DISABLED ON MOBILE */}
