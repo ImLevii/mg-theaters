@@ -81,16 +81,16 @@ const PiPPlayer = () => {
             {/* Controls Overlay */}
             <div
                 className={cn(
-                    "absolute top-0 left-0 right-0 z-20 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent p-2 transition-opacity duration-300",
+                    "absolute top-0 left-0 right-0 z-20 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent p-2 transition-opacity duration-300 pointer-events-none",
                     (isHovered || !isMinimized || isResizing || mobile) ? "opacity-100" : "opacity-0"
                 )}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                <h6 className="text-xs font-semibold text-white/90 truncate max-w-[200px]">
+                <h6 className="text-xs font-semibold text-white/90 truncate max-w-[200px] pointer-events-auto">
                     {title}
                 </h6>
-                <div className="flex gap-1">
+                <div className="flex gap-1 pointer-events-auto">
                     <Button
                         isIconOnly
                         size="sm"
