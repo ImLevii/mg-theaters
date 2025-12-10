@@ -14,7 +14,7 @@ import {
 } from "@/components/icons/NavIcons";
 
 export const siteConfig: SiteConfigType = {
-  name: "Cinextma",
+  name: "VadedTV",
   description: "Your only choice for a free movies and tv shows streaming website.",
   favicon: "/favicon.ico",
   navItems: [
