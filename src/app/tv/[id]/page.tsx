@@ -52,22 +52,22 @@ const TVShowDetailPage: NextPage<Params<{ id: number }>> = ({ params }) => {
   if (error) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="relative w-full -mt-24">
+      <TvShowBackdropSection tv={tv!} />
       <Suspense
         fallback={
           <Spinner size="lg" className="absolute-center" color="warning" variant="simple" />
         }
       >
-        <div className="flex flex-col gap-10">
-          <TvShowBackdropSection tv={tv} />
+        <div className="mx-auto w-full max-w-[1400px] flex flex-col gap-10">
           <TvShowOverviewSection
             onViewEpisodesClick={() => scrollIntoView({ alignment: "center" })}
-            tv={tv}
+            tv={tv!}
           />
-          <TvShowCastsSection casts={tv.credits.cast} />
-          <PhotosSection images={tv.images.backdrops} type="tv" />
-          <TvShowsSeasonsSelection ref={targetRef} id={id} seasons={tv.seasons} />
-          <TvShowRelatedSection tv={tv} />
+          <TvShowCastsSection casts={tv!.credits.cast} />
+          <PhotosSection images={tv!.images.backdrops} type="tv" />
+          <TvShowsSeasonsSelection ref={targetRef} id={id} seasons={tv!.seasons} />
+          <TvShowRelatedSection tv={tv!} />
         </div>
       </Suspense>
     </div>

@@ -3,10 +3,9 @@ import { useWindowScroll } from "@mantine/hooks";
 import { AppendToResponse } from "tmdb-ts/dist/types/options";
 import { getImageUrl, mutateTvShowTitle } from "@/utils/movies";
 import { TvShowDetails } from "tmdb-ts";
-import { isEmpty } from "@/utils/helpers";
 
 const TvShowBackdropSection: React.FC<{
-  tv: AppendToResponse<TvShowDetails, "images"[], "movie">;
+  tv: AppendToResponse<TvShowDetails, ("images" | "videos")[], "tvShow">;
 }> = ({ tv }) => {
   const [{ y }] = useWindowScroll();
   const title = mutateTvShowTitle(tv);
@@ -18,26 +17,50 @@ const TvShowBackdropSection: React.FC<{
   );
 
   return (
-    <section id="backdrop" className="fixed inset-0 h-[35vh] md:h-[50vh] lg:h-[70vh]">
-      <div className="absolute inset-0 z-10 bg-background" style={{ opacity: opacity }} />
-      <div className="absolute inset-0 z-2 bg-linear-to-b from-background from-1% via-transparent via-30%" />
-      <div className="absolute inset-0 z-2 translate-y-px bg-linear-to-t from-background from-1% via-transparent via-55%" />
-      {!isEmpty(titleImage) && (
+    <section id="backdrop" className="absolute top-0 left-0 w-full h-[120vh] -z-50 overflow-hidden pointer-events-none">
+      {/* Ambient Global Glow - heavily blurred background filling the screen */}
+      <div className="absolute inset-0 z-0">
         <Image
-          isBlurred
-          radius="none"
-          alt={title}
-          classNames={{ wrapper: "absolute-center z-1 bg-transparent" }}
-          className="w-[25vh] max-w-80 drop-shadow-xl md:w-[60vh]"
+          removeWrapper
+          alt="ambient"
+          className="w-full h-full object-cover opacity-50 blur-[80px] scale-150 saturate-150"
+          src={backdropImage}
+        />
+        <div className="absolute inset-0 bg-black/40" /> {/* Dimmer */}
+        {/* Deep fade to black at the bottom to blend with site background */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-black/80 to-transparent" />
+      </div>
+
+      {/* Main Backdrop with Seamless Bottom Fade */}
+      <div
+        className="absolute top-0 left-0 w-full h-[85vh] z-0 select-none"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 20%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 20%, transparent 100%)"
+        }}
+      >
+        <div className="absolute inset-0 z-0">
+          <Image
+            removeWrapper
+            radius="none"
+            alt={title}
+            className="w-full h-full object-cover object-top opacity-100"
+            src={backdropImage}
+          />
+          {/* Side Vignettes only - Bottom fade is handled by the container mask */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80" />
+        </div>
+      </div>
+
+      {/* Title Image (Logo) - Centered/Floating */}
+      <div className="absolute top-[20vh] md:top-[30vh] left-1/2 -translate-x-1/2 z-20" style={{ opacity: 1 - opacity * 1.5, transform: `translate(-50%, ${y * 0.5}px)` }}>
+        <Image
+          removeWrapper
+          alt="logo"
+          className="w-[200px] md:w-[400px] drop-shadow-2xl"
           src={titleImage}
         />
-      )}
-      <Image
-        radius="none"
-        alt={title}
-        className="z-0 h-[35vh] w-screen object-cover object-center md:h-[50vh] lg:h-[70vh]"
-        src={backdropImage}
-      />
+      </div>
     </section>
   );
 };
