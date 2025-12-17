@@ -4,7 +4,7 @@ import React from "react";
 import { cn } from "@/utils/helpers";
 
 interface NeonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: "green" | "red" | "blue" | "purple" | "orange" | "pink";
+    variant?: "green" | "red" | "blue" | "purple" | "orange" | "pink" | "youtube_red";
     glow?: boolean;
     solid?: boolean;
     children: React.ReactNode;
@@ -51,6 +51,11 @@ const NeonButton: React.FC<NeonButtonProps> = ({
             color: "#FF007F",
             textShadow: "rgba(255, 0, 127, 0.8) 0px 0px 8px",
             stroke: "#FF007F"
+        },
+        youtube_red: {
+            color: "#FF0000",
+            textShadow: "rgba(255, 0, 0, 0.8) 0px 0px 8px",
+            stroke: "#FF0000"
         }
     };
 

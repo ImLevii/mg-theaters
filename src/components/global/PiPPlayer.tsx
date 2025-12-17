@@ -38,7 +38,14 @@ const PiPPlayer = () => {
                 if (metadata.episode) params.append("episode", metadata.episode.toString());
 
                 const res = await fetch(`/api/stream?${params.toString()}`);
-                if (!res.ok) throw new Error("Stream fetch failed");
+
+                if (res.status === 404) {
+                    // Stream not found, expected fallback
+                    setUseIframe(true);
+                    return;
+                }
+
+                if (!res.ok) throw new Error(`Stream fetch failed: ${res.status}`);
 
                 const data = await res.json();
                 // Check for stream URL in expected response format
@@ -47,10 +54,12 @@ const PiPPlayer = () => {
                 } else if (data?.sources?.[0]?.url) {
                     setStreamUrl(data.sources[0].url);
                 } else {
-                    throw new Error("No stream URL in response");
+                    // Valid JSON but no URL, fallback
+                    setUseIframe(true);
                 }
             } catch (error) {
-                console.error("Bypass failed, falling back to iframe", error);
+                // Only log unexpected errors
+                console.warn("Stream bypass unavailable, falling back to iframe");
                 setUseIframe(true);
             }
         };

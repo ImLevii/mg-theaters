@@ -1,4 +1,8 @@
 import { Image } from "@heroui/image";
+import { Button } from "@heroui/react";
+import { Play, Tv } from "lucide-react";
+import dynamic from "next/dynamic";
+const PlayerModal = dynamic(() => import("../Player/PlayerModal"));
 import { useWindowScroll } from "@mantine/hooks";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { AppendToResponse } from "tmdb-ts/dist/types/options";
@@ -53,14 +57,44 @@ const BackdropSection: React.FC<{
         </div>
       </div>
 
+
       {/* Title Image (Logo) - Centered/Floating */}
-      <div className="absolute top-[20vh] md:top-[30vh] left-1/2 -translate-x-1/2 z-20" style={{ opacity: 1 - opacity * 1.5, transform: `translate(-50%, ${y * 0.5}px)` }}>
+      <div className="absolute top-[20vh] md:top-[30vh] left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-6" style={{ opacity: 1 - opacity * 1.5, transform: `translate(-50%, ${y * 0.5}px)` }}>
         <Image
           removeWrapper
           alt="logo"
           className="w-[200px] md:w-[400px] drop-shadow-2xl"
           src={titleImage}
         />
+
+        {/* Action Buttons */}
+        <div className="flex items-center gap-4 pointer-events-auto">
+          <Button
+            onPress={() => {
+              document.getElementById("movie-player-container")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold tracking-wider px-8 shadow-lg shadow-rose-900/20"
+            size="lg"
+            variant="shadow"
+            startContent={<Play fill="currentColor" size={20} />}
+          >
+            PLAY NOW
+          </Button>
+
+          {trailer && (
+            <Button
+              as="a"
+              href={`https://www.youtube.com/watch?v=${trailer.key}`}
+              target="_blank"
+              className="bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold tracking-wider px-8 hover:bg-white/20"
+              size="lg"
+              variant="flat"
+              startContent={<Tv size={20} />}
+            >
+              TRAILER
+            </Button>
+          )}
+        </div>
       </div>
     </section>
   );

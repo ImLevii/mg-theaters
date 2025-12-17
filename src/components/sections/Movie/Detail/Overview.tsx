@@ -1,6 +1,7 @@
 "use client";
 
 import { Image, Chip } from "@heroui/react";
+import React, { useState } from "react";
 import { getImageUrl, movieDurationString, mutateMovieTitle } from "@/utils/movies";
 import BookmarkButton from "@/components/ui/button/BookmarkButton";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
@@ -18,12 +19,16 @@ import { SavedMovieDetails } from "@/types/movie";
 import NeonButton from "@/components/ui/button/NeonButton";
 import PlayerModal from "@/components/sections/Movie/Player/PlayerModal";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+const MoviePlayer = dynamic(() => import("@/components/sections/Movie/Player/Player"));
 
 interface OverviewSectionProps {
   movie: AppendToResponse<MovieDetails, "videos"[], "movie">;
+  startAt?: number;
 }
 
-const OverviewSection: React.FC<OverviewSectionProps> = ({ movie }) => {
+const OverviewSection: React.FC<OverviewSectionProps> = ({ movie, startAt }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const releaseYear = new Date(movie.release_date).getFullYear();
   const posterImage = getImageUrl(movie.poster_path);
   const title = mutateMovieTitle(movie);
@@ -42,15 +47,20 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie }) => {
 
   useDocumentTitle(`${fullTitle} | ${siteConfig.name}`);
 
+  const handlePlayNow = () => {
+    setIsPlaying(true);
+    // Optional: Scroll to player
+    const playerElement = document.getElementById("embedded-movie-player");
+    if (playerElement) {
+      playerElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <section id="overview" className="relative z-3 flex flex-col items-center gap-8 pt-[15vh] md:pt-[30vh]">
       <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-black/80 via-black/40 via-40% to-transparent -z-10" />
-      {/* Background Title Effect - Optional, simplistic approach */}
-      {/* <h1 className="absolute top-[10vh] left-1/2 -translate-x-1/2 text-[10vw] font-black text-white/5 opacity-50 select-none whitespace-nowrap z-0">
-         {fullTitle.toUpperCase()}
-       </h1> */}
 
-      <div className="flex flex-col md:flex-row items-center md:items-end gap-8 md:gap-12 z-10 max-w-6xl w-full px-4">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 z-10 max-w-6xl w-full px-4">
         {/* Poster Card */}
         <div className="relative shrink-0 group perspective-1000">
           <Image
@@ -100,23 +110,19 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie }) => {
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-4 mt-2">
-            <PlayerModal movie={movie}>
-              {(onOpen) => (
-                <NeonButton
-                  variant="red"
-                  onClick={onOpen}
-                  icon={<FaPlay />}
-                  className="min-w-[140px]"
-                >
-                  Play Now
-                </NeonButton>
-              )}
-            </PlayerModal>
+            <NeonButton
+              variant="green"
+              onClick={handlePlayNow}
+              icon={<FaPlay />}
+              className="min-w-[140px]"
+            >
+              Play Now
+            </NeonButton>
 
             <Trailer videos={movie.videos.results}>
               {(onOpen) => (
                 <NeonButton
-                  variant="pink"
+                  variant="youtube_red"
                   onClick={onOpen}
                   icon={<FaYoutube />}
                   className="min-w-[140px]"
@@ -130,6 +136,11 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie }) => {
               <ShareButton id={movie.id} title={title} />
               <BookmarkButton data={bookmarkData} />
             </div>
+          </div>
+
+          <div id="embedded-movie-player" className="w-full max-w-2xl mt-8 rounded-lg shadow-2xl shadow-rose-900/10 p-3 bg-white/5">
+            {/* @ts-ignore */}
+            <MoviePlayer movie={movie} startAt={startAt} minimal={true} autoPlay={isPlaying} />
           </div>
 
           <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-2" />

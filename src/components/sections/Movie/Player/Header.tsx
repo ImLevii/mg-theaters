@@ -7,6 +7,7 @@ interface MoviePlayerHeaderProps {
   movieName: string;
   hidden?: boolean;
   onOpenSource: () => void;
+  minimal?: boolean;
 }
 
 import { usePiPStore } from "@/hooks/usePiPStore";
@@ -20,6 +21,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
   movieName,
   hidden,
   onOpenSource,
+  minimal,
 }) => {
   const router = useRouter();
   const { openPiP } = usePiPStore();
@@ -36,24 +38,36 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
     <div
       aria-hidden={hidden ? true : undefined}
       className={cn(
-        "absolute top-0 z-40 flex h-28 w-full items-start justify-between gap-4",
-        "bg-linear-to-b from-black/80 to-transparent p-2 text-white transition-opacity md:p-4",
+        "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 pointer-events-none",
+        "bg-gradient-to-b from-black/80 to-transparent p-6 text-white transition-opacity duration-300",
         { "opacity-0": hidden },
       )}
     >
-      <ActionButton label="Back" href={`/movie/${id}`}>
-        <ArrowLeft size={42} />
-      </ActionButton>
-      <div className="absolute left-1/2 hidden -translate-x-1/2 flex-col justify-center text-center sm:flex">
-        <p className="text-sm text-white text-shadow-lg sm:text-lg lg:text-xl">{movieName}</p>
+      <div className="pointer-events-auto z-10">
+        {!minimal && (
+          <ActionButton label="Back" href={`/movie/${id}`}>
+            <ArrowLeft className="w-8 h-8 sm:w-10 sm:h-10" />
+          </ActionButton>
+        )}
       </div>
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
+
+      {!minimal && (
+        <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center pointer-events-none">
+          <div className="hidden md:flex max-w-[50%] flex-col justify-center text-center">
+            <p className="text-sm text-white text-shadow-lg sm:text-lg lg:text-xl font-bold truncate px-4">
+              {movieName}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto z-10">
+        <div className="flex items-center gap-1 sm:gap-2">
           <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP}>
-            <Icon icon="fluent:minimize-24-regular" width="34" />
+            <Icon icon="fluent:minimize-24-regular" className="w-6 h-6 sm:w-8 sm:h-8" />
           </ActionButton>
           <ActionButton label="Sources" tooltip="Sources" onClick={onOpenSource}>
-            <Server size={34} />
+            <Server className="w-6 h-6 sm:w-8 sm:h-8" />
           </ActionButton>
         </div>
       </div>
