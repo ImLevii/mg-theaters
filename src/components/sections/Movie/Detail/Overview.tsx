@@ -139,7 +139,6 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie, startAt }) => 
           </div>
 
           <div id="embedded-movie-player" className="w-full max-w-2xl mt-8 rounded-lg shadow-2xl shadow-rose-900/10 p-3 bg-white/5">
-            {/* @ts-ignore */}
             <MoviePlayer movie={movie} startAt={startAt} minimal={true} autoPlay={isPlaying} />
           </div>
 
