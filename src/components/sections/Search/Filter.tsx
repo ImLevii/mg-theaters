@@ -4,7 +4,7 @@ import { getSearchSuggestions } from "@/actions/search";
 import SearchInput from "@/components/ui/input/SearchInput";
 import ContentTypeSelection from "@/components/ui/other/ContentTypeSelection";
 import Highlight from "@/components/ui/other/Highlight";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import useDiscoverFilters from "@/hooks/useDiscoverFilters";
 import { SEARCH_HISTORY_STORAGE_KEY } from "@/utils/constants";
 import { cn, isEmpty } from "@/utils/helpers";
@@ -24,7 +24,7 @@ interface SearchFilterProps extends React.HTMLAttributes<HTMLFormElement> {
 
 const SearchFilter: React.FC<SearchFilterProps> = ({ isLoading, onSearchSubmit, ...props }) => {
   const router = useRouter();
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
   const { content } = useDiscoverFilters();
   const [triggered, setTriggered] = useState(false);
   const [searchQuery, setSearchQuery] = useQueryState("q", parseAsString.withDefault(""));

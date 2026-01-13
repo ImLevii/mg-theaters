@@ -1,5 +1,5 @@
 import { signOut } from "@/actions/auth";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import useSupabaseUser from "@/hooks/useSupabaseUser";
 import { DropdownItemProps } from "@/types/component";
 import { env } from "@/utils/env";
@@ -22,7 +22,7 @@ const UserProfileButton: React.FC = () => {
   const router = useRouter();
   const [logout, setLogout] = useState(false);
   const { data: user, isLoading } = useSupabaseUser();
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
 
   const ITEMS: DropdownItemProps[] = useMemo(
     () => [

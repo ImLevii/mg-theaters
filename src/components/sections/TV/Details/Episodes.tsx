@@ -1,5 +1,5 @@
 import { tmdb } from "@/api/tmdb";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import { cn, formatDate, isEmpty } from "@/utils/helpers";
 import { PlayOutline } from "@/utils/icons";
 import { getImageUrl, getLoadingLabel, movieDurationString } from "@/utils/movies";
@@ -86,7 +86,7 @@ export const EpisodeListCard: React.FC<EpisodeCardProps> = ({
   withAnimation = true,
 }) => {
   const imageUrl = getImageUrl(episode.still_path);
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
   const isNotReleased = !episode.air_date || new Date(episode.air_date) > new Date();
   const isOdd = order % 2 !== 0;
   const href = !isNotReleased

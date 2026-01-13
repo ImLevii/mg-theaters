@@ -1,6 +1,6 @@
 "use client";
 
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import { Accordion, AccordionItem, Link } from "@heroui/react";
 
 const FAQS = [
@@ -51,7 +51,7 @@ const FAQS = [
 ];
 
 const FAQ = () => {
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
 
   return (
     <Accordion variant="splitted" isCompact={mobile}>

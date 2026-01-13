@@ -1,6 +1,6 @@
 import Rating from "@/components/ui/other/Rating";
 import VaulDrawer from "@/components/ui/overlay/VaulDrawer";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import useDeviceVibration from "@/hooks/useDeviceVibration";
 import { getImageUrl, mutateMovieTitle } from "@/utils/movies";
 import { Card, CardBody, CardFooter, CardHeader, Chip, Image, Tooltip } from "@heroui/react";
@@ -24,7 +24,7 @@ const MoviePosterCard: React.FC<MoviePosterCardProps> = ({ movie, variant = "ful
   const releaseYear = releaseDate && !isNaN(releaseDate.getTime()) ? releaseDate.getFullYear() : "N/A";
   const posterImage = getImageUrl(movie.poster_path);
   const title = mutateMovieTitle(movie);
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
   const { startVibration } = useDeviceVibration();
 
   const callback = useCallback(() => {

@@ -6,14 +6,14 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "@heroui/react";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const PiPPlayer = () => {
     const { isActive, isMinimized, source, title, metadata, closePiP, toggleMinimize } =
         usePiPStore();
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
-    const { mobile } = useBreakpoints();
+    const mobile = useIsMobile();
 
     // Resizing state
     const [width, setWidth] = useState(320);

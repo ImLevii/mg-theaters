@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { memo, useMemo } from "react";
 import { Episode, TvShowDetails } from "tmdb-ts";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import { SpacingClasses } from "@/utils/constants";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
 
@@ -35,7 +35,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   startAt,
   ...props
 }) => {
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
   const [sourceOpened, sourceHandlers] = useDisclosure(false);

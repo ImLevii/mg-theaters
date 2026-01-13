@@ -1,6 +1,6 @@
 import { SpacingClasses } from "@/utils/constants";
 import { siteConfig } from "@/config/site";
-import useBreakpoints from "@/hooks/useBreakpoints";
+import useIsMobile from "@/hooks/useIsMobile";
 import { cn } from "@/utils/helpers";
 import { mutateMovieTitle } from "@/utils/movies";
 import { getMoviePlayers } from "@/utils/players";
@@ -27,7 +27,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const players = getMoviePlayers(movie.id, startAt);
   const title = mutateMovieTitle(movie);
   const idle = useIdle(3000);
-  const { mobile } = useBreakpoints();
+  const mobile = useIsMobile();
   const [opened, handlers] = useDisclosure(false);
   const [selectedSource, setSelectedSource] = useQueryState<number>(
     "src",
