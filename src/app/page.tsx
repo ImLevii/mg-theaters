@@ -6,7 +6,7 @@ const HeroSwiper = dynamic(() => import("@/components/sections/HeroSwiper"));
 
 const HomePage: NextPage = () => {
   return (
-    <div className="flex flex-col gap-3 md:gap-8">
+    <div className="flex flex-col gap-8 md:gap-12">
       <HeroSwiper />
       <ContinueWatching />
       <HomePageList />

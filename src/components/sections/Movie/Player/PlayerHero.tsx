@@ -47,14 +47,14 @@ const PlayerHero: React.FC<PlayerHeroProps> = ({ movie, onPlay, minimal = false 
                 >
                     {/* Movie Title */}
                     {!minimal && (
-                        <h1 className="mb-2 text-4xl font-bold text-white md:text-6xl drop-shadow-2xl">
+                        <h1 className="mb-2 text-2xl md:text-4xl font-bold text-white lg:text-6xl drop-shadow-2xl">
                             {movie.title}
                         </h1>
                     )}
 
                     {/* Tagline or release year (optional, cosmetic) */}
                     {!minimal && movie.tagline && (
-                        <p className="mb-8 text-lg text-white/80 italic max-w-2xl mx-auto drop-shadow-md">
+                        <p className="mb-4 md:mb-8 text-sm md:text-lg text-white/80 italic max-w-2xl mx-auto drop-shadow-md px-4">
                             "{movie.tagline}"
                         </p>
                     )}
@@ -68,7 +68,7 @@ const PlayerHero: React.FC<PlayerHeroProps> = ({ movie, onPlay, minimal = false 
                         <NeonButton
                             variant="green"
                             onClick={onPlay}
-                            className="min-w-[160px] py-4 px-8 text-lg"
+                            className="min-w-[120px] md:min-w-[160px] py-2 px-6 md:py-4 md:px-8 text-sm md:text-lg"
                             icon={<AnimatedPlayIcon />}
                         >
                             CLICK TO PLAY
