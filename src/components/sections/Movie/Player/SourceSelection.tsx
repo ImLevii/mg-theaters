@@ -4,6 +4,8 @@ import { HandlerType } from "@/types/component";
 import SelectButton from "@/components/ui/input/SelectButton";
 import { Ads, Clock, Rocket, Star } from "@/utils/icons";
 
+import useIsMobile from "@/hooks/useIsMobile";
+
 interface MoviePlayerSourceSelectionProps extends HandlerType {
   players: PlayersProps[];
   selectedSource: number;
@@ -17,13 +19,15 @@ const MoviePlayerSourceSelection: React.FC<MoviePlayerSourceSelectionProps> = ({
   selectedSource,
   setSelectedSource,
 }) => {
+  const mobile = useIsMobile();
+
   return (
     <VaulDrawer
       open={opened}
       onClose={onClose}
       backdrop="blur"
       title="Select Source"
-      direction="right"
+      direction={mobile ? "bottom" : "right"}
       hiddenHandler
       withCloseButton
       classNames={{ content: "space-y-0" }}

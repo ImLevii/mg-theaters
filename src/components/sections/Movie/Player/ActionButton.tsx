@@ -25,7 +25,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         aria-label={label}
         onClick={onClick}
         disabled={disabled}
-        className={cn("group p-1 sm:p-2 rounded-full drop-shadow-md transition-background hover:bg-white/10 [&>svg]:transition-all", {
+        className={cn("group p-2 sm:p-2 rounded-full drop-shadow-md transition-background hover:bg-white/10 [&>svg]:transition-all", {
           "hover:[&>svg]:scale-110 [&>svg]:hover:text-primary": !disabled,
           "cursor-not-allowed opacity-50": disabled,
         })}

@@ -1,6 +1,5 @@
 import { SpacingClasses } from "@/utils/constants";
 import { siteConfig } from "@/config/site";
-import useIsMobile from "@/hooks/useIsMobile";
 import { cn } from "@/utils/helpers";
 import { mutateMovieTitle } from "@/utils/movies";
 import { getMoviePlayers } from "@/utils/players";
@@ -27,7 +26,6 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const players = getMoviePlayers(movie.id, startAt);
   const title = mutateMovieTitle(movie);
   const idle = useIdle(3000);
-  const mobile = useIsMobile();
   const [opened, handlers] = useDisclosure(false);
   const [selectedSource, setSelectedSource] = useQueryState<number>(
     "src",
@@ -79,7 +77,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
           id={movie.id}
           movieName={title}
           onOpenSource={handlers.open}
-          hidden={(idle && !mobile) || !isPlayingLocal}
+          hidden={idle || !isPlayingLocal}
           minimal={minimal}
         />
         <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black">
@@ -93,7 +91,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 key={PLAYER.title}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                 src={playerSource}
-                className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle && !mobile })}
+                className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle })}
               />
             </>
           )}
