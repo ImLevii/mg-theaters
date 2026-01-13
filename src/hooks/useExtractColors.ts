@@ -93,6 +93,7 @@ export const useExtractColors = (
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl]);
 
   return { dominantColor, darkerColor, lighterColor, loading, error, colors };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 /**
  * Custom hook to manage device vibration.
@@ -14,30 +14,31 @@ const useDeviceVibration = () => {
    * Start device vibration with a given pattern.
    * @param {number | number[]} pattern - Single number or array of numbers defining the vibration pattern.
    */
-  const startVibration = (pattern: VibratePattern) => {
+
+  const startVibration = useCallback((pattern: VibratePattern) => {
     if (isVibrationSupported()) {
       navigator.vibrate(pattern);
       setIsVibrating(true);
     } else {
       console.warn("Vibration API is not supported in this browser.");
     }
-  };
+  }, []);
 
   /**
    * Stop the current vibration.
    */
-  const stopVibration = () => {
+  const stopVibration = useCallback(() => {
     if (isVibrationSupported()) {
       navigator.vibrate(0);
       setIsVibrating(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     return () => {
       stopVibration();
     };
-  }, []);
+  }, [stopVibration]);
 
   return {
     isVibrating,

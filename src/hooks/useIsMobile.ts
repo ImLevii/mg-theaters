@@ -28,9 +28,8 @@ function subscribe(callback: () => void, query: string) {
         return () => mql?.removeEventListener('change', callback);
     } else {
         // Fallback for older browsers
-        // @ts-ignore - explicitly handling older API
+        // Fallback for older browsers
         mql.addListener(callback);
-        // @ts-ignore
         return () => mql.removeListener(callback);
     }
 }

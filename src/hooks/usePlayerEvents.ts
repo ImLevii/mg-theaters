@@ -48,6 +48,7 @@ export interface UnifiedPlayerEventData {
   progress?: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface PlayerAdapter<RawMessage extends BasePlayerEventEnvelope<any>> {
   /** Domain origin for identifying source */
   origin: `https://${string}`;
@@ -55,6 +56,7 @@ export interface PlayerAdapter<RawMessage extends BasePlayerEventEnvelope<any>> 
   parse: (raw: RawMessage) => UnifiedPlayerEventData | null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AdapterMap = Record<string, PlayerAdapter<any>>;
 
 export const playerAdapters = {
@@ -127,6 +129,7 @@ export function usePlayerEvents(options: UsePlayerEventsOptions = {}) {
     if (documentState === "visible") return;
     if (!eventDataRef.current) return;
     syncToServer(eventDataRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentState, lastCurrentTime]);
 
   useEffect(() => {
@@ -145,6 +148,7 @@ export function usePlayerEvents(options: UsePlayerEventsOptions = {}) {
       const adapter = Object.values(playerAdapters).find((a) => a.origin === event.origin);
       if (!adapter) return;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let rawData: any;
       try {
         rawData = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
@@ -194,6 +198,7 @@ export function usePlayerEvents(options: UsePlayerEventsOptions = {}) {
       window.removeEventListener("message", handleMessage);
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { isPlaying, currentTime, duration, lastEvent };

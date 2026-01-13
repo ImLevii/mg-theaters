@@ -2,7 +2,6 @@ import {
     randomBytes,
     createDecipheriv,
     createCipheriv,
-    pbkdf2Sync,
 } from "crypto";
 
 interface EncryptedData {

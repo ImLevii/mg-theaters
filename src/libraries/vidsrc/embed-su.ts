@@ -70,7 +70,7 @@ async function getVideo(
 interface StreamDetails {
     source: string;
     subtitles: Subtitle[];
-    skips: any[];
+    skips: unknown[];
     format: string;
 }
 

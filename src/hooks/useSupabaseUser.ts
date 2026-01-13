@@ -74,7 +74,7 @@ const useSupabaseUser = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase, queryClient]);
+  }, [supabase]);
 
   return query;
 };

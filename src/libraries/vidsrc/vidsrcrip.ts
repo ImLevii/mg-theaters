@@ -61,6 +61,7 @@ function parseConfig(configString: string): VideoConfig {
             value = [value];
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         config[key as keyof VideoConfig] = value as any;
     }
 
