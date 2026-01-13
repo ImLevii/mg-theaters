@@ -44,6 +44,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer, nextRuntime }) => {
+    if (isServer && nextRuntime === "edge") {
+      // Prevent 'ws' from being bundled in Edge Runtime to avoid 'process.versions' warning
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        ws: false,
+      };
+    }
+    return config;
+  },
 };
 
 const pwa = withPWA(nextConfig);
