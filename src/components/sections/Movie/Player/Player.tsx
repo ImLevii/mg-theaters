@@ -72,7 +72,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   return (
     <>
-      <div className="relative w-full bg-black aspect-video">
+      <div className="relative w-full bg-black aspect-video min-h-[250px] md:min-h-0">
         <MoviePlayerHeader
           id={movie.id}
           movieName={title}
@@ -91,7 +91,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 key={PLAYER.title}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                 src={playerSource}
-                className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle })}
+                className="z-10 h-full w-full border-none"
               />
             </>
           )}

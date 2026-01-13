@@ -2,6 +2,8 @@ import { cn } from "@/utils/helpers";
 import { Tooltip } from "@heroui/react";
 import Link from "next/link";
 
+import useIsMobile from "@/hooks/useIsMobile";
+
 interface ActionButtonProps {
   label: string;
   children: React.ReactNode;
@@ -19,8 +21,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   tooltip,
   disabled,
 }) => {
+  const mobile = useIsMobile();
   const Button = (
-    <Tooltip content={tooltip} isDisabled={disabled || !tooltip} showArrow placement="bottom">
+    <Tooltip content={tooltip} isDisabled={disabled || !tooltip || mobile} showArrow placement="bottom">
       <button
         aria-label={label}
         onClick={onClick}
