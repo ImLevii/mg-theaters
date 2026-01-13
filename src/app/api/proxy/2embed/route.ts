@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     </style>
 </head>
 <body>
-    <iframe src="${targetUrl}" allowfullscreen scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <iframe src="${targetUrl}" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" allowfullscreen scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
 </body>
 </html>
         `;

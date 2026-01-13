@@ -34,7 +34,7 @@ const TopNavbar = () => {
       position="sticky"
       maxWidth="full"
       classNames={{ wrapper: "px-4 md:px-0 h-16 mx-auto w-[1250px] max-w-full" }}
-      className={cn("fixed top-0 left-0 w-full transition-all duration-300 z-50", {
+      className={cn("fixed top-0 left-0 w-full transition-all duration-300 z-[100]", {
         "bg-black/50 backdrop-blur-md border-b border-white/5": show || y > 10,
         "bg-transparent": !show && y <= 10
       })}
