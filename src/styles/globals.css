@@ -242,6 +242,7 @@
     min-height: 100vh;
     color: #e5e5e5;
     /* Default text color to off-white */
+    overflow-x: hidden;
   }
 
   *,
@@ -288,7 +289,10 @@
 
 /* Fix for iOS auto-zoom on inputs */
 @media screen and (max-width: 768px) {
-  input, select, textarea {
+
+  input,
+  select,
+  textarea {
     font-size: 16px !important;
   }
 }

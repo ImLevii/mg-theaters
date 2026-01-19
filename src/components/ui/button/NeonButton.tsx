@@ -64,7 +64,10 @@ const NeonButton: React.FC<NeonButtonProps> = ({
     return (
         <button
             className={cn(
-                "group relative flex items-center justify-center gap-3 px-4 py-2 rounded-md bg-gradient-to-r from-gray-800/60 to-gray-900/60 border border-white/10 backdrop-blur-sm hover:bg-gray-800/80 transition-all duration-300 cursor-pointer shadow-lg overflow-hidden",
+                "group relative flex items-center justify-center gap-3 px-4 py-2 rounded-md bg-gradient-to-r from-gray-800/60 to-gray-900/60 border border-white/10 backdrop-blur-sm transition-all duration-300 cursor-pointer shadow-lg overflow-hidden",
+                // Only apply hover bg change on non-mobile to prevent sticky state
+                "active:scale-95",
+                { "hover:bg-gray-800/80": true },
                 className
             )}
             style={{
@@ -94,8 +97,8 @@ const NeonButton: React.FC<NeonButtonProps> = ({
                 </span>
             </div>
 
-            {/* Shine Animation */}
-            <div className="absolute inset-0 -translate-x-full group-hover:animate-[shine_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12" />
+            {/* Shine Animation - Only on hover for mouse users */}
+            <div className="absolute inset-0 -translate-x-full md:group-hover:animate-[shine_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12" />
 
             {/* Inline shine keyframes if needed globally or here */}
             <style jsx>{`

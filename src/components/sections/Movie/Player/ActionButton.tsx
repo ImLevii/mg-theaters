@@ -22,14 +22,35 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   disabled,
 }) => {
   const mobile = useIsMobile();
+  // Handle touch interactions to prevent double-tap issues on mobile
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    // Only prevent default if not disabled, to ensure click passes through immediately
+    // or manually trigger click. Often best to leave standard behavior but check hover interactions.
+    // However, the issue is often sticky hover states.
+    if (!disabled && onClick) {
+      // e.preventDefault(); // CAREFUL: This might block scrolling if not handled well.
+      // Better strategy: Ensure 'mobile' prop disables the Tooltip completely.
+    }
+  };
+
   const Button = (
-    <Tooltip content={tooltip} isDisabled={disabled || !tooltip || mobile} showArrow placement="bottom">
+    <Tooltip
+      content={tooltip}
+      isDisabled={disabled || !tooltip || mobile}
+      showArrow
+      placement="bottom"
+      // Ensure specific delay to prevent accidental showing on quick taps if it was enabled
+      closeDelay={0}
+    >
       <button
         aria-label={label}
         onClick={onClick}
+        loading="lazy" /* HTML attribute, might be ignored but harmless */
         disabled={disabled}
         className={cn("group p-2 sm:p-2 rounded-full drop-shadow-md transition-background hover:bg-white/10 [&>svg]:transition-all", {
-          "hover:[&>svg]:scale-110 [&>svg]:hover:text-primary": !disabled,
+          // Remove hover effects on mobile to prevent sticky states needing a second tap to clear
+          "hover:[&>svg]:scale-110 [&>svg]:hover:text-primary": !disabled && !mobile,
+          "active:scale-95": !disabled, // Add active state for touch feedback
           "cursor-not-allowed opacity-50": disabled,
         })}
       >
