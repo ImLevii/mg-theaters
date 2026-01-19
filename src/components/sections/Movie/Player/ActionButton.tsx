@@ -45,7 +45,6 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       <button
         aria-label={label}
         onClick={onClick}
-        loading="lazy" /* HTML attribute, might be ignored but harmless */
         disabled={disabled}
         className={cn("group p-2 sm:p-2 rounded-full drop-shadow-md transition-background hover:bg-white/10 [&>svg]:transition-all", {
           // Remove hover effects on mobile to prevent sticky states needing a second tap to clear
