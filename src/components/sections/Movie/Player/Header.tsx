@@ -64,10 +64,10 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
       <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto z-10">
         <div className="flex items-center gap-1 sm:gap-2">
           <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP}>
-            <Icon icon="fluent:minimize-24-regular" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <Icon icon="fluent:minimize-24-regular" className="w-8 h-8 sm:w-10 sm:h-10" />
           </ActionButton>
           <ActionButton label="Sources" tooltip="Sources" onClick={onOpenSource}>
-            <Server className="w-6 h-6 sm:w-8 sm:h-8" />
+            <Server className="w-8 h-8 sm:w-10 sm:h-10" />
           </ActionButton>
         </div>
       </div>

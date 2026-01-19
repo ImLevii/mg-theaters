@@ -286,6 +286,13 @@
   }
 }
 
+/* Fix for iOS auto-zoom on inputs */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 @utility embla {
   @apply overflow-hidden;
 }
