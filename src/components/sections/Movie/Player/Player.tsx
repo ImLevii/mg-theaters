@@ -43,8 +43,10 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   // ACTUAL STATE
   const [isPlayingLocal, setIsPlayingLocal] = React.useState(false);
+  const [mobilePlayerFailed, setMobilePlayerFailed] = React.useState(false);
   const router = useRouter();
   const mobile = useIsMobile();
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   const handleMobileEnded = async () => {
     try {
@@ -56,6 +58,11 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     } catch (err) {
       console.error("Failed to autoplay random movie", err);
     }
+  };
+
+  const handleMobileError = () => {
+    console.warn("Mobile player failed to load stream, falling back to iframe.");
+    setMobilePlayerFailed(true);
   };
 
   React.useEffect(() => {
@@ -88,6 +95,14 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   const handlePlay = () => {
     setIsPlayingLocal(true);
+    if (mobile && containerRef.current) {
+      const elem = containerRef.current;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if ((elem as any).webkitRequestFullscreen) {
+        (elem as any).webkitRequestFullscreen();
+      }
+    }
   };
 
   return (
@@ -100,16 +115,17 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
           hidden={idle || !isPlayingLocal}
           minimal={minimal}
         />
-        <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black">
+        <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black" ref={containerRef}>
           {!isPlayingLocal ? (
             <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
-          ) : mobile ? (
+          ) : mobile && !mobilePlayerFailed ? (
             <MobilePlayer
               id={movie.id}
               type="movie"
               title={title}
               poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
               onEnded={handleMobileEnded}
+              onError={handleMobileError}
             />
           ) : (
             <>

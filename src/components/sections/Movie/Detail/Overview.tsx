@@ -53,6 +53,16 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie, startAt }) => 
     const playerElement = document.getElementById("embedded-movie-player");
     if (playerElement) {
       playerElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      // Request fullscreen for mobile
+      const mobile = window.innerWidth < 768; // Simple check as useIsMobile might not be reactive here or we can use it
+      if (mobile) {
+        if (playerElement.requestFullscreen) {
+          playerElement.requestFullscreen();
+        } else if ((playerElement as any).webkitRequestFullscreen) {
+          (playerElement as any).webkitRequestFullscreen();
+        }
+      }
     }
   };
 

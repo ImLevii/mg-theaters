@@ -5,7 +5,7 @@ import { Card, Skeleton } from "@heroui/react";
 import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
 import dynamic from "next/dynamic";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { memo, useMemo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { Episode, TvShowDetails } from "tmdb-ts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { SpacingClasses } from "@/utils/constants";
@@ -17,6 +17,7 @@ const TvShowPlayerEpisodeSelection = dynamic(() => import("./EpisodeSelection"))
 const MobilePlayer = dynamic(() => import("@/components/player/MobilePlayer"), {
   ssr: false,
 });
+const MoviePlayerHero = dynamic(() => import("../../Movie/Player/PlayerHero"));
 
 export interface TvShowPlayerProps {
   tv: TvShowDetails;
@@ -39,6 +40,9 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   ...props
 }) => {
   const mobile = useIsMobile();
+  const [mobilePlayerFailed, setMobilePlayerFailed] = useState(false);
+  const [isPlayingLocal, setIsPlayingLocal] = useState(false);
+  const containerRef = useMemo(() => React.createRef<HTMLDivElement>(), []);
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
   const [sourceOpened, sourceHandlers] = useDisclosure(false);
@@ -58,6 +62,23 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
 
   const PLAYER = useMemo(() => players[selectedSource] || players[0], [players, selectedSource]);
 
+  const handleMobileError = () => {
+    console.warn("Mobile player failed to load stream, falling back to iframe.");
+    setMobilePlayerFailed(true);
+  };
+
+  const handlePlay = () => {
+    setIsPlayingLocal(true);
+    if (mobile && containerRef.current) {
+      const elem = containerRef.current;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if ((elem as any).webkitRequestFullscreen) {
+        (elem as any).webkitRequestFullscreen();
+      }
+    }
+  };
+
   return (
     <>
 
@@ -73,8 +94,18 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
           {...props}
         />
 
-        <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none">
-          {mobile ? (
+        <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none" ref={containerRef}>
+          {mobile && !isPlayingLocal && !mobilePlayerFailed ? (
+            <MoviePlayerHero
+              movie={{
+                id: id,
+                title: `${props.seriesName} - ${episode.name}`,
+                backdrop_path: episode.still_path || tv.backdrop_path,
+              } as any}
+              onPlay={handlePlay}
+              minimal={true}
+            />
+          ) : mobile && !mobilePlayerFailed ? (
             <MobilePlayer
               id={id}
               type="tv"
@@ -87,6 +118,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                   window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}`;
                 }
               }}
+              onError={handleMobileError}
             />
           ) : (
             <>

@@ -1,6 +1,7 @@
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/react";
 import { Play, Tv } from "lucide-react";
+import NeonButton from "@/components/ui/button/NeonButton";
 import dynamic from "next/dynamic";
 const PlayerModal = dynamic(() => import("../Player/PlayerModal"));
 import { useWindowScroll } from "@mantine/hooks";
@@ -69,30 +70,41 @@ const BackdropSection: React.FC<{
 
         {/* Action Buttons */}
         <div className="flex items-center gap-4 pointer-events-auto">
-          <Button
-            onPress={() => {
-              document.getElementById("movie-player-container")?.scrollIntoView({ behavior: "smooth" });
+          <NeonButton
+            variant="green"
+            onClick={() => {
+              const playerContainer = document.getElementById("embedded-movie-player");
+              if (playerContainer) {
+                playerContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                // Fullscreen for mobile
+                const mobile = window.innerWidth < 768;
+                if (mobile) {
+                  if (playerContainer.requestFullscreen) {
+                    playerContainer.requestFullscreen();
+                  } else if ((playerContainer as any).webkitRequestFullscreen) {
+                    (playerContainer as any).webkitRequestFullscreen();
+                  }
+                }
+              } else {
+                document.getElementById("movie-player-container")?.scrollIntoView({ behavior: "smooth" });
+              }
             }}
-            className="bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold tracking-wider px-8 shadow-lg shadow-rose-900/20"
-            size="lg"
-            variant="shadow"
-            startContent={<Play fill="currentColor" size={20} />}
+            className="min-w-[160px] py-4 px-8 text-lg"
+            icon={<Play fill="currentColor" size={20} />}
           >
             PLAY NOW
-          </Button>
+          </NeonButton>
 
           {trailer && (
-            <Button
-              as="a"
-              href={`https://www.youtube.com/watch?v=${trailer.key}`}
-              target="_blank"
-              className="bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold tracking-wider px-8 hover:bg-white/20"
-              size="lg"
-              variant="flat"
-              startContent={<Tv size={20} />}
+            <NeonButton
+              variant="youtube_red"
+              onClick={() => window.open(`https://www.youtube.com/watch?v=${trailer.key}`, "_blank")}
+              className="min-w-[140px] py-4 px-8 text-lg"
+              icon={<Tv size={20} />}
             >
               TRAILER
-            </Button>
+            </NeonButton>
           )}
         </div>
       </div>

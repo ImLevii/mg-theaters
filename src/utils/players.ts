@@ -13,7 +13,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
   return [
     {
       title: "VidLink",
-      source: `https://vidlink.pro/movie/${id}?player=jw&primaryColor=006fee&secondaryColor=a2a2a2&iconColor=eefdec&autoplay=false&startAt=${startAt || ""}`,
+      source: `https://vidlink.pro/movie/${id}?player=jw&primaryColor=e50914&secondaryColor=a2a2a2&iconColor=eefdec&autoplay=false&startAt=${startAt || ""}`,
       recommended: true,
       fast: true,
       ads: true,
@@ -21,7 +21,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
     },
     {
       title: "VidLink 2",
-      source: `https://vidlink.pro/movie/${id}?primaryColor=006fee&autoplay=false&startAt=${startAt}`,
+      source: `https://vidlink.pro/movie/${id}?primaryColor=e50914&autoplay=false&startAt=${startAt}`,
       recommended: true,
       fast: true,
       ads: true,
@@ -32,7 +32,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
       // NOTE: VidKing has a known issue with the `progress` query parameter where it stuck at that timestamp.
       // Currently, this player can save playback progress but cannot resume from a specific timestamp.
       // The `progress` parameter is commented out in the source URL until this is resolved.
-      source: `https://www.vidking.net/embed/movie/${id}?color=006fee&autoplay=false`, //&progress=${startAt || ""}`,
+      source: `https://www.vidking.net/embed/movie/${id}?color=e50914&autoplay=false`, //&progress=${startAt || ""}`,
       recommended: true,
       fast: true,
       resumable: true,
@@ -44,7 +44,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
     },
     {
       title: "SuperEmbed",
-      source: `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`,
+      source: `/api/proxy/superembed?video_id=${id}&tmdb=1`,
       fast: true,
       ads: true,
     },
@@ -129,7 +129,7 @@ export const getTvShowPlayers = (
   return [
     {
       title: "VidLink",
-      source: `https://vidlink.pro/tv/${id}/${season}/${episode}?player=jw&primaryColor=e50914&secondaryColor=a2a2a2&iconColor=eefdec&autoplay=false&startAt=${startAt || ""}`,
+      source: `https://vidlink.pro/tv/${id}/${season}/${episode}?player=jw&primaryColor=f5a524&secondaryColor=a2a2a2&iconColor=eefdec&autoplay=false&startAt=${startAt || ""}`,
       recommended: true,
       fast: true,
       ads: true,
@@ -137,7 +137,7 @@ export const getTvShowPlayers = (
     },
     {
       title: "VidLink 2",
-      source: `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=e50914&autoplay=false&startAt=${startAt}`,
+      source: `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=f5a524&autoplay=false&startAt=${startAt}`,
       recommended: true,
       fast: true,
       ads: true,
@@ -148,7 +148,7 @@ export const getTvShowPlayers = (
       // NOTE: VidKing has a known issue with the `progress` query parameter where it stuck at that timestamp.
       // Currently, this player can save playback progress but cannot resume from a specific timestamp.
       // The `progress` parameter is commented out in the source URL until this is resolved.
-      source: `https://www.vidking.net/embed/tv/${id}/${season}/${episode}?color=e50914&autoplay=false`, //&progress=${startAt || ""}`,
+      source: `https://www.vidking.net/embed/tv/${id}/${season}/${episode}?color=f5a524&autoplay=false`, //&progress=${startAt || ""}`,
       recommended: true,
       fast: true,
       resumable: true,
@@ -160,7 +160,7 @@ export const getTvShowPlayers = (
     },
     {
       title: "SuperEmbed",
-      source: `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${season}&e=${episode}`,
+      source: `/api/proxy/superembed?video_id=${id}&tmdb=1&season=${season}&episode=${episode}`,
       fast: true,
       ads: true,
     },

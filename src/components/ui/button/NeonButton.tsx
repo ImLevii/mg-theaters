@@ -23,9 +23,9 @@ const NeonButton: React.FC<NeonButtonProps> = ({
     // Colors mapped from the request (Green) and our existing palette
     const colorStyles = {
         green: {
-            color: "rgb(34, 197, 94)",
-            textShadow: "rgba(34, 197, 94, 0.8) 0px 0px 8px",
-            stroke: "#22c55e"
+            color: "#39ff14",
+            textShadow: "rgba(57, 255, 20, 0.8) 0px 0px 8px",
+            stroke: "#39ff14"
         },
         red: {
             color: "#FF2E63",
