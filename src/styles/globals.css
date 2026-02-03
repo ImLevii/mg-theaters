@@ -239,10 +239,20 @@
       radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
     background-size: 100% 100%, 24px 24px;
     background-attachment: fixed;
-    min-height: 100vh;
+    min-height: 100dvh;
     color: #e5e5e5;
     /* Default text color to off-white */
     overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+
+  html {
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    height: 100%;
   }
 
   *,
