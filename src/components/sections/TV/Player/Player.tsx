@@ -14,6 +14,9 @@ import { usePlayerEvents } from "@/hooks/usePlayerEvents";
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
 const TvShowPlayerSourceSelection = dynamic(() => import("./SourceSelection"));
 const TvShowPlayerEpisodeSelection = dynamic(() => import("./EpisodeSelection"));
+const MobilePlayer = dynamic(() => import("@/components/player/MobilePlayer"), {
+  ssr: false,
+});
 
 export interface TvShowPlayerProps {
   tv: TvShowDetails;
@@ -71,13 +74,33 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
         />
 
         <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none">
-          <Skeleton className="absolute h-full w-full" />
-          <iframe
-            allowFullScreen
-            key={PLAYER.title}
-            src={PLAYER.source}
-            className={cn("z-10 h-full w-full border-none", { "pointer-events-none": idle && !mobile })}
-          />
+          {mobile ? (
+            <MobilePlayer
+              id={id}
+              type="tv"
+              season={episode.season_number}
+              episode={episode.episode_number}
+              title={`${props.seriesName} - ${episode.name}`}
+              poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
+              onEnded={() => {
+                if (props.nextEpisodeNumber) {
+                  window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}`;
+                }
+              }}
+            />
+          ) : (
+            <>
+              <Skeleton className="absolute h-full w-full" />
+              <iframe
+                allowFullScreen
+                key={PLAYER.title}
+                src={PLAYER.source}
+                className={cn("z-10 h-full w-full border-none", {
+                  "pointer-events-none": idle && !mobile,
+                })}
+              />
+            </>
+          )}
         </Card>
       </div>
 

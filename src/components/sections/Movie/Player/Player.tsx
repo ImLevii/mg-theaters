@@ -11,9 +11,15 @@ import React, { useMemo } from "react";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
 
+import { useRouter } from "next/navigation";
+import useIsMobile from "@/hooks/useIsMobile";
+
 const MoviePlayerHeader = dynamic(() => import("./Header"));
 const MoviePlayerSourceSelection = dynamic(() => import("./SourceSelection"));
 const MoviePlayerHero = dynamic(() => import("./PlayerHero"));
+const MobilePlayer = dynamic(() => import("@/components/player/MobilePlayer"), {
+  ssr: false,
+});
 
 interface MoviePlayerProps {
   movie: MovieDetails;
@@ -37,6 +43,20 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   // ACTUAL STATE
   const [isPlayingLocal, setIsPlayingLocal] = React.useState(false);
+  const router = useRouter();
+  const mobile = useIsMobile();
+
+  const handleMobileEnded = async () => {
+    try {
+      const res = await fetch("/api/movies/random");
+      const data = await res.json();
+      if (data.id) {
+        window.location.href = `/movie/${data.id}`; // Force full reload to ensure clean state or use router.push
+      }
+    } catch (err) {
+      console.error("Failed to autoplay random movie", err);
+    }
+  };
 
   React.useEffect(() => {
     if (autoPlay) {
@@ -83,6 +103,14 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
         <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black">
           {!isPlayingLocal ? (
             <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
+          ) : mobile ? (
+            <MobilePlayer
+              id={movie.id}
+              type="movie"
+              title={title}
+              poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+              onEnded={handleMobileEnded}
+            />
           ) : (
             <>
               <Skeleton className="absolute h-full w-full" />

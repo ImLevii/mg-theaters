@@ -56,6 +56,8 @@ const nextConfig: NextConfig = {
   },
 };
 
+import { withNextVideo } from "next-video/process";
+
 const pwa = withPWA(nextConfig);
 
-export default pwa;
+export default withNextVideo(pwa);
