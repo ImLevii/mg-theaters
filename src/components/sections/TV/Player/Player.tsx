@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { cn } from "@/utils/helpers";
+import { cn, triggerFullscreen } from "@/utils/helpers";
 import { getTvShowPlayers } from "@/utils/players";
 import { Card, Skeleton } from "@heroui/react";
 import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
@@ -42,7 +42,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   const mobile = useIsMobile();
   const [mobilePlayerFailed, setMobilePlayerFailed] = useState(false);
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
-  const containerRef = useMemo(() => React.createRef<HTMLDivElement>(), []);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
   const [sourceOpened, sourceHandlers] = useDisclosure(false);
@@ -70,12 +70,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   const handlePlay = () => {
     setIsPlayingLocal(true);
     if (mobile && containerRef.current) {
-      const elem = containerRef.current;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if ((elem as any).webkitRequestFullscreen) {
-        (elem as any).webkitRequestFullscreen();
-      }
+      triggerFullscreen(containerRef.current);
     }
   };
 

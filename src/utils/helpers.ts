@@ -144,3 +144,47 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 export const diff = (a: number, b: number): number => {
   return Math.abs(Math.round(a) - Math.round(b));
 };
+
+/**
+ * Triggers fullscreen for a given element, with support for various vendors.
+ * Includes fallback for mobile browsers (like iOS Safari) that only allow video elements in fullscreen.
+ */
+export const triggerFullscreen = (element: HTMLElement | null) => {
+  if (!element) return;
+
+  try {
+    const anyElem = element as any;
+    const request = element.requestFullscreen ||
+      anyElem.webkitRequestFullscreen ||
+      anyElem.msRequestFullscreen ||
+      anyElem.mozRequestFullScreen;
+
+    if (request) {
+      const result = request.call(element);
+      if (result instanceof Promise) {
+        result.catch((error) => {
+          console.error("[Fullscreen] Failed on container, trying fallback:", error);
+          // Fallback: Try to find a video element inside and fullscreen that
+          const video = element.querySelector("video");
+          if (video) {
+            if ((video as any).webkitEnterFullscreen) {
+              (video as any).webkitEnterFullscreen();
+            } else if (video.requestFullscreen) {
+              video.requestFullscreen();
+            }
+          }
+        });
+      }
+    } else {
+      // Safari on iPhone doesn't support requestFullscreen on div, only video.webkitEnterFullscreen
+      const video = element.querySelector("video");
+      if (video && (video as any).webkitEnterFullscreen) {
+        (video as any).webkitEnterFullscreen();
+      } else {
+        console.warn("[Fullscreen] API not supported on this browser/element.");
+      }
+    }
+  } catch (err) {
+    console.error("[Fullscreen] Execution error:", err);
+  }
+};

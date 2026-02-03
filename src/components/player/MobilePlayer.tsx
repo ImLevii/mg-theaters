@@ -99,10 +99,12 @@ export default function MobilePlayer({
         <div className="relative h-full w-full bg-black">
             {streamUrl && (
                 <Video
+                    ref={videoRef}
                     src={streamUrl}
                     className="h-full w-full"
                     controls
                     autoPlay
+                    playsInline
                     onEnded={handleEnded}
                     poster={poster}
                 />

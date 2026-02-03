@@ -3,6 +3,7 @@
 import { Image, Chip } from "@heroui/react";
 import React, { useState } from "react";
 import { getImageUrl, movieDurationString, mutateMovieTitle } from "@/utils/movies";
+import { triggerFullscreen } from "@/utils/helpers";
 import BookmarkButton from "@/components/ui/button/BookmarkButton";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import Rating from "../../../ui/other/Rating";
@@ -55,13 +56,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({ movie, startAt }) => 
       playerElement.scrollIntoView({ behavior: "smooth", block: "center" });
 
       // Request fullscreen for mobile
-      const mobile = window.innerWidth < 768; // Simple check as useIsMobile might not be reactive here or we can use it
+      const mobile = window.innerWidth < 1024;
       if (mobile) {
-        if (playerElement.requestFullscreen) {
-          playerElement.requestFullscreen();
-        } else if ((playerElement as any).webkitRequestFullscreen) {
-          (playerElement as any).webkitRequestFullscreen();
-        }
+        triggerFullscreen(playerElement);
       }
     }
   };

@@ -1,6 +1,6 @@
 import { SpacingClasses } from "@/utils/constants";
 import { siteConfig } from "@/config/site";
-import { cn } from "@/utils/helpers";
+import { cn, triggerFullscreen } from "@/utils/helpers";
 import { mutateMovieTitle } from "@/utils/movies";
 import { getMoviePlayers } from "@/utils/players";
 import { Card, Skeleton } from "@heroui/react";
@@ -96,12 +96,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const handlePlay = () => {
     setIsPlayingLocal(true);
     if (mobile && containerRef.current) {
-      const elem = containerRef.current;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if ((elem as any).webkitRequestFullscreen) {
-        (elem as any).webkitRequestFullscreen();
-      }
+      triggerFullscreen(containerRef.current);
     }
   };
 

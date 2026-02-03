@@ -8,6 +8,7 @@ import { useWindowScroll } from "@mantine/hooks";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { AppendToResponse } from "tmdb-ts/dist/types/options";
 import { getImageUrl } from "@/utils/movies";
+import { triggerFullscreen } from "@/utils/helpers";
 
 const BackdropSection: React.FC<{
   movie: AppendToResponse<MovieDetails, ("images" | "videos")[], "movie"> | undefined;
@@ -77,14 +78,10 @@ const BackdropSection: React.FC<{
               if (playerContainer) {
                 playerContainer.scrollIntoView({ behavior: "smooth", block: "center" });
 
-                // Fullscreen for mobile
-                const mobile = window.innerWidth < 768;
+                // Use robust fullscreen helper
+                const mobile = window.innerWidth < 1024; // Better mobile/tablet threshold
                 if (mobile) {
-                  if (playerContainer.requestFullscreen) {
-                    playerContainer.requestFullscreen();
-                  } else if ((playerContainer as any).webkitRequestFullscreen) {
-                    (playerContainer as any).webkitRequestFullscreen();
-                  }
+                  triggerFullscreen(playerContainer);
                 }
               } else {
                 document.getElementById("movie-player-container")?.scrollIntoView({ behavior: "smooth" });
