@@ -5,7 +5,7 @@ import { Card, Skeleton } from "@heroui/react";
 import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
 import dynamic from "next/dynamic";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { Episode, TvShowDetails } from "tmdb-ts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { SpacingClasses } from "@/utils/constants";

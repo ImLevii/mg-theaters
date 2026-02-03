@@ -76,13 +76,21 @@ async function getVideo(params: VideoParams): Promise<Video | undefined> {
             break;
     }
 
-    const response: Response = await fetch(url);
+    const response: Response = await fetch(url, {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Referer": "https://vidlink.pro/",
+            "Origin": "https://vidlink.pro"
+        }
+    });
     if (!response.ok) {
-        console.error("Error fetching video details:", response.statusText);
+        console.error("Error fetching video details:", response.status, response.statusText);
         return;
     }
 
-    const decryptedData = decryptClearKey(await response.text());
+    const text = await response.text();
+    console.log("Raw response:", text.substring(0, 200)); // Log first 200 chars
+    const decryptedData = decryptClearKey(text);
     return JSON.parse(decryptedData);
 }
 
