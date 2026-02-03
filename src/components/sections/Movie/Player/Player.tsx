@@ -47,6 +47,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const router = useRouter();
   const mobile = useIsMobile();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
 
   const handleMobileEnded = async () => {
     try {
@@ -95,8 +96,21 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   const handlePlay = () => {
     setIsPlayingLocal(true);
-    if (mobile && containerRef.current) {
-      triggerFullscreen(containerRef.current);
+
+    // iOS specific: Try to trigger fullscreen on the video element directly if possible
+    if (mobile) {
+      setTimeout(() => {
+        if (mobileVideoRef.current) {
+          const video = mobileVideoRef.current;
+          if ((video as any).webkitEnterFullscreen) {
+            (video as any).webkitEnterFullscreen();
+          } else if (video.requestFullscreen) {
+            video.requestFullscreen();
+          }
+        } else if (containerRef.current) {
+          triggerFullscreen(containerRef.current);
+        }
+      }, 0);
     }
   };
 
@@ -110,20 +124,33 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
           hidden={idle || !isPlayingLocal}
           minimal={minimal}
         />
-        <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black" ref={containerRef}>
-          {!isPlayingLocal ? (
+        <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black overflow-hidden" ref={containerRef}>
+          {!isPlayingLocal && !mobile ? (
             <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
           ) : mobile && !mobilePlayerFailed ? (
-            <MobilePlayer
-              id={movie.id}
-              type="movie"
-              title={title}
-              poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-              onEnded={handleMobileEnded}
-              onError={handleMobileError}
-            />
+            <div className="relative h-full w-full">
+              {!isPlayingLocal && (
+                <div className="absolute inset-0 z-20">
+                  <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
+                </div>
+              )}
+              <MobilePlayer
+                ref={mobileVideoRef}
+                id={movie.id}
+                type="movie"
+                title={title}
+                poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                onEnded={handleMobileEnded}
+                onError={handleMobileError}
+              />
+            </div>
           ) : (
             <>
+              {!isPlayingLocal && (
+                <div className="absolute inset-0 z-20">
+                  <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
+                </div>
+              )}
               <Skeleton className="absolute h-full w-full" />
               <iframe
                 allowFullScreen

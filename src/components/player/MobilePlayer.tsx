@@ -1,9 +1,8 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import Video from "next-video";
 import { useRouter } from "next/navigation"; // App router
 import { Loader2 } from "lucide-react";
+import { cn } from "@/utils/helpers";
 
 interface MobilePlayerProps {
     id: number | string;
@@ -17,7 +16,7 @@ interface MobilePlayerProps {
     onError?: () => void;
 }
 
-export default function MobilePlayer({
+const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
     id,
     type,
     season,
@@ -26,12 +25,15 @@ export default function MobilePlayer({
     title,
     poster,
     onError,
-}: MobilePlayerProps) {
+}, ref) => {
     const router = useRouter();
     const [streamUrl, setStreamUrl] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    // Expose the video element through the ref
+    useImperativeHandle(ref, () => videoRef.current!);
 
     useEffect(() => {
         const fetchStream = async () => {
@@ -79,36 +81,28 @@ export default function MobilePlayer({
         }
     };
 
-    if (loading) {
-        return (
-            <div className="flex h-full w-full items-center justify-center bg-black text-white">
-                <Loader2 className="animate-spin" size={48} />
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex h-full w-full items-center justify-center bg-black text-white">
-                <p>{error}</p>
-            </div>
-        );
-    }
-
     return (
         <div className="relative h-full w-full bg-black">
-            {streamUrl && (
-                <Video
-                    ref={videoRef}
-                    src={streamUrl}
-                    className="h-full w-full"
-                    controls
-                    autoPlay
-                    playsInline
-                    onEnded={handleEnded}
-                    poster={poster}
-                />
+            {loading && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-sm text-white">
+                    <Loader2 className="animate-spin" size={48} />
+                </div>
             )}
+
+            <Video
+                ref={videoRef}
+                src={streamUrl || ""}
+                className={cn("h-full w-full", { "opacity-0": !streamUrl })}
+                controls
+                autoPlay
+                playsInline
+                onEnded={handleEnded}
+                poster={poster}
+            />
         </div>
     );
-}
+});
+
+MobilePlayer.displayName = "MobilePlayer";
+
+export default MobilePlayer;

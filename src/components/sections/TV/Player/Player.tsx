@@ -43,6 +43,8 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   const [mobilePlayerFailed, setMobilePlayerFailed] = useState(false);
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
+
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
   const [sourceOpened, sourceHandlers] = useDisclosure(false);
@@ -69,15 +71,26 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
 
   const handlePlay = () => {
     setIsPlayingLocal(true);
-    if (mobile && containerRef.current) {
-      triggerFullscreen(containerRef.current);
+
+    // iOS specific: Try to trigger fullscreen on the video element directly if possible
+    if (mobile) {
+      setTimeout(() => {
+        if (mobileVideoRef.current) {
+          const video = mobileVideoRef.current;
+          if ((video as any).webkitEnterFullscreen) {
+            (video as any).webkitEnterFullscreen();
+          } else if (video.requestFullscreen) {
+            video.requestFullscreen();
+          }
+        } else if (containerRef.current) {
+          triggerFullscreen(containerRef.current);
+        }
+      }, 0);
     }
   };
 
   return (
     <>
-
-
       <div className={cn("relative", SpacingClasses.reset)}>
         <TvShowPlayerHeader
           id={id}
@@ -89,34 +102,53 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
           {...props}
         />
 
-        <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none" ref={containerRef}>
-          {mobile && !isPlayingLocal && !mobilePlayerFailed ? (
-            <MoviePlayerHero
-              movie={{
-                id: id,
-                title: `${props.seriesName} - ${episode.name}`,
-                backdrop_path: episode.still_path || tv.backdrop_path,
-              } as any}
-              onPlay={handlePlay}
-              minimal={true}
-            />
-          ) : mobile && !mobilePlayerFailed ? (
-            <MobilePlayer
-              id={id}
-              type="tv"
-              season={episode.season_number}
-              episode={episode.episode_number}
-              title={`${props.seriesName} - ${episode.name}`}
-              poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
-              onEnded={() => {
-                if (props.nextEpisodeNumber) {
-                  window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}`;
-                }
-              }}
-              onError={handleMobileError}
-            />
+        <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none overflow-hidden" ref={containerRef}>
+          {mobile && !mobilePlayerFailed ? (
+            <div className="relative h-full w-full">
+              {!isPlayingLocal && (
+                <div className="absolute inset-0 z-20">
+                  <MoviePlayerHero
+                    movie={{
+                      id: id,
+                      title: `${props.seriesName} - ${episode.name}`,
+                      backdrop_path: episode.still_path || tv.backdrop_path,
+                    } as any}
+                    onPlay={handlePlay}
+                    minimal={true}
+                  />
+                </div>
+              )}
+              <MobilePlayer
+                ref={mobileVideoRef}
+                id={id}
+                type="tv"
+                season={episode.season_number}
+                episode={episode.episode_number}
+                title={`${props.seriesName} - ${episode.name}`}
+                poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
+                onEnded={() => {
+                  if (props.nextEpisodeNumber) {
+                    window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}`;
+                  }
+                }}
+                onError={handleMobileError}
+              />
+            </div>
           ) : (
             <>
+              {!isPlayingLocal && (
+                <div className="absolute inset-0 z-20">
+                  <MoviePlayerHero
+                    movie={{
+                      id: id,
+                      title: `${props.seriesName} - ${episode.name}`,
+                      backdrop_path: episode.still_path || tv.backdrop_path,
+                    } as any}
+                    onPlay={handlePlay}
+                    minimal={true}
+                  />
+                </div>
+              )}
               <Skeleton className="absolute h-full w-full" />
               <iframe
                 allowFullScreen
