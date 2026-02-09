@@ -116,7 +116,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   return (
     <>
-      <div className="relative w-full bg-black aspect-video min-h-[250px] md:min-h-0">
+      <div className="relative w-full bg-black aspect-video min-h-[200px] sm:min-h-[250px] md:min-h-0">
         <MoviePlayerHeader
           id={movie.id}
           movieName={title}
@@ -156,6 +156,8 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 allowFullScreen
                 key={PLAYER.title}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                referrerPolicy="no-referrer"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox"
                 src={playerSource}
                 className="z-10 h-full w-full border-none"
               />

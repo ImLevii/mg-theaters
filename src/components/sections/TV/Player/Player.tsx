@@ -102,7 +102,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
           {...props}
         />
 
-        <Card shadow="none" radius="none" className="relative h-[100dvh] w-full border-none overflow-hidden" ref={containerRef}>
+        <Card shadow="none" radius="none" className="relative h-[100dvh] min-h-[300px] w-full border-none overflow-hidden bg-black" ref={containerRef}>
           {mobile && !mobilePlayerFailed ? (
             <div className="relative h-full w-full">
               {!isPlayingLocal && (
@@ -154,6 +154,9 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 allowFullScreen
                 key={PLAYER.title}
                 src={PLAYER.source}
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                referrerPolicy="no-referrer"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox"
                 className={cn("z-10 h-full w-full border-none", {
                   "pointer-events-none": idle && !mobile,
                 })}
