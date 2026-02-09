@@ -14,8 +14,8 @@ const BottomNavbar = () => {
   return (
     show && (
       <>
-        <div className="pt-24 md:hidden" />
-        <div className="fixed bottom-0 left-0 right-0 z-[999] block h-fit w-full border-t border-white/5 bg-black/80 backdrop-blur-2xl px-2 py-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden touch-none">
+        <div className="h-[calc(6rem+env(safe-area-inset-bottom))] md:hidden" />
+        <div className="fixed bottom-0 left-0 right-0 z-[999] block h-fit w-full border-t border-white/5 bg-black/95 backdrop-blur-2xl px-2 py-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden">
           <div className="mx-auto grid h-full max-w-lg grid-cols-5 items-center px-2">
             {siteConfig.navItems.map((item) => {
               const isActive = pathName === item.href;
