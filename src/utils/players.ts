@@ -71,7 +71,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
     },
     {
       title: "2Embed",
-      source: `/api/proxy/2embed?id=${id}`,
+      source: `https://www.2embed.cc/embed/${id}`,
       ads: false,
     },
     {
@@ -187,7 +187,7 @@ export const getTvShowPlayers = (
     },
     {
       title: "2Embed",
-      source: `/api/proxy/2embed?id=${id}&type=tv&season=${season}&episode=${episode}`,
+      source: `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`,
       ads: false,
     },
     {

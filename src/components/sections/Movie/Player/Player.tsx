@@ -116,7 +116,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   return (
     <>
-      <div className="relative w-full bg-black aspect-video min-h-[200px] sm:min-h-[250px] md:min-h-0">
+      <div className="relative w-full bg-black aspect-video min-h-[200px] sm:min-h-[280px] md:min-h-0">
         <MoviePlayerHeader
           id={movie.id}
           movieName={title}

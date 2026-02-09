@@ -82,7 +82,7 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
     };
 
     return (
-        <div className="relative h-full w-full bg-black">
+        <div className="relative h-full w-full bg-black flex items-center justify-center">
             {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-sm text-white">
                     <Loader2 className="animate-spin" size={48} />
@@ -92,12 +92,13 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
             <Video
                 ref={videoRef}
                 src={streamUrl || ""}
-                className={cn("h-full w-full", { "opacity-0": !streamUrl })}
+                className={cn("h-full w-full object-contain", { "opacity-0": !streamUrl })}
                 controls
                 autoPlay
                 playsInline
                 onEnded={handleEnded}
                 poster={poster}
+                style={{ WebkitAppearance: 'none', maxHeight: '100%', maxWidth: '100%' }}
             />
         </div>
     );
