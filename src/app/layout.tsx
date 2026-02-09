@@ -66,7 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Providers>
 
               <TopNavbar />
-              <main className={cn("container mx-auto max-w-full overflow-x-hidden", SpacingClasses.main)}>
+              <main className={cn("mx-auto max-w-full", SpacingClasses.main)}>
                 {children}
               </main>
               <BottomNavbar />

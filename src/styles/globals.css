@@ -243,15 +243,14 @@
     color: #e5e5e5;
     /* Default text color to off-white */
     overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow-y: auto;
     -webkit-tap-highlight-color: transparent;
     -webkit-overflow-scrolling: touch;
-    touch-action: manipulation;
   }
 
   html {
     overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow-y: scroll;
   }
 
   *,
