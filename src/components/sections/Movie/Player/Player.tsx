@@ -156,8 +156,6 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 allowFullScreen
                 key={PLAYER.title}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                referrerPolicy="no-referrer"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox"
                 src={playerSource}
                 className="z-10 h-full w-full border-none"
               />

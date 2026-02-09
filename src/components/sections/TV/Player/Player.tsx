@@ -155,8 +155,6 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 key={PLAYER.title}
                 src={PLAYER.source}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                referrerPolicy="no-referrer"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox"
                 className={cn("z-10 h-full w-full border-none", {
                   "pointer-events-none": idle && !mobile,
                 })}
