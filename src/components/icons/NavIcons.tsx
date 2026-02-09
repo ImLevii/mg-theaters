@@ -6,7 +6,7 @@ interface IconProps {
 }
 
 /**
- * Home Icon - Modern cinema home with screen glow
+ * Home Icon - Cinema marquee / theater entrance
  */
 export const HomeIcon = ({ className, solid = false }: IconProps) => (
   <svg
@@ -17,56 +17,52 @@ export const HomeIcon = ({ className, solid = false }: IconProps) => (
   >
     {solid ? (
       <>
-        {/* Solid house */}
+        {/* Theater structure */}
         <path
-          d="M12 2.5L2 10v11a1 1 0 001 1h18a1 1 0 001-1V10L12 2.5z"
+          d="M2 22V8l10-6 10 6v14H2z"
           fill="currentColor"
         />
-        {/* Cinema screen with inner glow */}
-        <rect x="7" y="11" width="10" height="6" rx="0.5" fill="black" opacity="0.8" />
-        {/* Screen content - play symbol */}
-        <path d="M10.5 12.5v3l3-1.5-3-1.5z" fill="currentColor" />
+        {/* Entrance arch */}
+        <path
+          d="M8 22v-6a4 4 0 018 0v6"
+          fill="black"
+        />
+        {/* Marquee top */}
+        <rect x="6" y="8" width="12" height="3" rx="0.5" fill="black" opacity="0.7" />
+        {/* Marquee lights */}
+        <circle cx="8" cy="9.5" r="0.75" fill="currentColor" />
+        <circle cx="12" cy="9.5" r="0.75" fill="currentColor" />
+        <circle cx="16" cy="9.5" r="0.75" fill="currentColor" />
       </>
     ) : (
       <>
-        {/* House outline with roof */}
+        {/* Theater outline */}
         <path
-          d="M3 10.5L12 3l9 7.5"
+          d="M3 21V9l9-5.5L21 9v12"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {/* House body */}
+        {/* Floor line */}
+        <path d="M3 21h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        {/* Entrance arch */}
         <path
-          d="M5 9v11a1 1 0 001 1h12a1 1 0 001-1V9"
+          d="M8 21v-5a4 4 0 018 0v5"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {/* Cinema screen */}
-        <rect
-          x="8"
-          y="12"
-          width="8"
-          height="5"
-          rx="0.5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-        {/* Play button */}
-        <path
-          d="M11 13.5v2l2-1-2-1z"
-          fill="currentColor"
-        />
+        {/* Marquee */}
+        <rect x="7" y="9" width="10" height="2" rx="0.5" stroke="currentColor" strokeWidth="1.5" />
       </>
     )}
   </svg>
 );
 
 /**
- * Discover Icon - Compass with film aesthetic
+ * Discover Icon - Director's viewfinder / film frame
  */
 export const DiscoverIcon = ({ className, solid = false }: IconProps) => (
   <svg
@@ -77,44 +73,58 @@ export const DiscoverIcon = ({ className, solid = false }: IconProps) => (
   >
     {solid ? (
       <>
-        {/* Main circle */}
-        <circle cx="12" cy="12" r="10" fill="currentColor" />
-        {/* Compass diamond */}
-        <path
-          d="M12 5l2 5.5 5.5 2-5.5 2-2 5.5-2-5.5L4.5 12l5.5-2L12 5z"
-          fill="black"
-        />
-        {/* Center dot */}
-        <circle cx="12" cy="12" r="2" fill="currentColor" />
+        {/* Viewfinder body */}
+        <rect x="3" y="5" width="18" height="14" rx="2" fill="currentColor" />
+        {/* Inner frame */}
+        <rect x="6" y="8" width="12" height="8" rx="1" fill="black" />
+        {/* Crosshairs */}
+        <path d="M12 8v8M6 12h12" stroke="currentColor" strokeWidth="1.5" />
+        {/* Corner marks */}
+        <path d="M7 9h2v2M15 9h2v2M7 13v2h2M15 15h2v-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </>
     ) : (
       <>
-        {/* Outer circle */}
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
+        {/* Outer frame */}
+        <rect
+          x="3"
+          y="5"
+          width="18"
+          height="14"
+          rx="2"
           stroke="currentColor"
           strokeWidth="2"
         />
-        {/* Compass points */}
-        <path
-          d="M12 6l1.5 4L18 12l-4.5 1.5L12 18l-1.5-4.5L6 12l4.5-1.5L12 6z"
+        {/* Inner viewfinder */}
+        <rect
+          x="6"
+          y="8"
+          width="12"
+          height="8"
+          rx="1"
           stroke="currentColor"
           strokeWidth="1.5"
-          strokeLinejoin="round"
         />
-        {/* Center */}
-        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-        {/* Cardinal ticks */}
-        <path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        {/* Crosshairs */}
+        <path
+          d="M12 8v8M6 12h12"
+          stroke="currentColor"
+          strokeWidth="1"
+          opacity="0.5"
+        />
+        {/* Focus corners */}
+        <path
+          d="M7 9h1.5M7 9v1.5M17 9h-1.5M17 9v1.5M7 15h1.5M7 15v-1.5M17 15h-1.5M17 15v-1.5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
       </>
     )}
   </svg>
 );
 
 /**
- * Search Icon - Premium magnifying glass
+ * Search Icon - Spotlight / cinema search
  */
 export const SearchIcon = ({ className, solid = false }: IconProps) => (
   <svg
@@ -125,48 +135,57 @@ export const SearchIcon = ({ className, solid = false }: IconProps) => (
   >
     {solid ? (
       <>
-        {/* Main lens */}
-        <circle cx="10" cy="10" r="7" fill="currentColor" />
-        {/* Handle */}
+        {/* Spotlight housing */}
+        <circle cx="9" cy="9" r="7" fill="currentColor" />
+        {/* Inner lens */}
+        <circle cx="9" cy="9" r="4" fill="black" opacity="0.6" />
+        {/* Lens center highlight */}
+        <circle cx="9" cy="9" r="2" fill="currentColor" opacity="0.8" />
+        {/* Light beam / handle */}
         <path
-          d="M15 15l6 6"
+          d="M14 14l7 7"
           stroke="currentColor"
-          strokeWidth="3.5"
+          strokeWidth="3"
           strokeLinecap="round"
         />
-        {/* Lens shine */}
-        <path
-          d="M6 7a4.5 4.5 0 014-3"
-          stroke="black"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
+        {/* Lens flare */}
+        <path d="M5.5 6a3 3 0 012.5-2" stroke="black" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
       </>
     ) : (
       <>
-        {/* Lens circle */}
+        {/* Outer ring */}
         <circle
-          cx="10"
-          cy="10"
+          cx="9"
+          cy="9"
           r="6"
           stroke="currentColor"
           strokeWidth="2"
         />
-        {/* Handle */}
+        {/* Inner lens ring */}
+        <circle
+          cx="9"
+          cy="9"
+          r="3"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          opacity="0.6"
+        />
+        {/* Center dot */}
+        <circle cx="9" cy="9" r="1" fill="currentColor" />
+        {/* Handle / beam */}
         <path
-          d="M14.5 14.5L21 21"
+          d="M14 14l7 7"
           stroke="currentColor"
           strokeWidth="2.5"
           strokeLinecap="round"
         />
-        {/* Lens glint */}
+        {/* Lens shine */}
         <path
-          d="M6.5 7a3.5 3.5 0 013-2"
+          d="M6 6.5a3 3 0 012-1.5"
           stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
-          opacity="0.5"
+          opacity="0.4"
         />
       </>
     )}
@@ -174,7 +193,7 @@ export const SearchIcon = ({ className, solid = false }: IconProps) => (
 );
 
 /**
- * Library Icon - Premium stacked media collection
+ * Library Icon - Film vault / media archive
  */
 export const LibraryIcon = ({ className, solid = false }: IconProps) => (
   <svg
@@ -185,61 +204,60 @@ export const LibraryIcon = ({ className, solid = false }: IconProps) => (
   >
     {solid ? (
       <>
-        {/* Back layer */}
-        <rect x="6" y="2" width="14" height="17" rx="2" fill="currentColor" opacity="0.35" />
-        {/* Middle layer */}
-        <rect x="4" y="4" width="14" height="17" rx="2" fill="currentColor" opacity="0.6" />
-        {/* Front layer */}
-        <rect x="2" y="6" width="14" height="16" rx="2" fill="currentColor" />
-        {/* Play icon */}
-        <path d="M7 12v5l5-2.5L7 12z" fill="black" />
+        {/* Vault door */}
+        <rect x="3" y="3" width="18" height="18" rx="3" fill="currentColor" />
+        {/* Vault handle ring */}
+        <circle cx="12" cy="12" r="5" fill="black" opacity="0.5" />
+        <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+        {/* Film reel spokes */}
+        <path d="M12 8.5v7M9.5 12h5" stroke="black" strokeWidth="2" strokeLinecap="round" />
+        {/* Corner rivets */}
+        <circle cx="6" cy="6" r="1" fill="black" />
+        <circle cx="18" cy="6" r="1" fill="black" />
+        <circle cx="6" cy="18" r="1" fill="black" />
+        <circle cx="18" cy="18" r="1" fill="black" />
       </>
     ) : (
       <>
-        {/* Back layer */}
-        <rect
-          x="7"
-          y="2"
-          width="12"
-          height="15"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          opacity="0.4"
-        />
-        {/* Middle layer */}
-        <rect
-          x="5"
-          y="4.5"
-          width="12"
-          height="15"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          opacity="0.65"
-        />
-        {/* Front layer */}
+        {/* Vault outline */}
         <rect
           x="3"
-          y="7"
-          width="12"
-          height="15"
-          rx="1.5"
+          y="3"
+          width="18"
+          height="18"
+          rx="3"
           stroke="currentColor"
           strokeWidth="2"
         />
-        {/* Play icon */}
-        <path
-          d="M7 13v4l4-2-4-2z"
-          fill="currentColor"
+        {/* Vault wheel */}
+        <circle
+          cx="12"
+          cy="12"
+          r="4.5"
+          stroke="currentColor"
+          strokeWidth="2"
         />
+        {/* Wheel spokes */}
+        <path
+          d="M12 7.5v9M7.5 12h9"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        {/* Center */}
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+        {/* Corner rivets */}
+        <circle cx="6" cy="6" r="0.75" fill="currentColor" />
+        <circle cx="18" cy="6" r="0.75" fill="currentColor" />
+        <circle cx="6" cy="18" r="0.75" fill="currentColor" />
+        <circle cx="18" cy="18" r="0.75" fill="currentColor" />
       </>
     )}
   </svg>
 );
 
 /**
- * About Icon - Modern info with cinema flair
+ * About Icon - Film clapperboard
  */
 export const AboutIcon = ({ className, solid = false }: IconProps) => (
   <svg
@@ -250,30 +268,49 @@ export const AboutIcon = ({ className, solid = false }: IconProps) => (
   >
     {solid ? (
       <>
-        {/* Circle background */}
-        <circle cx="12" cy="12" r="10" fill="currentColor" />
-        {/* Info dot */}
-        <circle cx="12" cy="7.5" r="1.5" fill="black" />
-        {/* Info line */}
-        <rect x="10.5" y="10.5" width="3" height="7" rx="1" fill="black" />
+        {/* Clapper top */}
+        <path d="M4 4h16l-2 5H6L4 4z" fill="currentColor" />
+        {/* Stripes on clapper */}
+        <path d="M6 4l1 5M10 4l1 5M14 4l1 5M18 4l1 5" stroke="black" strokeWidth="2" />
+        {/* Board body */}
+        <rect x="4" y="9" width="16" height="12" rx="1" fill="currentColor" />
+        {/* Info content */}
+        <circle cx="12" cy="13" r="1.25" fill="black" />
+        <rect x="10.5" y="15" width="3" height="4" rx="0.75" fill="black" />
       </>
     ) : (
       <>
-        {/* Circle outline */}
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
+        {/* Clapper top */}
+        <path
+          d="M4 5h16l-1.5 4H5.5L4 5z"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Stripes */}
+        <path
+          d="M7 5l1 4M11 5l1 4M15 5l1 4"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        {/* Board */}
+        <rect
+          x="4"
+          y="9"
+          width="16"
+          height="11"
+          rx="1"
           stroke="currentColor"
           strokeWidth="2"
         />
-        {/* Info dot */}
-        <circle cx="12" cy="7.5" r="1.25" fill="currentColor" />
-        {/* Info line */}
+        {/* Info symbol */}
+        <circle cx="12" cy="12.5" r="1" fill="currentColor" />
         <path
-          d="M12 11v6.5"
+          d="M12 15v3"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
         />
       </>
