@@ -53,7 +53,7 @@ const MovieDetailPage: NextPage<Params<{ id: number }>> = ({ params }) => {
   if (error) notFound();
 
   return (
-    <div className="relative w-full -mt-24">
+    <div className="relative w-full -mt-24 bg-black min-h-screen">
       <BackdropSection movie={movie} />
       {/* <div id="movie-player-container" className="pt-10 w-full max-w-[1400px] mx-auto px-4">
         <MoviePlayer movie={movie!} startAt={startAt} />

@@ -52,7 +52,7 @@ const TVShowDetailPage: NextPage<Params<{ id: number }>> = ({ params }) => {
   if (error) notFound();
 
   return (
-    <div className="relative w-full -mt-24">
+    <div className="relative w-full -mt-24 bg-black min-h-screen">
       <TvShowBackdropSection tv={tv!} />
       <Suspense
         fallback={
