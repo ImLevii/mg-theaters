@@ -1,117 +1,329 @@
+import React from "react";
 
-import React from 'react';
+interface IconProps {
+  className?: string;
+  solid?: boolean;
+}
 
-export const HomeIcon = ({ className, solid = false }: { className?: string; solid?: boolean }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-    >
-        {solid ? (
-            <path
-                d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
-                fill="currentColor"
-            />
-        ) : (
-            <path
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-        )}
-    </svg>
+/**
+ * Home Icon - Cinema/Theater inspired house with play button
+ */
+export const HomeIcon = ({ className, solid = false }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    {solid ? (
+      <>
+        {/* Filled house with cinema screen */}
+        <path
+          d="M3 10.182V21a1 1 0 001 1h16a1 1 0 001-1V10.182a1 1 0 00-.36-.768l-8-6.667a1 1 0 00-1.28 0l-8 6.667A1 1 0 003 10.182z"
+          fill="currentColor"
+        />
+        {/* Play button cutout */}
+        <path d="M10 10v6l5-3-5-3z" fill="black" />
+      </>
+    ) : (
+      <>
+        {/* House outline */}
+        <path
+          d="M3.5 10.182V20.5a.5.5 0 00.5.5h16a.5.5 0 00.5-.5V10.182a.5.5 0 00-.18-.384l-8-6.667a.5.5 0 00-.64 0l-8 6.667a.5.5 0 00-.18.384z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Play button */}
+        <path
+          d="M10 10v6l5-3-5-3z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    )}
+  </svg>
 );
 
-export const DiscoverIcon = ({ className, solid = false }: { className?: string; solid?: boolean }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-    >
-        {solid ? (
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"
-                fill="currentColor"
-            />
-        ) : (
-            <>
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </>
-        )}
-    </svg>
+/**
+ * Discover Icon - Film reel / compass hybrid
+ */
+export const DiscoverIcon = ({ className, solid = false }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    {solid ? (
+      <>
+        {/* Outer ring */}
+        <circle cx="12" cy="12" r="10" fill="currentColor" />
+        {/* Film sprocket holes */}
+        <circle cx="12" cy="4" r="1.5" fill="black" />
+        <circle cx="12" cy="20" r="1.5" fill="black" />
+        <circle cx="4" cy="12" r="1.5" fill="black" />
+        <circle cx="20" cy="12" r="1.5" fill="black" />
+        {/* Center pointer/compass */}
+        <path d="M15 9l-6 2 2 6 6-2-2-6z" fill="black" />
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+      </>
+    ) : (
+      <>
+        {/* Outer ring */}
+        <circle
+          cx="12"
+          cy="12"
+          r="9"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        />
+        {/* Film sprocket marks */}
+        <circle
+          cx="12"
+          cy="4.5"
+          r="1"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="12"
+          cy="19.5"
+          r="1"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="4.5"
+          cy="12"
+          r="1"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="19.5"
+          cy="12"
+          r="1"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        {/* Compass needle */}
+        <path
+          d="M15 9l-6 2 2 6 6-2-2-6z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    )}
+  </svg>
 );
 
-export const SearchIcon = ({ className, solid = false }: { className?: string; solid?: boolean }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-    >
-        {solid ? (
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M10.5 3.5a7 7 0 100 14 7 7 0 000-14zM1.5 10.5a9 9 0 1116.32 5.25l3.87 3.87a1 1 0 11-1.42 1.42l-3.87-3.87A9 9 0 011.5 10.5z"
-                fill="currentColor"
-            />
-        ) : (
-            <>
-                <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </>
-        )}
-    </svg>
+/**
+ * Search Icon - Modern magnifying glass with cinema lens flare
+ */
+export const SearchIcon = ({ className, solid = false }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    {solid ? (
+      <>
+        {/* Filled magnifying glass */}
+        <circle cx="10.5" cy="10.5" r="7.5" fill="currentColor" />
+        {/* Handle */}
+        <rect
+          x="15.5"
+          y="14.5"
+          width="7"
+          height="3"
+          rx="1.5"
+          transform="rotate(45 15.5 14.5)"
+          fill="currentColor"
+        />
+        {/* Lens flare / shine */}
+        <path
+          d="M7 7.5a4 4 0 013.5-3"
+          stroke="black"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </>
+    ) : (
+      <>
+        {/* Magnifying glass circle */}
+        <circle
+          cx="10.5"
+          cy="10.5"
+          r="6.5"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        />
+        {/* Handle */}
+        <path
+          d="M15.5 15.5L21 21"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        {/* Lens shine */}
+        <path
+          d="M7.5 7a3.5 3.5 0 013-2.5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      </>
+    )}
+  </svg>
 );
 
-export const LibraryIcon = ({ className, solid = false }: { className?: string; solid?: boolean }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-    >
-        {solid ? (
-            <path
-                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H9v-2h9v2zm0-4H9V6h9v2z"
-                fill="currentColor"
-            />
-        ) : (
-            <path
-                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7zm0 4h10v2H7z"
-                fill="currentColor"
-            />
-        )}
-    </svg>
+/**
+ * Library Icon - Stacked films / collection
+ */
+export const LibraryIcon = ({ className, solid = false }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    {solid ? (
+      <>
+        {/* Back card */}
+        <rect
+          x="5"
+          y="2"
+          width="14"
+          height="18"
+          rx="2"
+          fill="currentColor"
+          opacity="0.4"
+        />
+        {/* Middle card */}
+        <rect
+          x="4"
+          y="4"
+          width="14"
+          height="18"
+          rx="2"
+          fill="currentColor"
+          opacity="0.7"
+        />
+        {/* Front card */}
+        <rect x="3" y="6" width="14" height="16" rx="2" fill="currentColor" />
+        {/* Play icon on front card */}
+        <path d="M9 11v6l4.5-3L9 11z" fill="black" />
+      </>
+    ) : (
+      <>
+        {/* Back card */}
+        <rect
+          x="7"
+          y="2"
+          width="12"
+          height="16"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          opacity="0.5"
+        />
+        {/* Middle card */}
+        <rect
+          x="5"
+          y="4"
+          width="12"
+          height="16"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          opacity="0.75"
+        />
+        {/* Front card */}
+        <rect
+          x="3"
+          y="6"
+          width="12"
+          height="16"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        />
+        {/* Play icon */}
+        <path
+          d="M7 12v5l4-2.5L7 12z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    )}
+  </svg>
 );
 
-export const AboutIcon = ({ className, solid = false }: { className?: string; solid?: boolean }) => (
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-    >
-        {solid ? (
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
-                fill="currentColor"
-            />
-        ) : (
-            <>
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </>
-        )}
-    </svg>
+/**
+ * About Icon - Cinema ticket / info hybrid
+ */
+export const AboutIcon = ({ className, solid = false }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    {solid ? (
+      <>
+        {/* Ticket shape */}
+        <path
+          d="M4 7a1 1 0 011-1h14a1 1 0 011 1v2.5a2 2 0 100 4V17a1 1 0 01-1 1H5a1 1 0 01-1-1v-3.5a2 2 0 100-4V7z"
+          fill="currentColor"
+        />
+        {/* Perforation line */}
+        <path
+          d="M15 6v12"
+          stroke="black"
+          strokeWidth="2"
+          strokeDasharray="2 2"
+          strokeLinecap="round"
+        />
+        {/* Info "i" */}
+        <circle cx="9" cy="9.5" r="1" fill="black" />
+        <path d="M9 12v3" stroke="black" strokeWidth="2" strokeLinecap="round" />
+      </>
+    ) : (
+      <>
+        {/* Ticket outline */}
+        <path
+          d="M4 7.5a1 1 0 011-1h14a1 1 0 011 1v2a2.5 2.5 0 000 5v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2a2.5 2.5 0 000-5v-2z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        />
+        {/* Perforation */}
+        <path
+          d="M15 6.5v11"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeDasharray="2 2.5"
+          strokeLinecap="round"
+        />
+        {/* Info dot */}
+        <circle cx="9" cy="9" r="0.75" fill="currentColor" />
+        {/* Info line */}
+        <path
+          d="M9 11.5v3.5"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </>
+    )}
+  </svg>
 );
 
