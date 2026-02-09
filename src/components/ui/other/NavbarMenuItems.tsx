@@ -35,7 +35,7 @@ const NavbarMenuItems: React.FC<NavbarMenuItemsProps> = ({
           "data-[hover=true]:bg-white/[0.05]",
           "data-[selected=true]:bg-neon-red/10"
         ),
-        cursor: "bg-neon-red/20 rounded-xl shadow-[0_0_20px_rgba(255,0,60,0.15)]",
+        cursor: "bg-neon-red/20 rounded-xl shadow-[0_0_20px_rgba(229,9,20,0.15)]",
         tabContent: "group-data-[selected=true]:text-neon-red transition-colors duration-300",
       }}
     >

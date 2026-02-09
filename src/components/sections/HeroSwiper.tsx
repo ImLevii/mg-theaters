@@ -82,13 +82,6 @@ const HeroSwiper = () => {
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.7)_100%)]" />
                             </div>
 
-                            {/* Heart Icon */}
-                            <div className="absolute top-6 right-6 z-20">
-                                <Button isIconOnly radius="full" variant="light" className="text-white hover:text-red-500">
-                                    <Icon icon="solar:heart-linear" className="text-2xl" />
-                                </Button>
-                            </div>
-
                             {/* Content Container */}
                             <div className="relative z-10 container mx-auto flex h-full items-center px-4 md:px-8">
                                 <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-12 items-center">

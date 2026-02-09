@@ -89,7 +89,7 @@ const BottomNavbar = () => {
                     className={cn(
                       "h-1 w-1 rounded-full transition-all duration-300",
                       {
-                        "bg-neon-red shadow-[0_0_6px_rgba(255,0,60,0.8)] opacity-100": isActive,
+                        "bg-neon-red shadow-[0_0_6px_rgba(229,9,20,0.8)] opacity-100": isActive,
                         "bg-transparent opacity-0": !isActive,
                       }
                     )}

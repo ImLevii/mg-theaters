@@ -19,7 +19,7 @@ const BrandLogo: React.FC<BrandLogoProps> = ({ className }) => {
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="group/logo text-white hover:text-neon-red transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] hover:drop-shadow-[0_0_15px_rgba(255,0,60,0.6)]"
+        className="group/logo text-white hover:text-neon-red transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] hover:drop-shadow-[0_0_15px_rgba(229,9,20,0.6)]"
       >
         {/* Modern Stand */}
         <path

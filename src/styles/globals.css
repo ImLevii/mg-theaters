@@ -40,12 +40,12 @@
 
   /* Neon Cyberpunk Theme Colors */
   --color-neon-green: #00ff9d;
-  --color-neon-red: #ff003c;
+  --color-neon-red: #E50914; /* Netflix Red */
   --color-neon-blue: #00f3ff;
   --color-neon-purple: #bc13fe;
 
   --neon-green-glow: 0 0 10px rgba(0, 255, 157, 0.5), 0 0 20px rgba(0, 255, 157, 0.3);
-  --neon-red-glow: 0 0 10px rgba(255, 0, 60, 0.5), 0 0 20px rgba(255, 0, 60, 0.3);
+  --neon-red-glow: 0 0 10px rgba(229, 9, 20, 0.5), 0 0 20px rgba(229, 9, 20, 0.3);
 
   /* Glassmorphism Variables */
   --glass-bg: rgba(10, 10, 10, 0.7);
@@ -161,7 +161,7 @@
 
 @utility neon-text-red {
   color: var(--color-neon-red);
-  text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+  text-shadow: 0 0 5px rgba(229, 9, 20, 0.5);
 }
 
 @utility text-shadow-neon-green {
@@ -173,11 +173,11 @@
 }
 
 @utility text-shadow-neon-red {
-  text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+  text-shadow: 0 0 5px rgba(229, 9, 20, 0.5);
 }
 
 @utility text-shadow-neon-red-intense {
-  text-shadow: 0 0 10px rgba(255, 0, 60, 0.8), 0 0 20px rgba(255, 0, 60, 0.4);
+  text-shadow: 0 0 10px rgba(229, 9, 20, 0.8), 0 0 20px rgba(229, 9, 20, 0.4);
 }
 
 @utility text-shadow-neon-blue {
@@ -203,7 +203,7 @@
 
 @utility neon-border-red {
   border-color: var(--color-neon-red);
-  box-shadow: 0 0 5px rgba(255, 0, 60, 0.2), inset 0 0 5px rgba(255, 0, 60, 0.1);
+  box-shadow: 0 0 5px rgba(229, 9, 20, 0.2), inset 0 0 5px rgba(229, 9, 20, 0.1);
 }
 
 @utility glass {
