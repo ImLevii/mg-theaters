@@ -49,6 +49,13 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
 
+  // Default to VidSrc 2 (index 7) or SuperEmbed (index 3) on mobile if no source is selected
+  React.useEffect(() => {
+    if (mobile && selectedSource === 0) {
+      setSelectedSource(7); // VidSrc 2
+    }
+  }, [mobile, selectedSource, setSelectedSource]);
+
   const handleMobileEnded = async () => {
     try {
       const res = await fetch("/api/movies/random");

@@ -48,7 +48,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
       <div className="z-10">
         {!minimal && (
           <ActionButton label="Back" href={`/movie/${id}`} variant="neon">
-            <Icon icon="solar:alt-arrow-left-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <Icon icon="fa6-solid:chevron-left" className="w-5 h-5 sm:w-6 sm:h-6" />
           </ActionButton>
         )}
       </div>
@@ -71,7 +71,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
             onClick={handlePiP}
             variant="neon"
           >
-            <Icon icon="solar:minimize-square-3-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <Icon icon="fa6-solid:compress" className="w-5 h-5 sm:w-6 sm:h-6" />
           </ActionButton>
           <ActionButton
             label="Sources"
@@ -79,7 +79,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
             onClick={onOpenSource}
             variant="neon"
           >
-            <Icon icon="solar:server-square-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <Icon icon="fa6-solid:server" className="w-5 h-5 sm:w-6 sm:h-6" />
           </ActionButton>
         </div>
       </div>

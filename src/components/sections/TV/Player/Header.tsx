@@ -1,5 +1,4 @@
 import { cn } from "@/utils/helpers";
-import { ArrowLeft, List, Next, Prev, Server } from "@/utils/icons";
 import ActionButton from "./ActionButton";
 import { TvShowPlayerProps } from "./Player";
 
@@ -50,45 +49,55 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
     <div
       aria-hidden={hidden ? true : undefined}
       className={cn(
-        "absolute top-0 z-40 flex h-28 w-full items-start justify-between gap-4",
-        "bg-linear-to-b from-black/80 to-transparent p-2 text-white transition-opacity md:p-4",
-        { "opacity-0": hidden },
+        "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 transition-all duration-300",
+        "bg-gradient-to-b from-black/80 to-transparent p-3 md:p-6 text-white",
+        hidden ? "opacity-0 pointer-events-none -translate-y-2" : "opacity-100 pointer-events-auto translate-y-0"
       )}
     >
-      <ActionButton label="Back" href={`/tv/${id}`}>
-        <ArrowLeft size={42} />
-      </ActionButton>
-      <div className="absolute left-1/2 hidden -translate-x-1/2 flex-col justify-center text-center sm:flex">
-        <p className="text-sm text-white text-shadow-lg sm:text-lg lg:text-xl">{seriesName}</p>
-        <p className="text-xs text-gray-200 text-shadow-lg sm:text-sm lg:text-base">
-          {seasonName} - {episode.name}
-        </p>
+      <div className="z-10">
+        <ActionButton label="Back" href={`/tv/${id}`} variant="neon">
+          <Icon icon="fa6-solid:chevron-left" className="w-5 h-5 sm:w-6 sm:h-6" />
+        </ActionButton>
       </div>
-      <div className="flex items-center gap-4">
-        <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP}>
-          <Icon icon="fluent:minimize-24-regular" width="34" />
+
+      <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center pointer-events-none">
+        <div className="hidden md:flex flex-col justify-center text-center">
+          <p className="text-sm text-white/90 text-shadow-lg sm:text-lg font-orbitron font-bold tracking-widest uppercase truncate px-4">
+            {seriesName}
+          </p>
+          <p className="text-[10px] text-gray-300 font-orbitron tracking-[0.2em] uppercase">
+            {seasonName} - {episode.name}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 sm:gap-3 z-10">
+        <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP} variant="neon">
+          <Icon icon="fa6-solid:compress" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
         <ActionButton
           disabled={!prevEpisodeNumber}
           label="Previous Episode"
           tooltip="Previous Episode"
           href={`/tv/${id}/${episode.season_number}/${prevEpisodeNumber}/player?src=${selectedSource}`}
+          variant="neon"
         >
-          <Prev size={42} />
+          <Icon icon="fa6-solid:backward-step" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
         <ActionButton
           disabled={!nextEpisodeNumber}
           label="Next Episode"
           tooltip="Next Episode"
           href={`/tv/${id}/${episode.season_number}/${nextEpisodeNumber}/player?src=${selectedSource}`}
+          variant="neon"
         >
-          <Next size={42} />
+          <Icon icon="fa6-solid:forward-step" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
-        <ActionButton label="Sources" tooltip="Sources" onClick={onOpenSource}>
-          <Server size={34} />
+        <ActionButton label="Sources" tooltip="Sources" onClick={onOpenSource} variant="neon">
+          <Icon icon="fa6-solid:server" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
-        <ActionButton label="Episodes" tooltip="Episodes" onClick={onOpenEpisode}>
-          <List size={34} />
+        <ActionButton label="Episodes" tooltip="Episodes" onClick={onOpenEpisode} variant="neon">
+          <Icon icon="fa6-solid:list-ul" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
       </div>
     </div>
