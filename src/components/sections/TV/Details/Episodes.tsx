@@ -39,7 +39,7 @@ const TvShowEpisodesSelection: React.FC<TvShowEpisodesSelectionProps> = ({
   if (isPending) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Spinner variant="wave" size="lg" label={getLoadingLabel()} color="danger" />
+        <Spinner variant="wave" size="lg" label={getLoadingLabel()} color="warning" />
       </div>
     );
   }
@@ -201,7 +201,7 @@ const EpisodeGridCard: React.FC<EpisodeCardProps> = ({ episode, id }) => {
           )}
           <Chip
             size="sm"
-            color={isNotReleased ? "danger" : undefined}
+            color={isNotReleased ? "warning" : undefined}
             variant={isNotReleased ? "shadow" : undefined}
             className={cn("absolute top-2 right-2 z-20", {
               "bg-black/35 backdrop-blur-xs": !isNotReleased,
@@ -223,7 +223,7 @@ const EpisodeGridCard: React.FC<EpisodeCardProps> = ({ episode, id }) => {
             title={episode.name}
             className={cn(
               "text-lg font-semibold transition-colors",
-              !isNotReleased && "group-hover:text-danger",
+              !isNotReleased && "group-hover:text-warning",
             )}
           >
             {episode.name}

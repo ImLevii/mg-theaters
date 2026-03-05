@@ -43,7 +43,7 @@ export default function Providers({ children }: PropsWithChildren) {
           <Suspense>
             <ProgressProvider
               options={{ showSpinner: false }}
-              color={`hsl(var(--heroui-${tv ? "warning" : "primary"}))`}
+              color={`hsl(var(--heroui-primary))`}
             >
               {children}
               <PiPPlayer />

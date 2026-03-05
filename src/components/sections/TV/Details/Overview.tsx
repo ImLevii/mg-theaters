@@ -71,7 +71,7 @@ export const TvShowOverviewSection: React.FC<TvShowOverviewSectionProps> = ({
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <Chip
                 variant="shadow"
-                classNames={{ base: "bg-danger-500/20 border border-danger-500/50", content: "font-bold text-danger-500 drop-shadow-md" }}
+                classNames={{ base: "bg-red-500/20 border border-red-500/50", content: "font-bold text-red-500 drop-shadow-md" }}
                 size="sm"
               >
                 TV Show

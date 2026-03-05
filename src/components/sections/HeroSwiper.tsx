@@ -95,8 +95,8 @@ const HeroSwiper = () => {
                                             transition={{ delay: 0.1 }}
                                         >
                                             <NeonButton
-                                                variant="red"
-                                                className="px-5 py-2 md:px-6 md:py-2 pointer-events-none text-xs md:text-sm border-red-500/30"
+                                                variant="orange"
+                                                className="px-5 py-2 md:px-6 md:py-2 pointer-events-none text-xs md:text-sm border-orange-500/30"
                                                 icon={<AnimatedTrendingIcon />}
                                             >
                                                 Trending Now
