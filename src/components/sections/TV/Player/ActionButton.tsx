@@ -10,6 +10,7 @@ interface ActionButtonProps {
   tooltip?: string;
   disabled?: boolean;
   variant?: "default" | "neon";
+  className?: string;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -20,6 +21,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   tooltip,
   disabled,
   variant = "default",
+  className,
 }) => {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (disabled || !onClick) return;
@@ -46,6 +48,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         className={cn(
           "group relative flex items-center justify-center transition-all duration-300",
           "cursor-pointer outline-none",
+          className,
           {
             // Neon Variant
             "h-10 w-10 sm:h-12 sm:w-12 rounded-xl": variant === "neon",

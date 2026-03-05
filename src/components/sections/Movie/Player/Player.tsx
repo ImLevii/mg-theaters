@@ -10,6 +10,7 @@ import { parseAsInteger, useQueryState } from "nuqs";
 import React, { useMemo } from "react";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
+import { useAutoPlay } from "@/hooks/useAutoPlay";
 
 import { useRouter } from "next/navigation";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -56,12 +57,15 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     }
   }, [mobile, selectedSource, setSelectedSource]);
 
+  const { autoPlay: isAutoPlay } = useAutoPlay();
+
   const handleMobileEnded = async () => {
+    if (!isAutoPlay) return;
     try {
       const res = await fetch("/api/movies/random");
       const data = await res.json();
       if (data.id) {
-        window.location.href = `/movie/${data.id}`; // Force full reload to ensure clean state or use router.push
+        window.location.href = `/movie/${data.id}?autoplay=true`;
       }
     } catch (err) {
       console.error("Failed to autoplay random movie", err);

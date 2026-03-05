@@ -18,6 +18,8 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { parseAsInteger, useQueryState } from "nuqs";
 
+import { useAutoPlay } from "@/hooks/useAutoPlay";
+
 const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
   id,
   movieName,
@@ -28,6 +30,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
   const router = useRouter();
   const { openPiP } = usePiPStore();
   const [selectedSource] = useQueryState("src", parseAsInteger.withDefault(0));
+  const { autoPlay, toggleAutoPlay } = useAutoPlay();
 
   const handlePiP = () => {
     const players = getMoviePlayers(id);
@@ -56,15 +59,29 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
       {!minimal && (
         <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center pointer-events-none">
           <div className="hidden md:flex max-w-[50%] flex-col justify-center text-center">
-            <p className="text-sm text-white/90 text-shadow-lg sm:text-lg lg:text-xl font-orbitron font-bold tracking-widest uppercase truncate px-4">
+            <p className="text-sm text-shadow-lg sm:text-lg lg:text-xl font-orbitron font-bold tracking-widest uppercase truncate px-4 bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
               {movieName}
             </p>
+            <div className="flex items-center justify-center gap-2 mt-1">
+              <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-primary/50" />
+              <span className="text-[9px] font-orbitron tracking-[0.3em] text-primary/80 uppercase font-bold">Now Playing</span>
+              <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-primary/50" />
+            </div>
           </div>
         </div>
       )}
 
       <div className="flex items-center gap-2 sm:gap-4 z-10">
         <div className="flex items-center gap-2 sm:gap-3">
+          <ActionButton
+            label="Auto-play"
+            tooltip={`Auto-play: ${autoPlay ? 'ON' : 'OFF'}`}
+            onClick={toggleAutoPlay}
+            variant="neon"
+            className={cn(autoPlay ? "text-primary" : "text-white/40")}
+          >
+            <Icon icon={autoPlay ? "fa6-solid:toggle-on" : "fa6-solid:toggle-off"} className="w-5 h-5 sm:w-6 sm:h-6" />
+          </ActionButton>
           <ActionButton
             label="Minimize"
             tooltip="Minimize Player"

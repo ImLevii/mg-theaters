@@ -10,6 +10,7 @@ import { Episode, TvShowDetails } from "tmdb-ts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { SpacingClasses } from "@/utils/constants";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
+import { useAutoPlay } from "@/hooks/useAutoPlay";
 
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
 const TvShowPlayerSourceSelection = dynamic(() => import("./SourceSelection"));
@@ -44,6 +45,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
+  const { autoPlay: isAutoPlay } = useAutoPlay();
 
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
@@ -134,8 +136,8 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 title={`${props.seriesName} - ${episode.name}`}
                 poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
                 onEnded={() => {
-                  if (props.nextEpisodeNumber) {
-                    window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}`;
+                  if (isAutoPlay && props.nextEpisodeNumber) {
+                    window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
                   }
                 }}
                 onError={handleMobileError}

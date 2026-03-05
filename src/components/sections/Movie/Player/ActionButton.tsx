@@ -12,6 +12,7 @@ interface ActionButtonProps {
   tooltip?: string;
   disabled?: boolean;
   variant?: "default" | "primary" | "secondary" | "success" | "warning" | "danger" | "neon";
+  className?: string;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -22,6 +23,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   tooltip,
   disabled,
   variant = "default",
+  className,
 }) => {
   const mobile = useIsMobile();
   // Handle touch interactions to prevent double-tap issues on mobile
@@ -69,6 +71,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         className={cn(
           "group relative flex items-center justify-center p-2.5 sm:p-3 rounded-xl drop-shadow-md transition-all duration-300 cursor-pointer overflow-hidden backdrop-blur-sm bg-black/20",
           variants[variant],
+          className,
           {
             // Remove hover effects on mobile to prevent sticky states needing a second tap to clear
             "sm:hover:[&>svg]:scale-110 sm:hover:text-primary active:scale-95": !disabled && !mobile,

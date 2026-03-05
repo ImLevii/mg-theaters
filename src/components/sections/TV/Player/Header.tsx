@@ -14,6 +14,8 @@ import { getTvShowPlayers } from "@/utils/players";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
+import { useAutoPlay } from "@/hooks/useAutoPlay";
+
 const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   id,
   seriesName,
@@ -28,6 +30,7 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
 }) => {
   const router = useRouter();
   const { openPiP } = usePiPStore();
+  const { autoPlay, toggleAutoPlay } = useAutoPlay();
 
   const handlePiP = () => {
     const players = getTvShowPlayers(id, episode.season_number, episode.episode_number);
@@ -62,16 +65,29 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
 
       <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center pointer-events-none">
         <div className="hidden md:flex flex-col justify-center text-center">
-          <p className="text-sm text-white/90 text-shadow-lg sm:text-lg font-orbitron font-bold tracking-widest uppercase truncate px-4">
+          <p className="text-sm text-shadow-lg sm:text-lg font-orbitron font-bold tracking-widest uppercase truncate px-4 bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
             {seriesName}
           </p>
-          <p className="text-[10px] text-gray-300 font-orbitron tracking-[0.2em] uppercase">
-            {seasonName} - {episode.name}
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-0.5">
+            <div className="h-[1px] w-6 bg-gradient-to-r from-transparent to-primary/40" />
+            <span className="text-[9px] text-primary/80 font-orbitron tracking-[0.2em] uppercase font-bold">
+              {seasonName} • {episode.name}
+            </span>
+            <div className="h-[1px] w-6 bg-gradient-to-l from-transparent to-primary/40" />
+          </div>
         </div>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3 z-10">
+        <ActionButton
+          label="Auto-play"
+          tooltip={`Auto-play: ${autoPlay ? 'ON' : 'OFF'}`}
+          onClick={toggleAutoPlay}
+          variant="neon"
+          className={cn(autoPlay ? "text-primary" : "text-white/40")}
+        >
+          <Icon icon={autoPlay ? "fa6-solid:toggle-on" : "fa6-solid:toggle-off"} className="w-5 h-5 sm:w-6 sm:h-6" />
+        </ActionButton>
         <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP} variant="neon">
           <Icon icon="fa6-solid:compress" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
