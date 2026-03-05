@@ -10,7 +10,7 @@ import { Episode, TvShowDetails } from "tmdb-ts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { SpacingClasses } from "@/utils/constants";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
-import { useAutoPlay } from "@/hooks/useAutoPlay";
+import { usePlayerStore } from "@/hooks/usePlayerStore";
 
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
 const TvShowPlayerSourceSelection = dynamic(() => import("./SourceSelection"));
@@ -45,7 +45,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
-  const { autoPlay: isAutoPlay } = useAutoPlay();
+  const { autoPlay: isAutoPlay } = usePlayerStore();
 
   const players = getTvShowPlayers(id, episode.season_number, episode.episode_number, startAt);
   const idle = useIdle(3000);
@@ -88,7 +88,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
     }
   }, [autoPlayQuery]);
 
-  const handlePlay = () => {
+  const handlePlay = React.useCallback(() => {
     setIsPlayingLocal(true);
 
     // iOS specific: Try to trigger fullscreen on the video element directly if possible
@@ -96,6 +96,9 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
       setTimeout(() => {
         if (mobileVideoRef.current) {
           const video = mobileVideoRef.current;
+          // Explicitly play for mobile
+          video.play().catch(err => console.warn("Force play failed:", err));
+
           if ((video as any).webkitEnterFullscreen) {
             (video as any).webkitEnterFullscreen();
           } else if (video.requestFullscreen) {
@@ -104,9 +107,16 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
         } else if (containerRef.current) {
           triggerFullscreen(containerRef.current);
         }
-      }, 0);
+      }, 100);
     }
-  };
+  }, [mobile]);
+
+  // Handle autoplay query param with force play
+  React.useEffect(() => {
+    if (autoPlayQuery && !isPlayingLocal) {
+      handlePlay();
+    }
+  }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 
   return (
     <>

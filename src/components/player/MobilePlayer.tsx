@@ -81,6 +81,24 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
         }
     };
 
+    // Safety check for ended state on mobile browsers that might miss the 'ended' event
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const checkEnded = () => {
+            if (video.duration > 0 && video.currentTime >= video.duration - 0.5) {
+                // If it's near the end and paused/ended, treat as ended
+                if (video.paused || video.ended) {
+                    handleEnded();
+                }
+            }
+        };
+
+        video.addEventListener("timeupdate", checkEnded);
+        return () => video.removeEventListener("timeupdate", checkEnded);
+    }, [onEnded]);
+
     return (
         <div className="relative h-full w-full bg-black flex items-center justify-center">
             {loading && (

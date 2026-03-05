@@ -14,7 +14,7 @@ import { getTvShowPlayers } from "@/utils/players";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
-import { useAutoPlay } from "@/hooks/useAutoPlay";
+import { usePlayerStore } from "@/hooks/usePlayerStore";
 
 const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   id,
@@ -30,7 +30,7 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
 }) => {
   const router = useRouter();
   const { openPiP } = usePiPStore();
-  const { autoPlay, toggleAutoPlay } = useAutoPlay();
+  const { autoPlay, toggleAutoPlay } = usePlayerStore();
 
   const handlePiP = () => {
     const players = getTvShowPlayers(id, episode.season_number, episode.episode_number);

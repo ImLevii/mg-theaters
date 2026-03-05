@@ -10,7 +10,7 @@ import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
 import React, { useMemo } from "react";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
-import { useAutoPlay } from "@/hooks/useAutoPlay";
+import { usePlayerStore } from "@/hooks/usePlayerStore";
 
 import { useRouter } from "next/navigation";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -61,7 +61,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     }
   }, [mobile, selectedSource, setSelectedSource]);
 
-  const { autoPlay: isAutoPlay } = useAutoPlay();
+  const { autoPlay: isAutoPlay } = usePlayerStore();
 
   const handleMobileEnded = async () => {
     if (!isAutoPlay) return;
@@ -109,7 +109,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     return src as `https://${string}`;
   }, [PLAYER.source, isPlayingLocal]);
 
-  const handlePlay = () => {
+  const handlePlay = React.useCallback(() => {
     setIsPlayingLocal(true);
 
     // iOS specific: Try to trigger fullscreen on the video element directly if possible
@@ -117,6 +117,9 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
       setTimeout(() => {
         if (mobileVideoRef.current) {
           const video = mobileVideoRef.current;
+          // Explicitly play for mobile
+          video.play().catch(err => console.warn("Force play failed:", err));
+          
           if ((video as any).webkitEnterFullscreen) {
             (video as any).webkitEnterFullscreen();
           } else if (video.requestFullscreen) {
@@ -125,9 +128,16 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
         } else if (containerRef.current) {
           triggerFullscreen(containerRef.current);
         }
-      }, 0);
+      }, 100); // Small delay to ensure player is ready
     }
-  };
+  }, [mobile]);
+
+  // Handle autoplay query param with force play
+  React.useEffect(() => {
+    if (autoPlayQuery && !isPlayingLocal) {
+      handlePlay();
+    }
+  }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 
   return (
     <>
