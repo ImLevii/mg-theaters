@@ -149,16 +149,22 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   // Handle autoplay query param with force play
   React.useEffect(() => {
     if (autoPlayQuery && !isPlayingLocal) {
-      const timer = setTimeout(() => {
+      console.log("[MoviePlayer] Autoplay detected, searching for play button...");
+      let attempts = 0;
+      const interval = setInterval(() => {
         const playButton = document.getElementById("hero-play-button");
         if (playButton) {
-          console.log("[MoviePlayer] Auto-clicking hero play button");
+          console.log("[MoviePlayer] Found hero play button, clicking...");
           playButton.click();
-        } else {
+          clearInterval(interval);
+        } else if (attempts > 10) {
+          console.log("[MoviePlayer] Hero play button not found after 5s, falling back to manual handlePlay");
           handlePlay();
+          clearInterval(interval);
         }
+        attempts++;
       }, 500);
-      return () => clearTimeout(timer);
+      return () => clearInterval(interval);
     }
   }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 

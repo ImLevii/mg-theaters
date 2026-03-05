@@ -78,7 +78,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   );
 
   return href ? (
-    <Link href={href} className="flex items-center">
+    <Link id={id} href={href} className="flex items-center">
       {Button}
     </Link>
   ) : (

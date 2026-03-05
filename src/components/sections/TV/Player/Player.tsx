@@ -143,16 +143,22 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   // Handle autoplay query param with force play
   React.useEffect(() => {
     if (autoPlayQuery && !isPlayingLocal) {
-      const timer = setTimeout(() => {
+      console.log("[TvShowPlayer] Autoplay detected, searching for play button...");
+      let attempts = 0;
+      const interval = setInterval(() => {
         const playButton = document.getElementById("hero-play-button");
         if (playButton) {
-          console.log("[TvShowPlayer] Auto-clicking hero play button");
+          console.log("[TvShowPlayer] Found hero play button, clicking...");
           playButton.click();
-        } else {
+          clearInterval(interval);
+        } else if (attempts > 10) {
+          console.log("[TvShowPlayer] Hero play button not found after 5s, falling back to manual handlePlay");
           handlePlay();
+          clearInterval(interval);
         }
+        attempts++;
       }, 500);
-      return () => clearTimeout(timer);
+      return () => clearInterval(interval);
     }
   }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 
