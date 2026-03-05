@@ -31,6 +31,13 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const sentEnded = useRef(false);
+    const onEndedRef = useRef(onEnded);
+
+    // Keep onEnded context fresh without re-triggering effects
+    useEffect(() => {
+        onEndedRef.current = onEnded;
+    }, [onEnded]);
 
     // Expose the video element through the ref
     useImperativeHandle(ref, () => videoRef.current!);
@@ -72,15 +79,19 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
             }
         };
 
+        sentEnded.current = false; // Reset for new stream
         fetchStream();
     }, [id, type, season, episode]);
 
     const handleEnded = useCallback(() => {
+        if (sentEnded.current) return;
+        sentEnded.current = true;
+        
         console.log("[NativePlayer] handleEnded triggered");
-        if (onEnded) {
-            onEnded();
+        if (onEndedRef.current) {
+            onEndedRef.current();
         }
-    }, [onEnded]);
+    }, []);
 
     // Safety check for ended state
     useEffect(() => {
@@ -88,11 +99,13 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
         if (!video) return;
 
         const checkEnded = () => {
-            if (video.duration > 0 && video.currentTime >= video.duration - 1) {
+            if (video.duration > 0 && video.currentTime >= video.duration - 2) {
+                console.log(`[NativePlayer] Near end: ${video.currentTime.toFixed(2)}/${video.duration.toFixed(2)} ended:${video.ended} paused:${video.paused}`);
+                
                 if (video.ended) {
                     console.log("[NativePlayer] Safety check: video.ended is true");
                     handleEnded();
-                } else if (video.paused && video.currentTime > 5) { // Ensure it's not just a buffer pause at start
+                } else if (video.paused && video.currentTime > 10) { 
                      console.log("[NativePlayer] Safety check: video.paused near end");
                      handleEnded();
                 }
@@ -100,8 +113,13 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
         };
 
         video.addEventListener("timeupdate", checkEnded);
-        return () => video.removeEventListener("timeupdate", checkEnded);
-    }, [onEnded]);
+        video.addEventListener("ended", handleEnded);
+        
+        return () => {
+            video.removeEventListener("timeupdate", checkEnded);
+            video.removeEventListener("ended", handleEnded);
+        };
+    }, [handleEnded]);
 
     return (
         <div className="relative h-full w-full bg-black flex items-center justify-center">

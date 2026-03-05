@@ -55,21 +55,28 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
 
   // Default to VidSrc 2 (index 7) or SuperEmbed (index 3) on mobile if no source is selected
+  // CRITICAL: Disable override if autoplay is active to maintain NativePlayer support
   React.useEffect(() => {
-    if (mobile && selectedSource === 0) {
+    if (mobile && selectedSource === 0 && !autoPlayQuery) {
+      console.log("[MoviePlayer] Auto-switching to VidSrc 2 on mobile (no autoplay)");
       setSelectedSource(7); // VidSrc 2
+    } else if (mobile && selectedSource === 0 && autoPlayQuery) {
+      console.log("[MoviePlayer] Maintaining NativePlayer for mobile auto-play");
     }
-  }, [mobile, selectedSource, setSelectedSource]);
+  }, [mobile, selectedSource, setSelectedSource, autoPlayQuery]);
 
   const { autoPlay: isAutoPlay } = usePlayerStore();
 
-  const handleMobileEnded = async () => {
+  const handleNativeEnded = async () => {
+    console.log("[MoviePlayer] NativePlayer signaled onEnded. isAutoPlay:", isAutoPlay);
     if (!isAutoPlay) return;
     try {
       const res = await fetch("/api/movies/random");
       const data = await res.json();
       if (data.id) {
-        window.location.href = `/movie/${data.id}?autoplay=true`;
+        const nextUrl = `/movie/${data.id}?autoplay=true`;
+        console.log("[MoviePlayer] Auto-playing random movie:", nextUrl);
+        window.location.href = nextUrl;
       }
     } catch (err) {
       console.error("Failed to autoplay random movie", err);
@@ -171,7 +178,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 type="movie"
                 title={title}
                 poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                onEnded={handleMobileEnded}
+                onEnded={handleNativeEnded}
                 onError={handleNativeError}
               />
             </div>

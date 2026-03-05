@@ -61,11 +61,15 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   );
 
   // Default to VidSrc 2 (index 7) or SuperEmbed (index 3) on mobile if no source is selected
+  // CRITICAL: Disable override if autoplay is active to maintain NativePlayer support
   React.useEffect(() => {
-    if (mobile && selectedSource === 0) {
+    if (mobile && selectedSource === 0 && !autoPlayQuery) {
+      console.log("[TvShowPlayer] Auto-switching to VidSrc 2 on mobile (no autoplay)");
       setSelectedSource(7); // VidSrc 2
+    } else if (mobile && selectedSource === 0 && autoPlayQuery) {
+      console.log("[TvShowPlayer] Maintaining NativePlayer for mobile auto-play");
     }
-  }, [mobile, selectedSource, setSelectedSource]);
+  }, [mobile, selectedSource, setSelectedSource, autoPlayQuery]);
 
   usePlayerEvents({
     saveHistory: true,
@@ -76,6 +80,22 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   );
 
   const PLAYER = useMemo(() => players[selectedSource] || players[0], [players, selectedSource]);
+
+  // Construct source with autoplay if needed
+  const playerSource = useMemo(() => {
+    let src = PLAYER.source;
+    if (isPlayingLocal) {
+      if (src.includes("autoplay=false")) {
+        src = src.replace("autoplay=false", "autoplay=true") as `https://${string}`;
+      } else if (src.includes("autoPlay=false")) {
+        src = src.replace("autoPlay=false", "autoPlay=true") as `https://${string}`;
+      } else {
+        const separator = src.includes("?") ? "&" : "?";
+        src = `${src}${separator}autoplay=true` as `https://${string}`;
+      }
+    }
+    return src as `https://${string}`;
+  }, [PLAYER.source, isPlayingLocal]);
 
   const handleNativeError = () => {
     console.warn("Native player failed to load stream, falling back to iframe.");
@@ -195,7 +215,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 allowFullScreen
                 key={PLAYER.title}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                src={PLAYER.source}
+                src={playerSource}
                 className={cn("z-10 h-full w-full border-none", {
                   "pointer-events-none": idle && !mobile,
                 })}
