@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
 import { usePlayerStore } from "@/hooks/usePlayerStore";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   id,
@@ -31,6 +32,7 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
   const router = useRouter();
   const { openPiP } = usePiPStore();
   const { autoPlay, toggleAutoPlay } = usePlayerStore();
+  const mobile = useIsMobile();
 
   const handlePiP = () => {
     const players = getTvShowPlayers(id, episode.season_number, episode.episode_number);
@@ -54,7 +56,9 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
       className={cn(
         "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 transition-all duration-300",
         "bg-gradient-to-b from-black/80 to-transparent p-3 md:p-6 text-white",
-        hidden ? "opacity-0 pointer-events-none -translate-y-2" : "opacity-100 pointer-events-auto translate-y-0"
+        mobile 
+          ? (hidden ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto") 
+          : (hidden ? "opacity-0 pointer-events-none -translate-y-2" : "opacity-100 pointer-events-auto translate-y-0")
       )}
     >
       <div className="z-10">

@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { parseAsInteger, useQueryState } from "nuqs";
 
 import { usePlayerStore } from "@/hooks/usePlayerStore";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
   id,
@@ -31,6 +32,7 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
   const { openPiP } = usePiPStore();
   const [selectedSource] = useQueryState("src", parseAsInteger.withDefault(0));
   const { autoPlay, toggleAutoPlay } = usePlayerStore();
+  const mobile = useIsMobile();
 
   const handlePiP = () => {
     const players = getMoviePlayers(id);
@@ -45,9 +47,9 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
       className={cn(
         "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 transition-all duration-300",
         "bg-gradient-to-b from-black/80 to-transparent p-3 text-white md:p-6",
-        hidden
-          ? "pointer-events-none -translate-y-2 opacity-0"
-          : "pointer-events-auto translate-y-0 opacity-100",
+        mobile 
+          ? (hidden ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100") 
+          : (hidden ? "pointer-events-none -translate-y-2 opacity-0" : "pointer-events-auto translate-y-0 opacity-100")
       )}
     >
       <div className="z-10">

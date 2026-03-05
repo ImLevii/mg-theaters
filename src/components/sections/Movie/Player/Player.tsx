@@ -146,7 +146,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
           id={movie.id}
           movieName={title}
           onOpenSource={handlers.open}
-          hidden={idle || !isPlayingLocal}
+          hidden={(idle && !mobile) || !isPlayingLocal}
           minimal={minimal}
         />
         <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black overflow-hidden" ref={containerRef}>

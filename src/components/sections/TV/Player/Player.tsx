@@ -124,7 +124,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
         <TvShowPlayerHeader
           id={id}
           episode={episode}
-          hidden={idle && !mobile}
+          hidden={(idle && !mobile) || !isPlayingLocal}
           selectedSource={selectedSource}
           onOpenSource={sourceHandlers.open}
           onOpenEpisode={episodeHandlers.open}
