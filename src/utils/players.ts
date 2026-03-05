@@ -38,36 +38,20 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
       resumable: true,
     },
     {
-      title: "<Embed>",
-      source: `https://embed.su/embed/movie/${id}`,
-      ads: false,
-    },
-    {
       title: "SuperEmbed",
       source: `/api/proxy/superembed?video_id=${id}&tmdb=1`,
+      recommended: true,
       fast: true,
       ads: false,
-    },
-    {
-      title: "FilmKu",
-      source: `https://filmku.stream/embed/${id}`,
-      ads: false,
-    },
-    {
-      title: "NontonGo",
-      source: `https://www.nontongo.win/embed/movie/${id}`,
-      ads: false,
+      resumable: true,
     },
     {
       title: "AutoEmbed 1",
       source: `https://autoembed.co/movie/tmdb/${id}`,
+      recommended: true,
       fast: true,
       ads: false,
-    },
-    {
-      title: "AutoEmbed 2",
-      source: `https://player.autoembed.cc/embed/movie/${id}`,
-      ads: false,
+      resumable: true,
     },
     {
       title: "2Embed",
@@ -81,29 +65,7 @@ export const getMoviePlayers = (id: string | number, startAt?: number): PlayersP
     },
     {
       title: "VidSrc 2",
-      source: `https://vidsrc.to/embed/movie/${id}`,
-      ads: false,
-    },
-    {
-      title: "VidSrc 3",
       source: `https://vidsrc.icu/embed/movie/${id}`,
-      ads: false,
-    },
-    {
-      title: "VidSrc 4",
-      source: `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=false`,
-      ads: false,
-    },
-    {
-      title: "VidSrc 5",
-      source: `https://vidsrc.cc/v3/embed/movie/${id}?autoPlay=false`,
-      recommended: true,
-      fast: true,
-      ads: false,
-    },
-    {
-      title: "MoviesAPI",
-      source: `https://moviesapi.club/movie/${id}`,
       ads: false,
     },
   ];
@@ -154,36 +116,20 @@ export const getTvShowPlayers = (
       resumable: true,
     },
     {
-      title: "<Embed>",
-      source: `https://embed.su/embed/tv/${id}/${season}/${episode}`,
-      ads: false,
-    },
-    {
       title: "SuperEmbed",
       source: `/api/proxy/superembed?video_id=${id}&tmdb=1&season=${season}&episode=${episode}`,
+      recommended: true,
       fast: true,
       ads: false,
-    },
-    {
-      title: "FilmKu",
-      source: `https://filmku.stream/embed/series?tmdb=${id}&sea=${season}&epi=${episode}`,
-      ads: false,
-    },
-    {
-      title: "NontonGo",
-      source: `https://www.NontonGo.win/embed/tv/${id}/${season}/${episode}`,
-      ads: false,
+      resumable: true,
     },
     {
       title: "AutoEmbed 1",
       source: `https://autoembed.co/tv/tmdb/${id}-${season}-${episode}`,
+      recommended: true,
       fast: true,
       ads: false,
-    },
-    {
-      title: "AutoEmbed 2",
-      source: `https://player.autoembed.cc/embed/tv/${id}/${season}/${episode}`,
-      ads: false,
+      resumable: true,
     },
     {
       title: "2Embed",
@@ -197,29 +143,14 @@ export const getTvShowPlayers = (
     },
     {
       title: "VidSrc 2",
-      source: `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`,
-      ads: false,
-    },
-    {
-      title: "VidSrc 3",
       source: `https://vidsrc.icu/embed/tv/${id}/${season}/${episode}`,
       ads: false,
     },
     {
-      title: "VidSrc 4",
-      source: `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?autoPlay=false`,
-      ads: false,
-    },
-    {
-      title: "VidSrc 5",
+      title: "VidSrc 3",
       source: `https://vidsrc.cc/v3/embed/tv/${id}/${season}/${episode}?autoPlay=false`,
       recommended: true,
       fast: true,
-      ads: false,
-    },
-    {
-      title: "MoviesAPI",
-      source: `https://moviesapi.club/tv/${id}-${season}-${episode}`,
       ads: false,
     },
   ];
