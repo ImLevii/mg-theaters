@@ -15,6 +15,7 @@ import { usePlayerStore } from "@/hooks/usePlayerStore";
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
 const TvShowPlayerSourceSelection = dynamic(() => import("./SourceSelection"));
 const TvShowPlayerEpisodeSelection = dynamic(() => import("./EpisodeSelection"));
+import { useRouter } from "next/navigation";
 const NativePlayer = dynamic(() => import("@/components/player/NativePlayer"), {
   ssr: false,
 });
@@ -41,6 +42,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   ...props
 }) => {
   const mobile = useIsMobile();
+  const router = useRouter();
   const [nativePlayerFailed, setNativePlayerFailed] = useState(false);
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -185,11 +187,10 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 title={`${props.seriesName} - ${episode.name}`}
                 poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
                 onEnded={() => {
-                  console.log("[TvShowPlayer] NativePlayer signaled onEnded. isAutoPlay:", isAutoPlay, "next:", props.nextEpisodeNumber);
                   if (isAutoPlay && props.nextEpisodeNumber) {
                     const nextUrl = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
                     console.log("[TvShowPlayer] Auto-playing next episode:", nextUrl);
-                    window.location.href = nextUrl;
+                    router.push(nextUrl);
                   }
                 }}
                 onError={handleNativeError}

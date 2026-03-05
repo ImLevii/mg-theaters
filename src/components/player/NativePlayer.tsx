@@ -137,6 +137,12 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
                 autoPlay
                 playsInline
                 onEnded={handleEnded}
+                onLoadedMetadata={(e) => {
+                    const video = e.currentTarget;
+                    video.play().catch(err => {
+                        console.warn("[NativePlayer] Autoplay blocked or failed, waiting for user interaction:", err);
+                    });
+                }}
                 poster={poster}
                 style={{ WebkitAppearance: 'none', maxHeight: '100%', maxWidth: '100%' }}
             />

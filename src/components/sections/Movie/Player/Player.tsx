@@ -76,7 +76,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
       if (data.id) {
         const nextUrl = `/movie/${data.id}?autoplay=true`;
         console.log("[MoviePlayer] Auto-playing random movie:", nextUrl);
-        window.location.href = nextUrl;
+        router.push(nextUrl);
       }
     } catch (err) {
       console.error("Failed to autoplay random movie", err);
