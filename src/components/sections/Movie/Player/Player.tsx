@@ -18,7 +18,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 const MoviePlayerHeader = dynamic(() => import("./Header"));
 const MoviePlayerSourceSelection = dynamic(() => import("./SourceSelection"));
 const MoviePlayerHero = dynamic(() => import("./PlayerHero"));
-const MobilePlayer = dynamic(() => import("@/components/player/MobilePlayer"), {
+const NativePlayer = dynamic(() => import("@/components/player/NativePlayer"), {
   ssr: false,
 });
 
@@ -48,7 +48,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
 
   // ACTUAL STATE
   const [isPlayingLocal, setIsPlayingLocal] = React.useState(false);
-  const [mobilePlayerFailed, setMobilePlayerFailed] = React.useState(false);
+  const [nativePlayerFailed, setNativePlayerFailed] = React.useState(false);
   const router = useRouter();
   const mobile = useIsMobile();
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -76,9 +76,9 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     }
   };
 
-  const handleMobileError = () => {
-    console.warn("Mobile player failed to load stream, falling back to iframe.");
-    setMobilePlayerFailed(true);
+  const handleNativeError = () => {
+    console.warn("Native player failed to load stream, falling back to iframe.");
+    setNativePlayerFailed(true);
   };
 
   React.useEffect(() => {
@@ -139,6 +139,8 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
     }
   }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 
+  const isNativeSource = selectedSource === 0 || selectedSource === 1;
+
   return (
     <>
       <div className="relative w-full bg-black aspect-video min-h-[200px] sm:min-h-[280px] md:min-h-0">
@@ -150,23 +152,21 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
           minimal={minimal}
         />
         <Card shadow="none" radius="none" className="relative h-full w-full border-none bg-black overflow-hidden" ref={containerRef}>
-          {!isPlayingLocal && !mobile ? (
-            <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
-          ) : mobile && !mobilePlayerFailed ? (
+          {(mobile || isNativeSource) && !nativePlayerFailed ? (
             <div className="relative h-full w-full">
               {!isPlayingLocal && (
                 <div className="absolute inset-0 z-20">
                   <MoviePlayerHero movie={movie} onPlay={handlePlay} minimal={minimal} />
                 </div>
               )}
-              <MobilePlayer
+              <NativePlayer
                 ref={mobileVideoRef}
                 id={movie.id}
                 type="movie"
                 title={title}
                 poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                 onEnded={handleMobileEnded}
-                onError={handleMobileError}
+                onError={handleNativeError}
               />
             </div>
           ) : (

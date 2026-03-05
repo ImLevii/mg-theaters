@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"; // App router
 import { Loader2 } from "lucide-react";
 import { cn } from "@/utils/helpers";
 
-interface MobilePlayerProps {
+interface NativePlayerProps {
     id: number | string;
     type: "movie" | "tv";
     season?: number;
@@ -16,7 +16,7 @@ interface MobilePlayerProps {
     onError?: () => void;
 }
 
-const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
+const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
     id,
     type,
     season,
@@ -45,27 +45,26 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
                     url += `&season=${season}&episode=${episode}`;
                 }
 
-                console.log("[MobilePlayer] Fetching stream from:", url);
+                console.log("[NativePlayer] Fetching stream from:", url);
                 const res = await fetch(url);
 
                 if (!res.ok) {
                     const errorText = await res.text();
-                    console.error("[MobilePlayer] Fetch failed:", res.status, errorText);
+                    console.error("[NativePlayer] Fetch failed:", res.status, errorText);
                     throw new Error(`Failed to fetch stream: ${res.status}`);
                 }
 
                 const data = await res.json();
-                console.log("[MobilePlayer] Stream data received:", data);
+                console.log("[NativePlayer] Stream data received:", data);
 
                 if (data.stream && data.stream.playlist) {
                     setStreamUrl(data.stream.playlist);
                 } else {
-                    console.error("[MobilePlayer] No playlist found in data");
+                    console.error("[NativePlayer] No playlist found in data");
                     throw new Error("No stream URL found");
                 }
             } catch (err) {
                 console.error("Error fetching stream:", err);
-                // setError("Failed to load video."); // Don't show error text, trigger fallback
                 if (onError) onError();
             } finally {
                 setLoading(false);
@@ -81,14 +80,13 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
         }
     };
 
-    // Safety check for ended state on mobile browsers that might miss the 'ended' event
+    // Safety check for ended state
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
         const checkEnded = () => {
             if (video.duration > 0 && video.currentTime >= video.duration - 0.5) {
-                // If it's near the end and paused/ended, treat as ended
                 if (video.paused || video.ended) {
                     handleEnded();
                 }
@@ -122,6 +120,6 @@ const MobilePlayer = forwardRef<HTMLVideoElement, MobilePlayerProps>(({
     );
 });
 
-MobilePlayer.displayName = "MobilePlayer";
+NativePlayer.displayName = "NativePlayer";
 
-export default MobilePlayer;
+export default NativePlayer;

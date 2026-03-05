@@ -15,7 +15,7 @@ import { usePlayerStore } from "@/hooks/usePlayerStore";
 const TvShowPlayerHeader = dynamic(() => import("./Header"));
 const TvShowPlayerSourceSelection = dynamic(() => import("./SourceSelection"));
 const TvShowPlayerEpisodeSelection = dynamic(() => import("./EpisodeSelection"));
-const MobilePlayer = dynamic(() => import("@/components/player/MobilePlayer"), {
+const NativePlayer = dynamic(() => import("@/components/player/NativePlayer"), {
   ssr: false,
 });
 const MoviePlayerHero = dynamic(() => import("../../Movie/Player/PlayerHero"));
@@ -41,7 +41,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   ...props
 }) => {
   const mobile = useIsMobile();
-  const [mobilePlayerFailed, setMobilePlayerFailed] = useState(false);
+  const [nativePlayerFailed, setNativePlayerFailed] = useState(false);
   const [isPlayingLocal, setIsPlayingLocal] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
@@ -77,9 +77,9 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
 
   const PLAYER = useMemo(() => players[selectedSource] || players[0], [players, selectedSource]);
 
-  const handleMobileError = () => {
-    console.warn("Mobile player failed to load stream, falling back to iframe.");
-    setMobilePlayerFailed(true);
+  const handleNativeError = () => {
+    console.warn("Native player failed to load stream, falling back to iframe.");
+    setNativePlayerFailed(true);
   };
 
   React.useEffect(() => {
@@ -118,6 +118,8 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
     }
   }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 
+  const isNativeSource = selectedSource === 0 || selectedSource === 1;
+
   return (
     <>
       <div className={cn("relative", SpacingClasses.reset)}>
@@ -132,7 +134,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
         />
 
         <Card shadow="none" radius="none" className="relative h-[calc(100dvh-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full border-none overflow-hidden" ref={containerRef}>
-          {mobile && !mobilePlayerFailed ? (
+          {(mobile || isNativeSource) && !nativePlayerFailed ? (
             <div className="relative h-full w-full">
               {!isPlayingLocal && (
                 <div className="absolute inset-0 z-20">
@@ -147,7 +149,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                   />
                 </div>
               )}
-              <MobilePlayer
+              <NativePlayer
                 ref={mobileVideoRef}
                 id={id}
                 type="tv"
@@ -160,7 +162,7 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                     window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
                   }
                 }}
-                onError={handleMobileError}
+                onError={handleNativeError}
               />
             </div>
           ) : (
