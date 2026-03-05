@@ -66,6 +66,7 @@ const PlayerHero: React.FC<PlayerHeroProps> = ({ movie, onPlay, minimal = false 
                         className="inline-block"
                     >
                         <NeonButton
+                            id="hero-play-button"
                             variant="green"
                             onClick={onPlay}
                             className="min-w-[120px] md:min-w-[160px] py-4 px-6 md:py-4 md:px-8 text-sm md:text-lg"

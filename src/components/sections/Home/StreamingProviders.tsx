@@ -16,7 +16,7 @@ const StreamingProviders = () => {
 
     const providers = [
         { name: "Netflix", icon: "simple-icons:netflix" },
-        { name: "Disney+", icon: "simple-icons:disneyplus" },
+        // { name: "Disney+", icon: "simple-icons:disneyplus" },
         { name: "Apple TV", icon: "simple-icons:appletv" },
         { name: "Prime Video", icon: "simple-icons:primevideo" },
         { name: "HBO Max", icon: "simple-icons:hbo" },

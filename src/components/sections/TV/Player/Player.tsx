@@ -143,7 +143,16 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   // Handle autoplay query param with force play
   React.useEffect(() => {
     if (autoPlayQuery && !isPlayingLocal) {
-      handlePlay();
+      const timer = setTimeout(() => {
+        const playButton = document.getElementById("hero-play-button");
+        if (playButton) {
+          console.log("[TvShowPlayer] Auto-clicking hero play button");
+          playButton.click();
+        } else {
+          handlePlay();
+        }
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [autoPlayQuery, isPlayingLocal, handlePlay]);
 

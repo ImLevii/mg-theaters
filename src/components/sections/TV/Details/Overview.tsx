@@ -109,7 +109,7 @@ export const TvShowOverviewSection: React.FC<TvShowOverviewSectionProps> = ({
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-4 mt-2">
             <NeonButton
-              variant="green"
+              variant="orange"
               onClick={onViewEpisodesClick}
               icon={<FaCirclePlay size={18} />}
               className="min-w-[140px]"
