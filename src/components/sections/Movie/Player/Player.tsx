@@ -110,26 +110,32 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   }, [PLAYER.source, isPlayingLocal]);
 
   const handlePlay = React.useCallback(() => {
+    console.log("[MoviePlayer] handlePlay initiated. mobile:", mobile);
     setIsPlayingLocal(true);
 
-    // iOS specific: Try to trigger fullscreen on the video element directly if possible
-    if (mobile) {
-      setTimeout(() => {
-        if (mobileVideoRef.current) {
-          const video = mobileVideoRef.current;
-          // Explicitly play for mobile
-          video.play().catch(err => console.warn("Force play failed:", err));
-          
+    setTimeout(() => {
+      if (mobileVideoRef.current) {
+        const video = mobileVideoRef.current;
+        console.log("[MoviePlayer] Executing force play trigger...");
+
+        video.play()
+          .then(() => console.log("[MoviePlayer] Force play successful"))
+          .catch(err => console.error("[MoviePlayer] Force play failed or blocked:", err));
+        
+        if (mobile) {
           if ((video as any).webkitEnterFullscreen) {
             (video as any).webkitEnterFullscreen();
           } else if (video.requestFullscreen) {
             video.requestFullscreen();
           }
-        } else if (containerRef.current) {
+        }
+      } else {
+        console.warn("[MoviePlayer] mobileVideoRef is null during handlePlay timeout");
+        if (containerRef.current && mobile) {
           triggerFullscreen(containerRef.current);
         }
-      }, 100); // Small delay to ensure player is ready
-    }
+      }
+    }, 800);
   }, [mobile]);
 
   // Handle autoplay query param with force play

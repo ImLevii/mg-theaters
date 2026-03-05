@@ -35,7 +35,7 @@ const MoviePlayerSourceSelection: React.FC<MoviePlayerSourceSelectionProps> = ({
       backdrop="blur"
       title={
         <div className="flex flex-col items-center gap-1">
-          <span className="font-orbitron font-extrabold tracking-[0.2em] text-xl sm:text-2xl uppercase bg-gradient-to-r from-primary to-black bg-clip-text text-transparent drop-shadow-sm">
+          <span className="font-orbitron font-extrabold tracking-[0.2em] text-xl sm:text-2xl uppercase bg-gradient-to-r from-primary bg-white/[0.02] bg-clip-text text-transparent drop-shadow-sm">
             Select Source
           </span>
           <div className="h-1 w-12 rounded-full bg-primary/30" />

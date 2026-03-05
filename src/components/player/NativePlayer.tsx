@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle, useCallback } from "react";
 import Video from "next-video";
 import { useRouter } from "next/navigation"; // App router
 import { Loader2 } from "lucide-react";
@@ -55,9 +55,10 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
                 }
 
                 const data = await res.json();
-                console.log("[NativePlayer] Stream data received:", data);
+                console.log("[NativePlayer] Stream data received:", !!data.stream);
 
                 if (data.stream && data.stream.playlist) {
+                    console.log("[NativePlayer] Setting stream URL:", data.stream.playlist.substring(0, 50) + "...");
                     setStreamUrl(data.stream.playlist);
                 } else {
                     console.error("[NativePlayer] No playlist found in data");
@@ -74,11 +75,12 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
         fetchStream();
     }, [id, type, season, episode]);
 
-    const handleEnded = () => {
+    const handleEnded = useCallback(() => {
+        console.log("[NativePlayer] handleEnded triggered");
         if (onEnded) {
             onEnded();
         }
-    };
+    }, [onEnded]);
 
     // Safety check for ended state
     useEffect(() => {
@@ -86,9 +88,13 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
         if (!video) return;
 
         const checkEnded = () => {
-            if (video.duration > 0 && video.currentTime >= video.duration - 0.5) {
-                if (video.paused || video.ended) {
+            if (video.duration > 0 && video.currentTime >= video.duration - 1) {
+                if (video.ended) {
+                    console.log("[NativePlayer] Safety check: video.ended is true");
                     handleEnded();
+                } else if (video.paused && video.currentTime > 5) { // Ensure it's not just a buffer pause at start
+                     console.log("[NativePlayer] Safety check: video.paused near end");
+                     handleEnded();
                 }
             }
         };

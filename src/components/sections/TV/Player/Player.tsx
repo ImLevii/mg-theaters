@@ -89,26 +89,33 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
   }, [autoPlayQuery]);
 
   const handlePlay = React.useCallback(() => {
+    console.log("[TvShowPlayer] handlePlay initiated. mobile:", mobile);
     setIsPlayingLocal(true);
 
-    // iOS specific: Try to trigger fullscreen on the video element directly if possible
-    if (mobile) {
-      setTimeout(() => {
-        if (mobileVideoRef.current) {
-          const video = mobileVideoRef.current;
-          // Explicitly play for mobile
-          video.play().catch(err => console.warn("Force play failed:", err));
+    // Give the dynamic component time to mount and the ref to attach
+    setTimeout(() => {
+      if (mobileVideoRef.current) {
+        const video = mobileVideoRef.current;
+        console.log("[TvShowPlayer] Executing force play trigger...");
+        
+        video.play()
+          .then(() => console.log("[TvShowPlayer] Force play successful"))
+          .catch(err => console.error("[TvShowPlayer] Force play failed or blocked:", err));
 
+        if (mobile) {
           if ((video as any).webkitEnterFullscreen) {
             (video as any).webkitEnterFullscreen();
           } else if (video.requestFullscreen) {
             video.requestFullscreen();
           }
-        } else if (containerRef.current) {
+        }
+      } else {
+        console.warn("[TvShowPlayer] mobileVideoRef is null during handlePlay timeout");
+        if (containerRef.current && mobile) {
           triggerFullscreen(containerRef.current);
         }
-      }, 100);
-    }
+      }
+    }, 800);
   }, [mobile]);
 
   // Handle autoplay query param with force play
@@ -158,8 +165,11 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 title={`${props.seriesName} - ${episode.name}`}
                 poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
                 onEnded={() => {
+                  console.log("[TvShowPlayer] NativePlayer signaled onEnded. isAutoPlay:", isAutoPlay, "next:", props.nextEpisodeNumber);
                   if (isAutoPlay && props.nextEpisodeNumber) {
-                    window.location.href = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
+                    const nextUrl = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
+                    console.log("[TvShowPlayer] Auto-playing next episode:", nextUrl);
+                    window.location.href = nextUrl;
                   }
                 }}
                 onError={handleNativeError}
