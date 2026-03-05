@@ -6,7 +6,7 @@ import { getMoviePlayers } from "@/utils/players";
 import { Card, Skeleton } from "@heroui/react";
 import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
 import dynamic from "next/dynamic";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
 import React, { useMemo } from "react";
 import { MovieDetails } from "tmdb-ts/dist/types/movies";
 import { usePlayerEvents } from "@/hooks/usePlayerEvents";
@@ -37,6 +37,10 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   const [selectedSource, setSelectedSource] = useQueryState<number>(
     "src",
     parseAsInteger.withDefault(0),
+  );
+  const [autoPlayQuery] = useQueryState(
+    "autoplay",
+    parseAsBoolean.withDefault(false),
   );
 
   usePlayerEvents({ saveHistory: true });
@@ -78,10 +82,10 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
   };
 
   React.useEffect(() => {
-    if (autoPlay) {
+    if (autoPlay || autoPlayQuery) {
       setIsPlayingLocal(true);
     }
-  }, [autoPlay]);
+  }, [autoPlay, autoPlayQuery]);
 
   const PLAYER = useMemo(() => players[selectedSource] || players[0], [players, selectedSource]);
 

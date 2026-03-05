@@ -4,7 +4,7 @@ import { getTvShowPlayers } from "@/utils/players";
 import { Card, Skeleton } from "@heroui/react";
 import { useDisclosure, useDocumentTitle, useIdle } from "@mantine/hooks";
 import dynamic from "next/dynamic";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
 import React, { memo, useMemo, useState } from "react";
 import { Episode, TvShowDetails } from "tmdb-ts";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -55,6 +55,10 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
     "src",
     parseAsInteger.withDefault(0),
   );
+  const [autoPlayQuery] = useQueryState(
+    "autoplay",
+    parseAsBoolean.withDefault(false),
+  );
 
   // Default to VidSrc 2 (index 7) or SuperEmbed (index 3) on mobile if no source is selected
   React.useEffect(() => {
@@ -77,6 +81,12 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
     console.warn("Mobile player failed to load stream, falling back to iframe.");
     setMobilePlayerFailed(true);
   };
+
+  React.useEffect(() => {
+    if (autoPlayQuery) {
+      setIsPlayingLocal(true);
+    }
+  }, [autoPlayQuery]);
 
   const handlePlay = () => {
     setIsPlayingLocal(true);
