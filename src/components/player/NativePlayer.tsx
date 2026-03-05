@@ -10,6 +10,7 @@ interface NativePlayerProps {
     season?: number;
     episode?: number;
     onEnded?: () => void;
+    autoPlay?: boolean;
     // Metadata for overlay/UI if needed
     title?: string;
     poster?: string;
@@ -22,6 +23,7 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
     season,
     episode,
     onEnded,
+    autoPlay,
     title,
     poster,
     onError,
@@ -99,16 +101,10 @@ const NativePlayer = forwardRef<HTMLVideoElement, NativePlayerProps>(({
         if (!video) return;
 
         const checkEnded = () => {
-            if (video.duration > 0 && video.currentTime >= video.duration - 2) {
-                console.log(`[NativePlayer] Near end: ${video.currentTime.toFixed(2)}/${video.duration.toFixed(2)} ended:${video.ended} paused:${video.paused}`);
-                
-                if (video.ended) {
-                    console.log("[NativePlayer] Safety check: video.ended is true");
-                    handleEnded();
-                } else if (video.paused && video.currentTime > 10) { 
-                     console.log("[NativePlayer] Safety check: video.paused near end");
-                     handleEnded();
-                }
+            const triggerTime = autoPlay ? 8 : 1;
+            if (video.duration > 0 && video.currentTime >= video.duration - triggerTime) {
+                console.log(`[NativePlayer] Near end: ${video.currentTime.toFixed(2)}/${video.duration.toFixed(2)} autoPlay:${autoPlay}`);
+                handleEnded();
             }
         };
 

@@ -11,6 +11,7 @@ interface ActionButtonProps {
   disabled?: boolean;
   variant?: "default" | "neon";
   className?: string;
+  id?: string;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -22,6 +23,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   disabled,
   variant = "default",
   className,
+  id,
 }) => {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (disabled || !onClick) return;
@@ -40,6 +42,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       }}
     >
       <button
+        id={id}
         type="button"
         aria-label={label}
         onClick={onClick}

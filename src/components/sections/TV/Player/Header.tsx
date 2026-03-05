@@ -96,6 +96,7 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
           <Icon icon="fa6-solid:compress" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
         <ActionButton
+          id="prev-episode-button"
           disabled={!prevEpisodeNumber}
           label="Previous Episode"
           tooltip="Previous Episode"
@@ -105,6 +106,7 @@ const TvShowPlayerHeader: React.FC<TvShowPlayerHeaderProps> = ({
           <Icon icon="fa6-solid:backward-step" className="w-5 h-5 sm:w-6 sm:h-6" />
         </ActionButton>
         <ActionButton
+          id="next-episode-button"
           disabled={!nextEpisodeNumber}
           label="Next Episode"
           tooltip="Next Episode"

@@ -76,6 +76,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
       if (data.id) {
         const nextUrl = `/movie/${data.id}?autoplay=true`;
         console.log("[MoviePlayer] Auto-playing random movie:", nextUrl);
+        // We push instead of href to maintain context
         router.push(nextUrl);
       }
     } catch (err) {
@@ -176,6 +177,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movie, startAt, minimal = fal
                 ref={mobileVideoRef}
                 id={movie.id}
                 type="movie"
+                autoPlay={isAutoPlay}
                 title={title}
                 poster={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                 onEnded={handleNativeEnded}

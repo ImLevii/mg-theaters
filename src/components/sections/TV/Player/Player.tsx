@@ -182,15 +182,22 @@ const TvShowPlayer: React.FC<TvShowPlayerProps> = ({
                 ref={mobileVideoRef}
                 id={id}
                 type="tv"
+                autoPlay={isAutoPlay}
                 season={episode.season_number}
                 episode={episode.episode_number}
                 title={`${props.seriesName} - ${episode.name}`}
                 poster={`https://image.tmdb.org/t/p/original${episode.still_path || tv.backdrop_path}`}
                 onEnded={() => {
                   if (isAutoPlay && props.nextEpisodeNumber) {
-                    const nextUrl = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
-                    console.log("[TvShowPlayer] Auto-playing next episode:", nextUrl);
-                    router.push(nextUrl);
+                    const nextButton = document.getElementById("next-episode-button");
+                    if (nextButton) {
+                      console.log("[TvShowPlayer] Force-clicking next episode button");
+                      nextButton.click();
+                    } else {
+                      const nextUrl = `/tv/${id}/${episode.season_number}/${props.nextEpisodeNumber}/player?src=${selectedSource}&autoplay=true`;
+                      console.log("[TvShowPlayer] Button not found, falling back to router.push:", nextUrl);
+                      router.push(nextUrl);
+                    }
                   }
                 }}
                 onError={handleNativeError}
