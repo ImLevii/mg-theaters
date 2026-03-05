@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/utils/helpers";
 import { ArrowLeft, Server } from "@/utils/icons";
 import ActionButton from "./ActionButton";
@@ -38,15 +40,15 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
     <div
       aria-hidden={hidden ? true : undefined}
       className={cn(
-        "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 pointer-events-none",
-        "bg-gradient-to-b from-black/80 to-transparent p-3 md:p-6 text-white transition-opacity duration-300",
-        { "opacity-0": hidden },
+        "absolute top-0 z-[60] flex w-full items-center justify-between gap-4 transition-all duration-300",
+        "bg-gradient-to-b from-black/80 to-transparent p-3 md:p-6 text-white",
+        hidden ? "opacity-0 pointer-events-none -translate-y-2" : "opacity-100 pointer-events-auto translate-y-0"
       )}
     >
-      <div className="pointer-events-auto z-10">
+      <div className="z-10">
         {!minimal && (
-          <ActionButton label="Back" href={`/movie/${id}`}>
-            <ArrowLeft className="w-8 h-8 sm:w-10 sm:h-10" />
+          <ActionButton label="Back" href={`/movie/${id}`} variant="neon">
+            <Icon icon="solar:alt-arrow-left-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
           </ActionButton>
         )}
       </div>
@@ -54,20 +56,30 @@ const MoviePlayerHeader: React.FC<MoviePlayerHeaderProps> = ({
       {!minimal && (
         <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center pointer-events-none">
           <div className="hidden md:flex max-w-[50%] flex-col justify-center text-center">
-            <p className="text-sm text-white text-shadow-lg sm:text-lg lg:text-xl font-bold truncate px-4">
+            <p className="text-sm text-white/90 text-shadow-lg sm:text-lg lg:text-xl font-orbitron font-bold tracking-widest uppercase truncate px-4">
               {movieName}
             </p>
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto z-10">
-        <div className="flex items-center gap-1 sm:gap-2">
-          <ActionButton label="Minimize" tooltip="Minimize Player" onClick={handlePiP}>
-            <Icon icon="fluent:minimize-24-regular" className="w-8 h-8 sm:w-10 sm:h-10" />
+      <div className="flex items-center gap-2 sm:gap-4 z-10">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ActionButton
+            label="Minimize"
+            tooltip="Minimize Player"
+            onClick={handlePiP}
+            variant="neon"
+          >
+            <Icon icon="solar:minimize-square-3-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
           </ActionButton>
-          <ActionButton label="Sources" tooltip="Sources" onClick={onOpenSource}>
-            <Server className="w-8 h-8 sm:w-10 sm:h-10" />
+          <ActionButton
+            label="Sources"
+            tooltip="Sources"
+            onClick={onOpenSource}
+            variant="neon"
+          >
+            <Icon icon="solar:server-square-bold-duotone" className="w-6 h-6 sm:w-8 sm:h-8" />
           </ActionButton>
         </div>
       </div>
