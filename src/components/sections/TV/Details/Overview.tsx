@@ -71,7 +71,7 @@ export const TvShowOverviewSection: React.FC<TvShowOverviewSectionProps> = ({
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <Chip
                 variant="shadow"
-                classNames={{ base: "bg-yellow-500/20 border border-yellow-500/50", content: "font-bold text-yellow-500 drop-shadow-md" }}
+                classNames={{ base: "bg-danger-500/20 border border-danger-500/50", content: "font-bold text-danger-500 drop-shadow-md" }}
                 size="sm"
               >
                 TV Show
@@ -109,7 +109,7 @@ export const TvShowOverviewSection: React.FC<TvShowOverviewSectionProps> = ({
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-4 mt-2">
             <NeonButton
-              variant="orange"
+              variant="red"
               onClick={onViewEpisodesClick}
               icon={<FaCirclePlay size={18} />}
               className="min-w-[140px]"

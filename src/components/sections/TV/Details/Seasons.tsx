@@ -39,7 +39,7 @@ const TvShowsSeasonsSelection = forwardRef<HTMLElement, Props>(({ id, seasons },
 
   return (
     <section ref={ref} id="seasons-episodes" className="z-3 flex flex-col gap-2">
-      <SectionTitle color="warning">Season & Episode</SectionTitle>
+      <SectionTitle color="danger">Season & Episode</SectionTitle>
       <Card className="sm:p-3">
         <CardHeader className="grid grid-cols-1 grid-rows-[1fr_auto] gap-3 md:grid-cols-[1fr_1fr_auto_auto]">
           <Select
@@ -68,7 +68,7 @@ const TvShowsSeasonsSelection = forwardRef<HTMLElement, Props>(({ id, seasons },
           />
           <Tooltip content={titleCase(layout)}>
             <Tabs
-              color="warning"
+              color="danger"
               aria-label="Layout Select"
               size="sm"
               classNames={{ tabList: "border-2 border-foreground-200" }}
@@ -84,7 +84,7 @@ const TvShowsSeasonsSelection = forwardRef<HTMLElement, Props>(({ id, seasons },
             className="p-2"
             icon={<SortAlpha />}
             onPress={toggle}
-            color={sortedByName ? "warning" : undefined}
+            color={sortedByName ? "danger" : undefined}
             variant={sortedByName ? "shadow" : "faded"}
           />
         </CardHeader>
