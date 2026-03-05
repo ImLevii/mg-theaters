@@ -5,13 +5,7 @@ import { IoIosSunny } from "react-icons/io";
 import {
   IoMoon,
 } from "react-icons/io5";
-import {
-  AboutIcon,
-  DiscoverIcon,
-  HomeIcon,
-  LibraryIcon,
-  SearchIcon,
-} from "@/components/icons/NavIcons";
+import { Icon } from "@iconify/react";
 
 export const siteConfig: SiteConfigType = {
   name: "VadedTV",
@@ -21,32 +15,32 @@ export const siteConfig: SiteConfigType = {
     {
       label: "Home",
       href: "/",
-      icon: <HomeIcon className="size-full" />,
-      activeIcon: <HomeIcon className="size-full" solid />,
+      icon: <Icon icon="fa6-solid:house" className="size-full opacity-60" />,
+      activeIcon: <Icon icon="fa6-solid:house" className="size-full" />,
     },
     {
       label: "Discover",
       href: "/discover",
-      icon: <DiscoverIcon className="size-full" />,
-      activeIcon: <DiscoverIcon className="size-full" solid />,
+      icon: <Icon icon="fa6-solid:compass" className="size-full opacity-60" />,
+      activeIcon: <Icon icon="fa6-solid:compass" className="size-full" />,
     },
     {
       label: "Search",
       href: "/search",
-      icon: <SearchIcon className="size-full" />,
-      activeIcon: <SearchIcon className="size-full" solid />,
+      icon: <Icon icon="fa6-solid:magnifying-glass" className="size-full opacity-60" />,
+      activeIcon: <Icon icon="fa6-solid:magnifying-glass" className="size-full" />,
     },
     {
       label: "Library",
       href: "/library",
-      icon: <LibraryIcon className="size-full" />,
-      activeIcon: <LibraryIcon className="size-full" solid />,
+      icon: <Icon icon="fa6-solid:bookmark" className="size-full opacity-60" />,
+      activeIcon: <Icon icon="fa6-solid:bookmark" className="size-full" />,
     },
     {
       label: "About",
       href: "/about",
-      icon: <AboutIcon className="size-full" />,
-      activeIcon: <AboutIcon className="size-full" solid />,
+      icon: <Icon icon="fa6-solid:circle-info" className="size-full opacity-60" />,
+      activeIcon: <Icon icon="fa6-solid:circle-info" className="size-full" />,
     },
   ],
   themes: [

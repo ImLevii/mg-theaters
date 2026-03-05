@@ -66,7 +66,7 @@ const BottomNavbar = () => {
                     )}
 
                     {/* Icon */}
-                    <div className="relative h-5 w-5">
+                    <div className="relative h-5 w-5 flex items-center justify-center">
                       {isActive ? item.activeIcon : item.icon}
                     </div>
                   </div>
